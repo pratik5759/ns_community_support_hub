@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// hero section
+            /*/// hero section
             Container(
               color: AppTheme.primaryColor,
               height: AppConstants.paddingFromTopForAppBar,
@@ -71,6 +71,96 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
+*/
+
+
+            /// Hero Section
+            Container(
+              color: AppTheme.primaryColor,
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 28),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    double maxWidth = constraints.maxWidth;
+                    bool isSmallScreen = maxWidth < 900; // Adjust layout for smaller screens
+
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 120),
+                      child: isSmallScreen
+                          ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            LocalStrings.heroHeading,
+                            style: AppConstants.nunitoBigWhiteW700,
+                          ),
+                          Text(
+                            LocalStrings.heroSubHeading,
+                            style: AppConstants.nunitoMediumWhiteW500,
+                          ),
+                          SizedBox(height: 20),
+                          CustomSearchBar(
+                            height: 48,
+                            width: maxWidth * 0.9, // Adjust width dynamically
+                          ),
+                          SizedBox(height: 20),
+                          Center(
+                            child: Image.asset(
+                              LocalAssets.heroSectionImage,
+                              width: maxWidth * 0.7, // Scale image dynamically
+                            ),
+                          ),
+                        ],
+                      )
+                          : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          /// Left Section - Text and Search Bar
+                          Expanded(
+                            flex: 2,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  LocalStrings.heroHeading,
+                                  style: AppConstants.nunitoBigWhiteW700,
+                                ),
+                                Text(
+                                  LocalStrings.heroSubHeading,
+                                  style: AppConstants.nunitoMediumWhiteW500,
+                                ),
+                                SizedBox(height: 20),
+                                CustomSearchBar(
+                                  height: 48,
+                                  width: maxWidth * 0.4, // Dynamic width
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          /// Right Section - Hero Image
+                          Expanded(
+                            flex: 3,
+                            child: Align(
+                              alignment: Alignment.bottomRight,
+                              child: Image.asset(
+                                LocalAssets.heroSectionImage,
+                                width: maxWidth * 0.4, // Scale image based on screen size
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+
+
 
             /// list below hero section
             Padding(
