@@ -1,82 +1,6 @@
-/*
-import 'package:flutter/material.dart';
-import 'package:ns_community_support_hub/core/local/app_constants.dart';
 
-class ResponsiveListView extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        double screenWidth = constraints.maxWidth;
-        double containerWidth = screenWidth > 1200
-            ? 350 // Web
-            : screenWidth > 800
-            ? 350 // Tablet
-            : 300; // Mobile
 
-        double imageHeight = screenWidth > 1200
-            ? 250 // Web
-            : screenWidth > 800
-            ? 220 // Tablet
-            : 200; // Mobile
-
-        double textWidth = screenWidth > 1200
-            ? 300
-            : screenWidth > 800
-            ? 350
-            : 229;
-
-        return Container(
-          color: Colors.white,
-          height: imageHeight + 80, // Adjusted based on content
-          child: ListView.builder(
-            itemCount: AppConstants.itemLists.length,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return Container(
-                margin: EdgeInsets.only(right: screenWidth > 800 ? 50 : 30),
-                width: containerWidth,
-                height: imageHeight + 60,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: containerWidth * 0.8,
-                      height: imageHeight,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(AppConstants.itemLists[index].imagePath),
-                          fit: BoxFit.contain,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    SizedBox(
-                      width: textWidth,
-                      child: Text(
-                        AppConstants.itemLists[index].text,
-                        textAlign: TextAlign.center,
-                        style: AppConstants.nunitoMediumW500.copyWith(
-                          fontSize: screenWidth > 1200 ? 16 : 12, // Adjust font size
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        );
-      },
-    );
-  }
-}
-*/
-
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
 import 'package:ns_community_support_hub/core/common_widgets/star_rating_bar.dart';
@@ -227,7 +151,134 @@ class BusinessListCard extends StatelessWidget {
       ),
     );
   }
+}*/
+
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
+import 'package:ns_community_support_hub/core/common_widgets/star_rating_bar.dart';
+import 'package:ns_community_support_hub/core/local/app_constants.dart';
+import 'package:ns_community_support_hub/core/local/local_strings.dart';
+
+class HomeBusinessList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double maxWidth = constraints.maxWidth;
+        int crossAxisCount = (maxWidth ~/ 280).clamp(1, 4); // Adjust number of columns dynamically
+
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppConstants.fullPagePaddingHorizontal),
+          child: GridView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount, // Dynamic count based on screen width
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+              childAspectRatio: 0.85, // Maintain aspect ratio for business cards
+            ),
+            itemCount: 6, // Number of business cards
+            itemBuilder: (context, index) {
+              return BusinessListCard(
+                businessName: 'Demo Business',
+                containerWidth: (maxWidth / crossAxisCount) - 32, // Dynamic width
+                imageHeight: 140, // Fixed height
+                index: index,
+                containerHeight: 250, // Fixed height
+                imageWidth: 180, // Fixed width
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
 }
+
+class BusinessListCard extends StatelessWidget {
+  final String businessName;
+  final double containerWidth;
+  final double imageHeight;
+  final double imageWidth;
+  final double containerHeight;
+  final int index;
+
+  const BusinessListCard({
+    super.key,
+    required this.containerWidth,
+    required this.imageHeight,
+    required this.index,
+    required this.containerHeight,
+    required this.imageWidth,
+    required this.businessName,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: containerWidth,
+      height: containerHeight,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black54,
+            offset: Offset(4, 8),
+            blurRadius: 16,
+            spreadRadius: -4,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Container(
+              width: containerWidth,
+              height: imageHeight,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.grey.shade300,
+              ),
+            ),
+          ),
+          SizedBox(height: 8),
+          Text(
+            businessName,
+            style: AppConstants.nunitoMediumW500.copyWith(fontSize: 16),
+          ),
+          StarRatingBar(rating: 5.5),
+          Text(
+            'Capture the essence of life\'s moments with stunning visuals!',
+            style: AppConstants.nunitoMediumW500.copyWith(fontSize: 14),
+          ),
+          SizedBox(height: 6),
+          Container(
+            width: containerWidth * 0.6,
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: AppTheme.primaryColor,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Center(
+              child: Text(
+                LocalStrings.viewMore,
+                style: GoogleFonts.nunito(color: Colors.white, fontSize: AppConstants.mediumFontSize),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
 
 
 class SkeletonBusinessCard extends StatelessWidget {
