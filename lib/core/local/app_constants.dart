@@ -105,13 +105,24 @@ class AppConstants {
   }
 
   //======= PADDINGS =======================
+
+
   static double get fullPagePaddingHorizontal {
     double screenWidth = getScreenWidth();
     if (screenWidth < 600) {
-      return 20; // Adjust padding for smaller screens
+      return 32.0; // Increased padding for better spacing on small screens
     }
-    return 48.0; // Default for larger screens
+    return 112.0; // Default for larger screens
   }
+
+
+  // static double get fullPagePaddingHorizontal {
+  //   double screenWidth = getScreenWidth();
+  //   if (screenWidth < 600) {
+  //     return 20; // Adjust padding for smaller screens
+  //   }
+  //   return 68.0; // Default for larger screens
+  // }
 
   static double get paddingFromTopForAppBar {
     double screenWidth = getScreenWidth();
