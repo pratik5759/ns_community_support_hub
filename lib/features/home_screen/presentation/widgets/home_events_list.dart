@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
 import 'package:ns_community_support_hub/core/common_widgets/star_rating_bar.dart';
@@ -143,4 +143,155 @@ class EventsListCard extends StatelessWidget {
       ),
     );
   }
+}*/
+
+
+
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
+import 'package:ns_community_support_hub/core/common_widgets/star_rating_bar.dart';
+import 'package:ns_community_support_hub/core/local/app_constants.dart';
+import 'package:ns_community_support_hub/core/local/local_strings.dart';
+
+class HomeEventsList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // Get screen width from MediaQuery
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    // Calculate the container width for equal distribution of items
+    double containerWidth = screenWidth * 0.28;
+    double containerHeight = containerWidth * 1.06;
+    double imageHeight = containerHeight * 0.5;
+    double imageWidth = containerWidth;
+    double textWidth = containerWidth * 0.8;
+
+    // Check for small screens and adjust layout accordingly
+    bool isSmallScreen = screenWidth < 600; // Define small screen threshold
+    if (isSmallScreen) {
+      containerWidth = screenWidth * 0.45; // Wider containers on small screens
+      imageHeight = 150; // Smaller images for small screens
+      containerHeight = containerWidth * 1.2; // Adjust container height for smaller screens
+    }
+
+    return Container(
+      height: containerHeight,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: AppConstants.fullPagePaddingHorizontal),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: List.generate(
+            3, // Show only 3 items in a row
+                (index) => EventsListCard(
+              businessName: 'Demo Event',
+              containerWidth: containerWidth,
+              imageHeight: imageHeight,
+              index: index,
+              containerHeight: containerHeight,
+              imageWidth: imageWidth,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
+
+class EventsListCard extends StatelessWidget {
+  EventsListCard({
+    super.key,
+    required this.containerWidth,
+    required this.imageHeight,
+    required this.index,
+    required this.containerHeight,
+    required this.imageWidth,
+    required this.businessName,
+  });
+
+  final String businessName;
+  final double containerWidth;
+  final double imageHeight;
+  final double imageWidth;
+  final double containerHeight;
+  int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(8.0),
+      width: containerWidth,
+      height: containerHeight,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black54,
+            offset: Offset(8, 12),
+            blurRadius: 24,
+            spreadRadius: -8,
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 10,
+          children: [
+            Center(
+              child: Container(
+                width: containerWidth,
+                height: imageHeight,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/demo_event_img.png'),
+                    fit: BoxFit.fill,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+            Text(
+              businessName,
+              style: AppConstants.nunitoMediumW500.copyWith(
+                fontSize: 16, // Fixed font size for web
+              ),
+            ),
+            Text(
+              'Capture the essence of life\'s moments with stunning visuals! We specialize in professional video and photography services for events, corporate projects.',
+              style: AppConstants.nunitoMediumW500.copyWith(
+                fontSize: 16, // Fixed font size for web
+              ),
+            ),
+            const SizedBox(
+              height: 6,
+            ),
+            Container(
+              width: containerWidth * 0.28,
+              decoration: BoxDecoration(
+                color: AppTheme.primaryColor,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Text(
+                    LocalStrings.viewMore,
+                    style: GoogleFonts.nunito(
+                      color: Colors.white,
+                      fontSize: AppConstants.mediumFontSize,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+

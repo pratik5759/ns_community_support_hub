@@ -229,8 +229,8 @@ class _FooterBarState extends State<FooterBar> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    double height = size.height * 0.35; // Adjust height dynamically
-    double paddingHorizontal = size.width * 0.05; // Adjust padding
+    double height = size.height * 0.28; // Adjust height dynamically
+    double paddingHorizontal = size.width * 0.04; // Adjust padding
     double spacing = size.width * 0.01; // Adjust spacing dynamically
 
     return Container(
