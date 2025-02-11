@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ns_community_support_hub/features/home_screen/presentation/home%20screen.dart';
+ import 'package:ns_community_support_hub/features/home_screen/presentation/home%20screen.dart';
+
+import 'features/about_us/presentation/screens/about_us.dart';
+import 'features/business_details/presentation/screens/business_detail.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -32,7 +35,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomeScreen(),
+
+
+      home: BusinessDetailScreen(),
     );
   }
 }

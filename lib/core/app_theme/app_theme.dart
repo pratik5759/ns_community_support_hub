@@ -8,4 +8,5 @@ class AppTheme{
   static Color greyColor = Colors.grey;
   static Color whiteColor = Colors.white;
   static Color blackColor = Colors.black;
+
 }
