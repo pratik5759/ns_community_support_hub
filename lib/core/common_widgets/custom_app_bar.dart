@@ -321,16 +321,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       Spacer(),
                       _buildNavItem(context, LocalStrings.home, WebRouteNames.home),
                       _buildNavItem(context, LocalStrings.businessDirectory, WebRouteNames.businessDirectory),
-                      _buildNavItem(context, LocalStrings.events, '/events'),
+                      _buildNavItem(context, LocalStrings.events, WebRouteNames.events),
                       _buildNavItem(context, LocalStrings.aboutUs, '/about-us'),
                       _buildNavItem(context, LocalStrings.faq, '/faq'),
                       _buildNavItem(context, LocalStrings.contactUs, '/contact-us'),
                       Spacer(),
                       _buildLoginButton(context),
                     ] else if (isTablet) ...[
-                      _buildNavItem(context, LocalStrings.home, '/'),
-                      _buildNavItem(context, LocalStrings.businessDirectory, '/business-directory'),
-                      _buildNavItem(context, LocalStrings.events, '/events'),
+                      _buildNavItem(context, LocalStrings.home, WebRouteNames.home),
+                      _buildNavItem(context, LocalStrings.businessDirectory, WebRouteNames.businessDirectory),
+                      _buildNavItem(context, LocalStrings.events, WebRouteNames.events),
                       _buildLoginButton(context),
                     ],
                   ],
@@ -387,7 +387,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ],
         ),
         onPressed: () {
-          context.go('/login');
+          context.go(WebRouteNames.profileDetails);
         },
       ),
     );

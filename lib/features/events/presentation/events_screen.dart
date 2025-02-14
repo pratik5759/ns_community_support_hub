@@ -5,6 +5,7 @@ import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
 import 'package:ns_community_support_hub/features/business_directory/presentation/widgets/business_card.dart';
 import 'package:ns_community_support_hub/features/business_directory/presentation/widgets/business_search_bar.dart';
+import 'package:ns_community_support_hub/features/events/models/event_model.dart';
 import 'package:ns_community_support_hub/features/events/presentation/widgets/events_card.dart';
 import 'package:ns_community_support_hub/features/home_screen/presentation/widgets/home_events_list.dart';
 
@@ -63,7 +64,16 @@ class _EventsScreenState extends State<EventsScreen> {
                     ),
                     itemCount: 1,
                     itemBuilder: (context, index) {
-                      return EventsCard(eventName: 'demo', description: 'demo',);
+                      return EventsCard(
+                        event: Event(
+                            id: 'id',
+                            name: 'Navratri - Dandiya/Garba Nights 2024',
+                            description: 'Please come and join us to celebrate Navratri Dandiya / Garba Nights 2024. Please bring your family & friends & Let\'s Play Dandiya and Garba. Navratri is b..',
+                            date: 'date',
+                            location: 'location',
+                            imageUrl: 'imageUrl',
+                            organizer: 'organizer'),
+                       );
                     },
                   );
                 },

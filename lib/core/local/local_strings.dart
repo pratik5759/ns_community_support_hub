@@ -3,6 +3,7 @@ class LocalStrings{
   static String home = 'Home';
   static String businessDirectory = 'Business Directory';
   static String events = 'Events';
+  static String eventDetails = 'Event Details';
   static String aboutUs = 'About Us';
   static String faq = 'FAQ\'s';
   static String contactUs = 'Contact Us';
