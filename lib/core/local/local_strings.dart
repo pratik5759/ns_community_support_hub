@@ -30,6 +30,43 @@ class LocalStrings {
   static String aboutStory = 'Our Story';
   static String aboutMission = 'Our Mission';
   static String aboutOffer = 'What We Offers';
+  static String privacyHeading = 'Privacy Policy';
+  static String termsHeading = 'Terms and Conditions';
+
+  static String privacyPolicyHeading ='Introduction';
+  static const String privacyPolicyContent = '''
+Welcome to Indian Support Hub! At NS Support Hub, we are committed to safeguarding your privacy.
+
+1. Information We Collect
+   - Personal Information: This includes your name, email address, and phone number.
+   - Business Information: If you list businesses, we collect the name, services offered, and usage data on how you interact with the platform.
+   - Location Data: Helps users find businesses near them.
+
+2. How We Use Your Information
+   - We use the information to provide services, improve the platform, personalize content...
+
+3. Sharing Your Information
+   - We value your privacy and will not sell or trade your personal information.
+
+4. Data Security
+   - We take reasonable measures to protect your data from unauthorized access.
+
+5. Cookies and Tracking Technologies
+   - We use cookies to enhance user experience and collect usage data.
+
+6. Third-Party Links
+   - Our platform may contain links to third-party websites and services.
+
+7. Your Rights
+   - You have the right to access, update, delete your data, and opt-out of communications.
+
+8. Changes to This Privacy Policy
+   - We may update this Privacy Policy from time to time.
+
+9. Contact Us
+   - If you have any questions, please contact us at support@indiansupporthub.com
+  ''';
+
 
   static String businessdHeading = 'Business Details';
   static String businessdPara = 'Chinmay Visions Videography';

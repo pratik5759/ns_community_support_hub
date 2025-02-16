@@ -5,6 +5,10 @@ class LocalAssets{
   static String missionImage = 'assets/images/mis.png';
   static String offerImage = 'assets/images/offer.png';
   static String BusinessdImage = 'assets/images/busd.png';
+  static String policyImage = 'assets/images/policy.png';
+  static String termImage = 'assets/images/terms.png';
+
+
 
 
 }

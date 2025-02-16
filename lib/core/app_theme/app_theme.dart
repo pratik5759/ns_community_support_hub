@@ -7,6 +7,6 @@ class AppTheme{
   static Color ctaColor = Color(0xFF362A6E);
   static Color greyColor = Colors.grey;
   static Color whiteColor = Colors.white;
-  static Color blackColor = Colors.black;
+    static Color blackColor = Colors.black;
 
 }

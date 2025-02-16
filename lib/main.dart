@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 
 import 'features/about_us/presentation/screens/about_us.dart';
 import 'features/business_details/presentation/screens/business_detail.dart';
+import 'features/privacy_policy/presentation/screens/privacy_policy.dart';
+import 'features/privacy_policy/presentation/widget/privacy.dart';
+import 'features/terms/presentation/screens/terms_screen.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -37,7 +40,7 @@ class MyApp extends StatelessWidget {
       ),
 
 
-      home: BusinessDetailScreen(),
+      home: TermsScreen(),
     );
   }
 }

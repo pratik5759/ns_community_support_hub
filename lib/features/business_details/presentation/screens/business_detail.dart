@@ -4,6 +4,7 @@ import 'package:ns_community_support_hub/core/common_widgets/custom_app_bar.dart
 
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
 
+import '../../../../core/common_widgets/footer_bar.dart';
 import '../../../../core/local/app_constants.dart';
 import '../../../../core/local/local_asstes/local_assets.dart';
 import '../../../about_us/presentation/widgets/about_mission.dart';
@@ -17,6 +18,44 @@ class BusinessDetailScreen extends StatefulWidget {
 }
 
 class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
+
+
+  int _rating = 0;
+  final TextEditingController _reviewController = TextEditingController();
+
+  void _submitReview() {
+    String reviewText = _reviewController.text;
+    if (_rating == 0 || reviewText.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please provide a rating and review')),
+      );
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Review Submitted: $_rating stars\n"$reviewText"')),
+    );
+
+    setState(() {
+      _rating = 0;
+      _reviewController.clear();
+    });
+  }
+
+  Widget _buildStar(int starIndex) {
+    return IconButton(
+      icon: Icon(
+        Icons.star,
+        color: starIndex <= _rating ? Colors.amber : Colors.grey,
+      ),
+      onPressed: () {
+        setState(() {
+          _rating = starIndex;
+        });
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,7 +140,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                 // width: isSmallScreen ? maxWidth * 0.8 : 400,
                                 // height: isSmallScreen ? 200 : 300,
                                 width: 600, // Fixed width
-                                height: 400, // Fixed height
+                                height: 300, // Fixed height
                                 fit: BoxFit.fitHeight,
                               ),
                             ),
@@ -110,10 +149,71 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                       );
                     },
                   ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: Divider(
+                      color: Colors.grey,  // Divider color
+                      thickness: 2,  // Divider thickness
+                      height: 20,  // Space around the divider
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Rate and Review',
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(5, (index) => _buildStar(index + 1)),
+                        ),
+                        const SizedBox(height: 20),
+                        Container(
+                          width: 350,
+                          decoration: BoxDecoration(
+                            color:Color(0xFFF2F2F2)
+                            ,
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: TextField(
+                            controller: _reviewController,
+                            maxLines: 4,
+                            decoration: InputDecoration(
+                              hintText: 'Write your review here ...',
+                              hintStyle: TextStyle(color:  AppTheme.primaryColor, ), // Set hint text color
+
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.all(12),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        SizedBox(
+                          width: 700,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: _submitReview,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:  AppTheme.primaryColor,
+                              padding: const EdgeInsets.symmetric(vertical: 12,  ),
+                            ),
+
+                            child: const Text('Submit Review', style: TextStyle(fontSize: 16,color: Colors.white)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 60),
 
 
-
-
+                  FooterBar()
 
                 ]
             )

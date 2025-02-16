@@ -74,6 +74,7 @@ class BusinessPara extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
+          SizedBox(height: 10,),
           Text.rich(
             TextSpan(
               children: getStyledParagraph(
@@ -81,6 +82,7 @@ class BusinessPara extends StatelessWidget {
               ),
             ),
           ),
+           SizedBox(height: 5,),
            Text.rich(
             TextSpan(
               children: getStyledParagraph(
@@ -151,8 +153,30 @@ class BusinessPara extends StatelessWidget {
                     ),                  ),
                 ],
               ),
+
             ),
           ),
+    Text.rich(
+    TextSpan(
+
+    children: [
+
+    // WidgetSpan(
+    // child: Icon(Icons.access_time,
+    // color: AppTheme.primaryColor, size: 16),
+    // ),
+      TextSpan(
+        text: "Business Owner Origin State: Maharashtra",
+        style: GoogleFonts.nunito(
+          fontWeight: FontWeight.bold,
+          color: AppTheme.blackColor,
+          fontSize: AppConstants.smallFontSize,
+        ),
+      ),
+    ]
+    )
+
+    )
         ],
       ),
     );
