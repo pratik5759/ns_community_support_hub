@@ -32,6 +32,8 @@ class LocalStrings {
   static String aboutOffer = 'What We Offers';
   static String privacyHeading = 'Privacy Policy';
   static String termsHeading = 'Terms and Conditions';
+  static String faqHeading = "FAQ's";
+
 
   static String privacyPolicyHeading ='Introduction';
   static const String privacyPolicyContent = '''
