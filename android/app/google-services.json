@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "388100637956",
+    "project_id": "ns-support-hub-2fd4d",
+    "storage_bucket": "ns-support-hub-2fd4d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:388100637956:android:9719885f75bbbfc950bc51",
+        "android_client_info": {
+          "package_name": "com.example.ns_community_support_hub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnfT23ELDVI70Yc9-C7aCDfjlzdFt55is"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
