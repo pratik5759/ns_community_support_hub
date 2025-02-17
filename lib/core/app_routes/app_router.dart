@@ -10,34 +10,56 @@ import 'package:ns_community_support_hub/features/pageNotFound404/presentation/p
 
 final GoRouter appRouter = GoRouter(
   initialLocation: WebRouteNames.home,
+  // routes: [
+  //   ShellRoute(
+  //     builder: (context, state, child) {
+  //       return AppScaffold(child: child);
+  //     },
+  //     routes: [
+  //       GoRoute(
+  //         path: WebRouteNames.home,
+  //         builder: (context, state) => HomeScreen(),
+  //       ),
+  //       GoRoute(
+  //         path: WebRouteNames.businessDirectory,
+  //         builder: (context, state) => BusinessDirectoryScreen(),
+  //       ),
+  //       GoRoute(
+  //         path: WebRouteNames.events,
+  //         builder: (context, state) => EventsScreen(),
+  //       ),
+  //       GoRoute(
+  //         path: WebRouteNames.eventsDetails,
+  //         builder: (context, state) => EventDetailsScreen(),
+  //       ),
+  //       GoRoute(
+  //         path: WebRouteNames.profileDetails,
+  //         builder: (context, state) => MyProfileDetailsScreen(title: 'title',),
+  //       ),
+  //     ],
+  //
+  //   ),
+  // ],
   routes: [
-    ShellRoute(
-      builder: (context, state, child) {
-        return AppScaffold(child: child);
-      },
-      routes: [
-        GoRoute(
-          path: WebRouteNames.home,
-          builder: (context, state) => HomeScreen(),
-        ),
-        GoRoute(
-          path: WebRouteNames.businessDirectory,
-          builder: (context, state) => BusinessDirectoryScreen(),
-        ),
-        GoRoute(
-          path: WebRouteNames.events,
-          builder: (context, state) => EventsScreen(),
-        ),
-        GoRoute(
-          path: WebRouteNames.eventsDetails,
-          builder: (context, state) => EventDetailsScreen(),
-        ),
-        GoRoute(
-          path: WebRouteNames.profileDetails,
-          builder: (context, state) => MyProfileDetailsScreen(title: 'title',),
-        ),
-      ],
-
+    GoRoute(
+      path: WebRouteNames.home,
+      builder: (context, state) => HomeScreen(),
+    ),
+    GoRoute(
+      path: WebRouteNames.businessDirectory,
+      builder: (context, state) => BusinessDirectoryScreen(),
+    ),
+    GoRoute(
+      path: WebRouteNames.events,
+      builder: (context, state) => EventsScreen(),
+    ),
+    GoRoute(
+      path: WebRouteNames.eventsDetails,
+      builder: (context, state) => EventDetailsScreen(),
+    ),
+    GoRoute(
+      path: WebRouteNames.profileDetails,
+      builder: (context, state) => MyProfileDetailsScreen(title: 'title',),
     ),
   ],
   errorBuilder: (context, state) => PageNotFoundScreen(),

@@ -1,12 +1,26 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ns_community_support_hub/core/app_routes/app_router.dart';
+import 'package:ns_community_support_hub/core/common_widgets/auth_provider.dart';
+import 'package:ns_community_support_hub/features/my_profile/my_screen_provider.dart';
+import 'package:ns_community_support_hub/firebase_options.dart';
+import 'package:provider/provider.dart';
 Future<void> main() async {
+
 
   WidgetsFlutterBinding.ensureInitialized();
 
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => MyScreenProvider()),
+      ChangeNotifierProvider(create: (_) => AuthProvider()..loadUser()), // Load user on start
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

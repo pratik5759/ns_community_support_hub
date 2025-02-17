@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
+import 'package:ns_community_support_hub/core/common_widgets/custom_app_bar.dart';
 import 'package:ns_community_support_hub/core/common_widgets/footer_bar.dart';
 import 'package:ns_community_support_hub/core/common_widgets/hero_section_with_page_name.dart';
+import 'package:ns_community_support_hub/core/common_widgets/log_in_popup.dart';
 import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
+import 'package:ns_community_support_hub/core/services/auth_service.dart';
 import 'package:ns_community_support_hub/features/business_directory/presentation/widgets/business_card.dart';
 import 'package:ns_community_support_hub/features/business_directory/presentation/widgets/business_search_bar.dart';
 import 'package:ns_community_support_hub/features/events/models/event_model.dart';
@@ -20,6 +25,8 @@ class _EventsScreenState extends State<EventsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: CustomAppBar(),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
@@ -86,7 +93,49 @@ class _EventsScreenState extends State<EventsScreen> {
           ],
         ),
       ),
+      floatingActionButton: _buildResponsiveFAB(context, 'Add Event', Icons.event, () async {
+        bool isLoggedIn = await AuthService().isUserLoggedIn();
+        isLoggedIn ? null : showLoginPopup(context);
+      }),
     );
   }
+
+  Widget _buildResponsiveFAB(BuildContext context, String label, IconData icon, VoidCallback onPressed) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    bool isMobile = screenWidth < 600;
+    bool isTablet = screenWidth >= 600 && screenWidth < 1024;
+    bool isWeb = screenWidth >= 1024;
+
+    return FloatingActionButton.extended(
+      onPressed: onPressed,
+      backgroundColor: AppTheme.ctaColor,
+      icon: Icon(icon, color: Colors.white),
+      label: isMobile ? SizedBox.shrink() : Text(label, style: TextStyle(color: Colors.white, fontSize: isWeb ? 18 : 16)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+    );
+  }
+
+  void showLoginPopup(BuildContext context) {
+
+    showDialog(
+      context: context,
+      barrierDismissible: true, // Allows closing the popup when tapping outside
+      builder: (BuildContext dialogContext) { // Use a different context for the dialog
+        return Dialog(
+          backgroundColor: Colors.transparent, // Keeps background outside popup transparent
+          child: LoginPopup(
+            onCancel: () => context.pop(), // Close dialog using GoRouter
+            onLogin: () async {
+              await AuthService().signInWithGooglePopup();
+              context.pop(); // Close dialog
+              // Perform login action here
+            },
+          ),
+        );
+      },
+    );
+  }
+
+
 }
 

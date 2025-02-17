@@ -245,20 +245,47 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ns_community_support_hub/core/app_routes/route_names.dart';
+import 'package:ns_community_support_hub/core/common_widgets/auth_provider.dart';
 import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
+import 'package:provider/provider.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final double height;
 
   const CustomAppBar({super.key, this.height = 88});
+
+  @override
+  State<CustomAppBar> createState() => _CustomAppBarState();
+
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize =>  Size.fromHeight(height);
+
+  //@override
+  // TODO: implement preferredSize
+  //Size get preferredSize => throw UnimplementedError();
+}
+
+class _CustomAppBarState extends State<CustomAppBar> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     //final String currentRoute = GoRouter.of(context).location;
     //final String currentRoute = GoRouterState.of(context).uri.toString();
+
+
 
 
     // Define breakpoints for responsiveness
@@ -269,15 +296,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Stack(
       children: [
         Container(
-          height: height / 2,
+          height: widget.height / 2,
           color: AppTheme.primaryColor,
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 28, vertical: 16),
           child: SizedBox(
-            height: height,
+            height: widget.height,
             child: Container(
-              height: height,
+              height: widget.height,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
@@ -322,9 +349,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       _buildNavItem(context, LocalStrings.home, WebRouteNames.home),
                       _buildNavItem(context, LocalStrings.businessDirectory, WebRouteNames.businessDirectory),
                       _buildNavItem(context, LocalStrings.events, WebRouteNames.events),
-                      _buildNavItem(context, LocalStrings.aboutUs, '/about-us'),
-                      _buildNavItem(context, LocalStrings.faq, '/faq'),
-                      _buildNavItem(context, LocalStrings.contactUs, '/contact-us'),
+                      _buildNavItem(context, LocalStrings.aboutUs, WebRouteNames.about),
+                      _buildNavItem(context, LocalStrings.faq, WebRouteNames.faqScreen),
+                      _buildNavItem(context, LocalStrings.contactUs, WebRouteNames.contactUs),
                       Spacer(),
                       _buildLoginButton(context),
                     ] else if (isTablet) ...[
@@ -370,30 +397,35 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   // Login Button
-  Widget _buildLoginButton(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: TextButton(
-        child: Row(
-          children: [
-            Icon(
-              Icons.person_3_outlined,
-              size: AppConstants.mediumFontSize,
+  Widget _buildLoginButton(BuildContext context)  {
+
+    return Consumer<AuthProvider>(
+      builder: (context, value, child) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: TextButton(
+            child: Row(
+              children: [
+                Icon(
+                  Icons.person_3_outlined,
+                  size: AppConstants.mediumFontSize,
+                ),
+                Text(
+                  value.currentUser != null ? value.currentUser?.name ?? LocalStrings.logOut : LocalStrings.logIn,
+                  style: AppConstants.nunitoMediumW500,
+                ),
+              ],
             ),
-            Text(
-              LocalStrings.logIn,
-              style: AppConstants.nunitoMediumW500,
-            ),
-          ],
-        ),
-        onPressed: () {
-          context.go(WebRouteNames.profileDetails);
-        },
-      ),
+            onPressed: () async {
+              bool isLogIn = value.currentUser != null;
+              isLogIn ? context.go(WebRouteNames.profileDetails) : value.signInWithGoogle();
+            },
+          ),
+        );
+      },
     );
   }
 
-  @override
-  Size get preferredSize => Size.fromHeight(height);
+ // Size get preferredSize => Size.fromHeight(widget.height);
 }
 

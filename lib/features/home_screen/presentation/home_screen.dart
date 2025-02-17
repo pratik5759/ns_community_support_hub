@@ -31,6 +31,9 @@ class _HomeScreenState extends State<HomeScreen> {
       //extendBodyBehindAppBar: true,
       //backgroundColor: AppTheme.primaryColor,
       //appBar: CustomAppBar(height: 88),
+      extendBodyBehindAppBar: true,
+
+      appBar: CustomAppBar(),
 
       body: SingleChildScrollView(
         child: Column(

@@ -75,34 +75,76 @@ class AppConstants {
   static double get heroHeadingFontSize {
     double screenWidth = getScreenWidth();
     if (screenWidth < 600) {
-      return 30; // Adjust for smaller screens
+      return 28; // Mobile
+    } else if (screenWidth < 1024) {
+      return 36; // Tablet
     }
-    return 40; // Default for larger screens
+    return 44; // Web
   }
 
   static double get bigFontSize {
     double screenWidth = getScreenWidth();
     if (screenWidth < 600) {
-      return 18; // Adjust for smaller screens
+      return 20; // Mobile
+    } else if (screenWidth < 1024) {
+      return 24; // Tablet
     }
-    return 22; // Default for larger screens
+    return 24; // Web
   }
 
   static double get mediumFontSize {
     double screenWidth = getScreenWidth();
     if (screenWidth < 600) {
-      return 14; // Adjust for smaller screens
+      return 16; // Mobile
+    } else if (screenWidth < 1024) {
+      return 20; // Tablet
     }
-    return 18; // Default for larger screens
+    return 24; // Web
   }
 
   static double get smallFontSize {
     double screenWidth = getScreenWidth();
     if (screenWidth < 600) {
-      return 12; // Adjust for smaller screens
+      return 14; // Mobile
+    } else if (screenWidth < 1024) {
+      return 18; // Tablet
     }
-    return 16; // Default for larger screens
+    return 22; // Web
   }
+
+
+  // static double get heroHeadingFontSize {
+  //   double screenWidth = getScreenWidth();
+  //   if (screenWidth < 600) {
+  //     return 30; // Increased from 30 for smaller screens
+  //   }
+  //   return 40; // Increased from 40 for larger screens
+  // }
+  //
+  // static double get bigFontSize {
+  //   double screenWidth = getScreenWidth();
+  //   if (screenWidth < 600) {
+  //     return 20; // Increased from 18 for smaller screens
+  //   }
+  //   return 24; // Increased from 22 for larger screens
+  // }
+  //
+  // static double get mediumFontSize {
+  //   double screenWidth = getScreenWidth();
+  //   if (screenWidth < 600) {
+  //     return 16; // Increased from 14 for smaller screens
+  //   }
+  //   return 20; // Increased from 18 for larger screens
+  // }
+  //
+  // static double get smallFontSize {
+  //   double screenWidth = getScreenWidth();
+  //   if (screenWidth < 600) {
+  //     return 16; // Increased from 12 for smaller screens
+  //   }
+  //   return 20; // Increased from 16 for larger screens
+  // }
+
 
   //======= PADDINGS =======================
 

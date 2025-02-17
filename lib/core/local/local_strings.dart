@@ -8,6 +8,7 @@ class LocalStrings{
   static String faq = 'FAQ\'s';
   static String contactUs = 'Contact Us';
   static String logIn = 'Log In';
+  static String logOut = 'Log Out';
   static String search = 'Search';
   static String searchBarHint = 'Discover businesses aligned with your regional roots';
   static String viewMore = 'View More';
