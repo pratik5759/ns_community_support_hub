@@ -33,6 +33,17 @@ migrate_working_dir/
 .pub/
 /build/
 
+# Web related
+node_modules/
+dist/
+out/
+.next/
+.nuxt/
+/.angular/
+/.svelte-kit/
+/.vercel/
+/.netlify/
+
 # Symbolication related
 app.*.symbols
 
@@ -43,3 +54,13 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Web-specific temporary files
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+tmp/
+.cache/
+
+# Static site build artifacts
+public/
