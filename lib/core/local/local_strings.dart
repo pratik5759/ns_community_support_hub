@@ -33,9 +33,23 @@ class LocalStrings {
   static String privacyHeading = 'Privacy Policy';
   static String termsHeading = 'Terms and Conditions';
   static String faqHeading = "FAQ's";
+  static String contactHeading = 'Contact Us';
+  static String otherBusi = 'Other Businesses';
 
 
-  static String privacyPolicyHeading ='Introduction';
+  static String contaPara =
+      '''We value your feedback and are here to help you with any questions or concerns. Whether you're looking to list your business, provide suggestions, or need assistance, please fill out the form below and our team will get back to you as soon as possible.''';
+
+  static String whyHead = 'Why Choose Us';
+
+  static String whyChoose = '''
+Dy teaching out, you're contributing to building a stronger Indian community in Canada. Whether you have suggestions, need support, or wish to share your experiences, your input is essential to helping us improve and offer better services.
+
+Our goal is to make sure that all Indians in Canada feel supported, and have easy access to essential services and businesses that align with their cultural roots. We look forward to hearing from your
+  
+  ''';
+
+  static String privacyPolicyHeading = 'Introduction';
   static const String privacyPolicyContent = '''
 Welcome to Indian Support Hub! At NS Support Hub, we are committed to safeguarding your privacy.
 
@@ -69,16 +83,16 @@ Welcome to Indian Support Hub! At NS Support Hub, we are committed to safeguardi
    - If you have any questions, please contact us at support@indiansupporthub.com
   ''';
 
-
   static String businessdHeading = 'Business Details';
   static String businessdPara = 'Chinmay Visions Videography';
   static String businessdsubHeading = '(Photography and Videography)';
 
   static String businessPara = '''
-  Capture the essence of life's moments with stunning visuals! We are specialized in professional videography and photography services for events, corporate projects, and personal milestones Whether it's weddings, product shoots, or promotional content, our team delivers creative and cinematic results tailored to your vision. With high-end equipment and a passion for storytelling we ensure that every frame tells a unique story. Let us bring your memories and ideas to life with unparalleled quality and creativity!
-  
-  
+  Capture the essence of life's moments with stunning visuals! We are specialized in professional videography and photography services for events, corporate projects, and personal milestones Whether it's weddings, product shoots, or promotional content, our team delivers creative and cinematic results tailored to your vision. With high-end equipment and a passion for storytelling we ensure that every frame tells a unique story. Let us bring your memories and ideas to life with unparalleled quality and creativity!  
   ''';
+
+  static String contactP =
+      'Please provide accurate information so that we can assist you better. Your email address will only be used to contact you regarding your message.';
 
   static String heroHeading =
       'Discover, Connect, and Grow with Your\nIndians Support Hub';

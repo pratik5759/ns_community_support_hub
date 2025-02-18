@@ -7,6 +7,14 @@ class LocalAssets{
   static String BusinessdImage = 'assets/images/busd.png';
   static String policyImage = 'assets/images/policy.png';
   static String termImage = 'assets/images/terms.png';
+  static String coImage = 'assets/images/co.png';
+  static String prImage = 'assets/images/priya.png';
+  static String vaImage = 'assets/images/vana.png';
+  static String mehImage = 'assets/images/meh.png';
+
+
+
+
 
 
 

@@ -7,7 +7,7 @@ import 'package:ns_community_support_hub/core/local/local_strings.dart';
 import '../../../../core/common_widgets/footer_bar.dart';
 import '../../../../core/local/app_constants.dart';
 import '../../../../core/local/local_asstes/local_assets.dart';
-import '../../../about_us/presentation/widgets/about_mission.dart';
+import '../widgets/business_other.dart';
 import '../widgets/business_para.dart';
 
 class BusinessDetailScreen extends StatefulWidget {
@@ -46,7 +46,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
     return IconButton(
       icon: Icon(
         Icons.star,
-        color: starIndex <= _rating ? Colors.amber : Colors.grey,
+        color: starIndex <= _rating ?  AppTheme.primaryColor : Colors.grey,
       ),
       onPressed: () {
         setState(() {
@@ -174,25 +174,61 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                         ),
                         const SizedBox(height: 20),
                         Container(
-                          width: 350,
+                          width: 650,
                           decoration: BoxDecoration(
-                            color:Color(0xFFF2F2F2)
-                            ,
+                            color: Color(0xFFF2F2F2),
                             border: Border.all(color: Colors.grey),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: TextField(
-                            controller: _reviewController,
-                            maxLines: 4,
-                            decoration: InputDecoration(
-                              hintText: 'Write your review here ...',
-                              hintStyle: TextStyle(color:  AppTheme.primaryColor, ), // Set hint text color
-
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.all(12),
-                            ),
+                          child: Stack(
+                            children: [
+                              TextField(
+                                controller: _reviewController,
+                                maxLines: 4,
+                                decoration: InputDecoration(
+                                  hintText: 'Write your review here ...',
+                                  hintStyle: TextStyle(color: AppTheme.primaryColor), // Set hint text color
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.all(12),
+                                ),
+                              ),
+                              Positioned(
+                                right: 10, // Position it towards the right
+                                bottom: 10, // Align at the bottom
+                                child: GestureDetector(
+                                  onTap: () {
+                                    // Handle attachment click
+                                  },
+                                  child: Icon(
+                                    Icons.attach_file,
+                                    color: AppTheme.primaryColor,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
+
+                        // Container(
+                        //   width: 650,
+                        //   decoration: BoxDecoration(
+                        //     color:Color(0xFFF2F2F2)
+                        //     ,
+                        //     border: Border.all(color: Colors.grey),
+                        //     borderRadius: BorderRadius.circular(8),
+                        //   ),
+                        //   child: TextField(
+                        //     controller: _reviewController,
+                        //     maxLines: 4,
+                        //     decoration: InputDecoration(
+                        //       hintText: 'Write your review here ...',
+                        //       hintStyle: TextStyle(color:  AppTheme.primaryColor, ), // Set hint text color
+                        //
+                        //       border: InputBorder.none,
+                        //       contentPadding: EdgeInsets.all(12),
+                        //     ),
+                        //   ),
+                        // ),
                         const SizedBox(height: 20),
                         SizedBox(
                           width: 700,
@@ -212,6 +248,9 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                   ),
                   SizedBox(height: 60),
 
+                  Center(child: BusinessSection()),
+
+                  SizedBox(height: 40),
 
                   FooterBar()
 

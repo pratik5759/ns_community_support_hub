@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
- import 'package:ns_community_support_hub/features/home_screen/presentation/home%20screen.dart';
 
-import 'features/about_us/presentation/screens/about_us.dart';
+
 import 'features/business_details/presentation/screens/business_detail.dart';
-import 'features/faq_page/presentation/screens/faq_screen.dart';
-import 'features/privacy_policy/presentation/screens/privacy_policy.dart';
-import 'features/privacy_policy/presentation/widget/privacy.dart';
-import 'features/terms/presentation/screens/terms_screen.dart';
+import 'features/contact_us /presentation/screens/contact_us.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -41,7 +38,7 @@ class MyApp extends StatelessWidget {
       ),
 
 
-      home: FAQScreen(),
+      home: BusinessDetailScreen(),
     );
   }
 }
