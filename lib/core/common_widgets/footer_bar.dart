@@ -343,6 +343,8 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:ns_community_support_hub/core/app_routes/route_names.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
 import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
@@ -489,7 +491,9 @@ class _FooterBarState extends State<FooterBar> {
     );
   }
 
-  void _onWebsiteTap() {}
+  void _onWebsiteTap() {
+    context.go(WebRouteNames.home);
+  }
   void _onCompanyTap() {}
   void _onFaqTap() {}
   void _onPrivacyTap() {}

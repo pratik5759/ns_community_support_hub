@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ns_community_support_hub/core/app_routes/route_names.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
+import 'package:ns_community_support_hub/core/common_widgets/auth_provider.dart';
 import 'package:ns_community_support_hub/core/common_widgets/custom_app_bar.dart';
 import 'package:ns_community_support_hub/core/common_widgets/footer_bar.dart';
 import 'package:ns_community_support_hub/core/common_widgets/hero_section_with_page_name.dart';
@@ -11,8 +14,10 @@ import 'package:ns_community_support_hub/core/services/auth_service.dart';
 import 'package:ns_community_support_hub/features/business_directory/presentation/widgets/business_card.dart';
 import 'package:ns_community_support_hub/features/business_directory/presentation/widgets/business_search_bar.dart';
 import 'package:ns_community_support_hub/features/events/models/event_model.dart';
+import 'package:ns_community_support_hub/features/events/presentation/add_event_screen.dart';
 import 'package:ns_community_support_hub/features/events/presentation/widgets/events_card.dart';
 import 'package:ns_community_support_hub/features/home_screen/presentation/widgets/home_events_list.dart';
+import 'package:provider/provider.dart';
 
 class EventsScreen extends StatefulWidget {
   const EventsScreen({super.key});
@@ -95,7 +100,7 @@ class _EventsScreenState extends State<EventsScreen> {
       ),
       floatingActionButton: _buildResponsiveFAB(context, 'Add Event', Icons.event, () async {
         bool isLoggedIn = await AuthService().isUserLoggedIn();
-        isLoggedIn ? null : showLoginPopup(context);
+        isLoggedIn ? context.go(WebRouteNames.addEvent) : showLoginPopup(context);
       }),
     );
   }
@@ -117,6 +122,8 @@ class _EventsScreenState extends State<EventsScreen> {
 
   void showLoginPopup(BuildContext context) {
 
+
+
     showDialog(
       context: context,
       barrierDismissible: true, // Allows closing the popup when tapping outside
@@ -126,7 +133,7 @@ class _EventsScreenState extends State<EventsScreen> {
           child: LoginPopup(
             onCancel: () => context.pop(), // Close dialog using GoRouter
             onLogin: () async {
-              await AuthService().signInWithGooglePopup();
+              context.read<AuthenticationProvider>().signInWithGoogle();
               context.pop(); // Close dialog
               // Perform login action here
             },

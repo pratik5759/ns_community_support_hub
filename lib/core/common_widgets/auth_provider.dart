@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ns_community_support_hub/core/services/auth_service.dart';
 import 'package:ns_community_support_hub/core/services/models/user_model.dart';
 
-class AuthProvider extends ChangeNotifier {
+class AuthenticationProvider extends ChangeNotifier {
   final AuthService _authService = AuthService();
 
   UserModel? _currentUser;

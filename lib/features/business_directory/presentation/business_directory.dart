@@ -76,6 +76,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ns_community_support_hub/core/app_routes/route_names.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
 import 'package:ns_community_support_hub/core/common_widgets/custom_app_bar.dart';
 import 'package:ns_community_support_hub/core/common_widgets/footer_bar.dart';
@@ -170,7 +171,7 @@ class _BusinessDirectoryScreenState extends State<BusinessDirectoryScreen> {
       ),
       floatingActionButton: _buildResponsiveFAB(context, 'Add Business', Icons.add_business, () async {
         bool isLoggedIn = await AuthService().isUserLoggedIn();
-        isLoggedIn ? null : showLoginPopup(context);
+        isLoggedIn ? context.go(WebRouteNames.addBusiness) : showLoginPopup(context);
       }),
     );
   }

@@ -399,7 +399,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   // Login Button
   Widget _buildLoginButton(BuildContext context)  {
 
-    return Consumer<AuthProvider>(
+    return Consumer<AuthenticationProvider>(
       builder: (context, value, child) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),

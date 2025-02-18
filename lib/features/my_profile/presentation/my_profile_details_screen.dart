@@ -117,9 +117,8 @@ import 'package:provider/provider.dart';
 import 'package:ns_community_support_hub/core/services/models/user_model.dart';
 
 class MyProfileDetailsScreen extends StatefulWidget {
-  const MyProfileDetailsScreen({Key? key, required this.title}) : super(key: key);
+  const MyProfileDetailsScreen({Key? key}) : super(key: key);
 
-  final String title;
 
   @override
   _MyProfileDetailsScreenState createState() => _MyProfileDetailsScreenState();
