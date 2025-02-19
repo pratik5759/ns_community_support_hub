@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 
 import 'features/business_details/presentation/screens/business_detail.dart';
-import 'features/contact_us /presentation/screens/contact_us.dart';
+import 'features/contact_us/presentation/screens/contact_us.dart';
 
 void main() {
   runApp(const MyApp());
