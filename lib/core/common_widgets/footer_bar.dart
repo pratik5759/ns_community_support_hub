@@ -494,13 +494,25 @@ class _FooterBarState extends State<FooterBar> {
   void _onWebsiteTap() {
     context.go(WebRouteNames.home);
   }
-  void _onCompanyTap() {}
-  void _onFaqTap() {}
-  void _onPrivacyTap() {}
-  void _onTermsTap() {}
+  void _onCompanyTap() {
+    context.go(WebRouteNames.home);
+  }
+  void _onFaqTap() {
+    context.go(WebRouteNames.faqScreen);
+  }
+  void _onPrivacyTap() {
+    context.go(WebRouteNames.privacyPolicy);
+  }
+  void _onTermsTap() {
+    context.go(WebRouteNames.termsNConditions);
+  }
   void _onSupportTap() {}
-  void _onAboutUsTap() {}
-  void _onHelpCenterTap() {}
+  void _onAboutUsTap() {
+    context.go(WebRouteNames.about);
+  }
+  void _onHelpCenterTap() {
+    context.go(WebRouteNames.contactUs);
+  }
   void _onFacebookTap() {}
   void _onInstagramTap() {}
   void _onLinkedInTap() {}
