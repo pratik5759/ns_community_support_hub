@@ -362,7 +362,7 @@ class BusinessListCard extends StatelessWidget {
 
     // Calculate the container width for equal distribution of items
     double containerWidth = screenWidth * 0.28;
-    double containerHeight = containerWidth * 1.18;
+    double containerHeight = containerWidth * 1.2;
 
     // Dynamic image dimensions based on container size
     double imageWidth = containerWidth * 0.9;  // 90% of the container width

@@ -88,7 +88,8 @@ class AboutContact extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Center(
+          Padding(
+            padding: const EdgeInsets.only(left: 30),
             child: Text.rich(
                 TextSpan(
                   style: GoogleFonts.nunito(
