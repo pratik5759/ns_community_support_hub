@@ -391,13 +391,13 @@ class _FooterBarState extends State<FooterBar> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   _buildColumn([
-                    {'text': LocalStrings.company, 'onTap': _onCompanyTap},
+                    {'text': LocalStrings.company, 'onTap': null},
                     {'text': LocalStrings.faq, 'onTap': _onFaqTap},
                     {'text': LocalStrings.privacyPolicy, 'onTap': _onPrivacyTap},
                     {'text': LocalStrings.termsConditions, 'onTap': _onTermsTap},
                   ]),
                   _buildColumn([
-                    {'text': LocalStrings.support, 'onTap': _onSupportTap},
+                    {'text': LocalStrings.support, 'onTap': null},
                     {'text': LocalStrings.aboutUs, 'onTap': _onAboutUsTap},
                     {'text': LocalStrings.helpCenter, 'onTap': _onHelpCenterTap},
                   ]),

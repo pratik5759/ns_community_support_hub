@@ -74,6 +74,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
 import 'package:ns_community_support_hub/core/common_widgets/custom_app_bar.dart';
+import 'package:ns_community_support_hub/core/common_widgets/hero_section_with_page_name.dart';
 
 import '../../../../core/common_widgets/footer_bar.dart';
 import '../../../../core/local/local_asstes/local_assets.dart';
@@ -99,31 +100,33 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            LayoutBuilder(
-              builder: (context, constraints) {
-                double maxWidth = constraints.maxWidth;
-                bool isSmallScreen = maxWidth < 900;
 
-                return Container(
-                  color: AppTheme.primaryColor,
-                  width: isSmallScreen ? maxWidth : 1680,
-                  height: 250, // Fixed height
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 16 : 32),
-                  child: Center(
-                    child: Text(
-                      LocalStrings.privacyHeading,
-                      style: TextStyle(
-                        fontSize: isSmallScreen ? 24 : 32,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                );
-              },
-            ),
+            HeroSectionWithPageName(pageName: LocalStrings.privacyHeading),
+            // LayoutBuilder(
+            //   builder: (context, constraints) {
+            //     double maxWidth = constraints.maxWidth;
+            //     bool isSmallScreen = maxWidth < 900;
+            //
+            //     return Container(
+            //       color: AppTheme.primaryColor,
+            //       width: isSmallScreen ? maxWidth : 1680,
+            //       height: 250, // Fixed height
+            //       alignment: Alignment.center,
+            //       padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 16 : 32),
+            //       child: Center(
+            //         child: Text(
+            //           LocalStrings.privacyHeading,
+            //           style: TextStyle(
+            //             fontSize: isSmallScreen ? 24 : 32,
+            //             fontWeight: FontWeight.bold,
+            //             color: Colors.white,
+            //           ),
+            //           textAlign: TextAlign.center,
+            //         ),
+            //       ),
+            //     );
+            //   },
+            // ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: LayoutBuilder(
