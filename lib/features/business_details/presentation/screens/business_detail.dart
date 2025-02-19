@@ -197,6 +197,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                 bottom: 10, // Align at the bottom
                                 child: GestureDetector(
                                   onTap: () {
+
                                     // Handle attachment click
                                   },
                                   child: Icon(
