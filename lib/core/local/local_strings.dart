@@ -171,4 +171,10 @@ Connect Through Cultural Roots: Help users find businesses based on the owner's 
 //
 //
 //   ''';
+
+
+
+
+//============================== LINKS =================================
+static String knackBeLink = 'https://knackbe.in/home';
 }

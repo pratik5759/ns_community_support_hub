@@ -429,14 +429,14 @@ class _FooterBarState extends State<FooterBar> {
               SizedBox(height: spacing * 2),
             Center(
               child: InkWell(
-                onTap: () => _launchURL('https://knackbe.in/home'),
+                onTap: () => _launchURL(LocalStrings.knackBeLink),
                 child: Text(LocalStrings.allRightsReserved,
                     style: textStyle),
               ),
             ),
             Center(
               child: InkWell(
-                onTap: () => _launchURL('https://knackbe.in/home'),
+                onTap: () => _launchURL(LocalStrings.knackBeLink),
                 child: Text(LocalStrings.designedDeveloped,
                     style: textStyle),
               ),
