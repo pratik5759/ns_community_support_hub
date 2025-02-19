@@ -75,7 +75,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
 
                   return Container(
                     color: AppTheme.primaryColor,
-                    width: isSmallScreen ? maxWidth : 1680,
+                    width: isSmallScreen ? maxWidth : 1680, 
                     // Adjust width
                     // height: 291,
                     height: 250,
