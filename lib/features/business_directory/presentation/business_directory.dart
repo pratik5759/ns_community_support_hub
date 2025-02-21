@@ -74,10 +74,13 @@
 
 
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ns_community_support_hub/core/app_routes/route_names.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
+import 'package:ns_community_support_hub/core/common_widgets/auth_provider.dart';
 import 'package:ns_community_support_hub/core/common_widgets/custom_app_bar.dart';
 import 'package:ns_community_support_hub/core/common_widgets/footer_bar.dart';
 import 'package:ns_community_support_hub/core/common_widgets/hero_section_with_page_name.dart';
@@ -85,8 +88,12 @@ import 'package:ns_community_support_hub/core/common_widgets/log_in_popup.dart';
 import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
 import 'package:ns_community_support_hub/core/services/auth_service.dart';
+import 'package:ns_community_support_hub/features/business_directory/business_directory_provider.dart';
+import 'package:ns_community_support_hub/features/business_directory/models/business_model.dart';
 import 'package:ns_community_support_hub/features/business_directory/presentation/widgets/business_card.dart';
+import 'package:ns_community_support_hub/features/business_directory/presentation/widgets/business_card_skeleton.dart';
 import 'package:ns_community_support_hub/features/business_directory/presentation/widgets/business_search_bar.dart';
+import 'package:provider/provider.dart';
 
 class BusinessDirectoryScreen extends StatefulWidget {
   const BusinessDirectoryScreen({super.key});
@@ -96,78 +103,143 @@ class BusinessDirectoryScreen extends StatefulWidget {
 }
 
 class _BusinessDirectoryScreenState extends State<BusinessDirectoryScreen> {
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   Future.microtask(() async {
+  //     var val = context.read<BusinessDirectoryProvider>();
+  //     await val.loadBusinesses();
+  //     if(val.isHomeSearch){
+  //       await val.filterSearchBusiness();
+  //     }
+  //   },);
+  // }
+
+  @override
+  void initState() {
+    super.initState();
+    debugPrint("initState called");
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      debugPrint("addPostFrameCallback triggered");
+
+      var val = context.read<BusinessDirectoryProvider>();
+      debugPrint("BusinessDirectoryProvider read");
+
+      await val.loadBusinesses();
+      debugPrint("loadBusinesses() completed");
+
+      if (val.isHomeSearch) {
+        debugPrint("isHomeSearch is true, calling filterSearchBusiness()");
+        await val.filterSearchBusiness();
+        debugPrint("filterSearchBusiness() completed");
+        val.isHomeSearch = false;
+      } else {
+        debugPrint("isHomeSearch is false, skipping filterSearchBusiness()");
+      }
+    });
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
       appBar: CustomAppBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min, // Ensures it takes only needed space
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            /// Hero Section with page name
-            HeroSectionWithPageName(pageName: LocalStrings.businessDirectory),
+      body: Consumer<BusinessDirectoryProvider>(
+        builder: (context, value, child) {
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // Ensures it takes only needed space
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                /// Hero Section with page name
+                HeroSectionWithPageName(pageName: LocalStrings.businessDirectory),
 
-            /// responsive search bar
-            SizedBox(
-              height: 40,
-            ),
-            LayoutBuilder(
-              builder: (context, constraints) {
-                final double maxWidth = constraints.maxWidth;
-                return BusinessSearchBar(height: 48, width: maxWidth);
-              },
-            ),
+                /// responsive search bar
+                SizedBox(
+                  height: 8,
+                ),
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    final double maxWidth = constraints.maxWidth;
+                    return BusinessSearchBar(height: 48, width: maxWidth);
+                  },
+                ),
 
-            /// GridView without independent scrolling
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppConstants.fullPagePaddingHorizontal,
-              ),
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  double screenWidth = constraints.maxWidth;
-
-                  // Define dynamic column count based on screen width
-                  int crossAxisCount;
-                  double childAspectRatio;
-
-                  if (screenWidth < 600) { // Mobile screens
-                    crossAxisCount = 1;
-                    childAspectRatio = 0.9; // Adjust to avoid overly stretched cards
-                  } else if (screenWidth < 1024) { // Tablets
-                    crossAxisCount = 2;
-                    childAspectRatio = 1.0;
-                  } else { // Desktops
-                    crossAxisCount = 3;
-                    childAspectRatio = 1.1;
-                  }
-
-                  return GridView.builder(
-                    shrinkWrap: true, // Ensures GridView only takes required space
-                    physics: const NeverScrollableScrollPhysics(), // Disables GridView scrolling
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: crossAxisCount,
-                      crossAxisSpacing: 20.0, // Reduced for better fit on smaller screens
-                      mainAxisSpacing: 20.0,
-                      childAspectRatio: childAspectRatio,
+                /// GridView without independent scrolling
+                Visibility(
+                  visible: value.displayedBusinesses.isNotEmpty,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: AppConstants.fullPagePaddingHorizontal,
                     ),
-                    itemCount: 4,
-                    itemBuilder: (context, index) {
-                      return BusinessCard(businessName: 'Demo Demo', index: index);
-                    },
-                  );
-                },
-              ),
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        double screenWidth = constraints.maxWidth;
+                  
+                        // Define dynamic column count based on screen width
+                        int crossAxisCount;
+                        double childAspectRatio;
+                  
+                        if (screenWidth < 600) { // Mobile screens
+                          crossAxisCount = 1;
+                          childAspectRatio = 0.9; // Adjust to avoid overly stretched cards
+                        } else if (screenWidth < 1024) { // Tablets
+                          crossAxisCount = 2;
+                          childAspectRatio = 1.0;
+                        } else { // Desktops
+                          crossAxisCount = 3;
+                          childAspectRatio = 1.1;
+                        }
+                  
+                        return value.displayedBusinesses.isEmpty ?   GridView.builder(
+                          shrinkWrap: true, // Ensures GridView only takes required space
+                          physics: const NeverScrollableScrollPhysics(), // Disables GridView scrolling
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: crossAxisCount,
+                            crossAxisSpacing: 20.0, // Reduced for better fit on smaller screens
+                            mainAxisSpacing: 20.0,
+                            childAspectRatio: childAspectRatio,
+                          ),
+                          itemCount: 6,
+                          itemBuilder: (context, index) {
+                            return BusinessCardSkeleton();
+                          },
+                        ) :
+                         GridView.builder(
+                          shrinkWrap: true, // Ensures GridView only takes required space
+                          physics: const NeverScrollableScrollPhysics(), // Disables GridView scrolling
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: crossAxisCount,
+                            crossAxisSpacing: 20.0, // Reduced for better fit on smaller screens
+                            mainAxisSpacing: 20.0,
+                            childAspectRatio: childAspectRatio,
+                          ),
+                          itemCount: value.displayedBusinesses.length,
+                          itemBuilder: (context, index) {
+                            Business currentBusiness = value.displayedBusinesses[index];
+                            return BusinessCard(business: currentBusiness);
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                Visibility(visible: value.displayedBusinesses.isEmpty,child: SizedBox(height: MediaQuery.of(context).size.height * 0.25,child: Center(child: Text("No Businesses to show !",style: GoogleFonts.nunito(fontSize: 24),)))),
+                const SizedBox(height: 16,),
+
+
+                /// Footer Bar (Appears after all tiles)
+                FooterBar(),
+              ],
             ),
-
-
-            /// Footer Bar (Appears after all tiles)
-            FooterBar(),
-          ],
-        ),
+          );
+        },
       ),
       floatingActionButton: _buildResponsiveFAB(context, 'Add Business', Icons.add_business, () async {
         bool isLoggedIn = await AuthService().isUserLoggedIn();
@@ -193,7 +265,6 @@ class _BusinessDirectoryScreenState extends State<BusinessDirectoryScreen> {
   }
 
   void showLoginPopup(BuildContext context) {
-
     showDialog(
       context: context,
       barrierDismissible: true, // Allows closing the popup when tapping outside
@@ -203,7 +274,7 @@ class _BusinessDirectoryScreenState extends State<BusinessDirectoryScreen> {
           child: LoginPopup(
             onCancel: () => context.pop(), // Close dialog using GoRouter
             onLogin: () async {
-              await AuthService().signInWithGooglePopup();
+              await context.read<AuthenticationProvider>().signInWithGoogle();
               context.pop(); // Close dialog
               // Perform login action here
             },

@@ -104,6 +104,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
 import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
+import 'package:ns_community_support_hub/features/business_directory/business_directory_provider.dart';
+import 'package:provider/provider.dart';
 
 class BusinessSearchBar extends StatefulWidget {
   final double height;
@@ -118,74 +120,80 @@ class BusinessSearchBar extends StatefulWidget {
 class _BusinessSearchBarState extends State<BusinessSearchBar> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: AppConstants.fullPagePaddingHorizontal,vertical: 8),
-      child: Container(
-        height: widget.height,
-        width: widget.width,
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(32), // Rounded corners for the whole bar
-          boxShadow: [
-            /*BoxShadow(
-              color: Colors.black54,
-              offset: Offset(widget.width * 0.02, widget.height * 0.1),
-              blurRadius: widget.width * 0.05,
-              spreadRadius: widget.width * 0.005,
-            ),*/
-            BoxShadow(
-              color: Colors.black54,
-              offset: Offset(8, 12),
-              blurRadius: 24,
-              spreadRadius: -8,
+    return Consumer<BusinessDirectoryProvider>(
+      builder: (context, value, child) {
+        return Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: AppConstants.fullPagePaddingHorizontal,vertical: 8),
+          child: Container(
+            height: widget.height,
+            width: widget.width,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(32), // Rounded corners for the whole bar
+              boxShadow: [
+                /*BoxShadow(
+                color: Colors.black54,
+                offset: Offset(widget.width * 0.02, widget.height * 0.1),
+                blurRadius: widget.width * 0.05,
+                spreadRadius: widget.width * 0.005,
+              ),*/
+                BoxShadow(
+                  color: Colors.black54,
+                  offset: Offset(8, 12),
+                  blurRadius: 24,
+                  spreadRadius: -8,
+                ),
+              ],
             ),
-          ],
-        ),
-        child: Row(
-          children: [
-            /// Search Icon
-            const Icon(Icons.search, size: 24, color: Colors.grey),
+            child: Row(
+              children: [
+                /// Search Icon
+                const Icon(Icons.search, size: 24, color: Colors.grey),
 
-            /// Search TextField (Takes most of the space)
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: LocalStrings.searchBarHint,
-                    hintStyle: GoogleFonts.nunito(),
+                /// Search TextField (Takes most of the space)
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: TextField(
+                      controller: value.searchBarController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: LocalStrings.searchBarHint,
+                        hintStyle: GoogleFonts.nunito(),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
 
-            /// Search Button
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.ctaColor,
-                elevation: 8,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24), // Smooth rounded button
+                /// Search Button
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.ctaColor,
+                    elevation: 8,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24), // Smooth rounded button
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  ),
+                  onPressed: () {
+                    // TODO: Implement search action
+                    value.filterSearchBusiness();
+                  },
+                  child: Text(
+                    LocalStrings.search,
+                    style: GoogleFonts.nunito(
+                      fontSize: AppConstants.mediumFontSize,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              ),
-              onPressed: () {
-                // TODO: Implement search action
-              },
-              child: Text(
-                LocalStrings.search,
-                style: GoogleFonts.nunito(
-                  fontSize: AppConstants.mediumFontSize,
-                  color: Colors.white,
-                ),
-              ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

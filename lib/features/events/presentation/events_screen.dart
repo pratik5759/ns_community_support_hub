@@ -133,7 +133,7 @@ class _EventsScreenState extends State<EventsScreen> {
           child: LoginPopup(
             onCancel: () => context.pop(), // Close dialog using GoRouter
             onLogin: () async {
-              context.read<AuthenticationProvider>().signInWithGoogle();
+              await context.read<AuthenticationProvider>().signInWithGoogle();
               context.pop(); // Close dialog
               // Perform login action here
             },

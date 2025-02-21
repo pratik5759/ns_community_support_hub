@@ -68,9 +68,34 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
+import 'package:ns_community_support_hub/core/local/enums/environment_enum.dart';
 import 'package:ns_community_support_hub/core/local/models/items_model.dart';
 
 class AppConstants {
+
+
+  static String mapApiKey = 'AIzaSyD2wfPAi8BqN1_p9NB2ej5-gRxS-CY80PE';
+
+
+  //========= DB CONSTANTS ==================================
+
+  /// here database environments can be changed to live,dev
+  static final Environment _currentEnvironment = Environment.dev; // Default environment
+
+  // Getter to access the current environment
+  static Environment get currentEnvironment => _currentEnvironment;
+
+  // Dynamic getters for database names
+  /// ALWAYS USE _ BETWEEN ENVIRONMENT NAME AND DATABASE NAME EX. live_businesses
+  static String get firebaseBusinesses => '${_currentEnvironment.name}_businesses';
+  static String get firebaseEvents => '${_currentEnvironment.name}_events';
+  static String get firebaseImages => '${_currentEnvironment.name}_images';
+  //static String get firebaseCommunityEvents => '${_currentEnvironment.name}_community_event';
+  static String get firebaseReviewImages => '${_currentEnvironment.name}_review_images';
+  static String get firebaseContactForms => '${_currentEnvironment.name}_contact_form';
+
+
+
   //======= FONT SIZES =======================
   static double get heroHeadingFontSize {
     double screenWidth = getScreenWidth();

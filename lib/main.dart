@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ns_community_support_hub/core/app_routes/app_router.dart';
 import 'package:ns_community_support_hub/core/common_widgets/auth_provider.dart';
+import 'package:ns_community_support_hub/features/business_directory/business_directory_provider.dart';
 import 'package:ns_community_support_hub/features/my_profile/my_screen_provider.dart';
 import 'package:ns_community_support_hub/firebase_options.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ Future<void> main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => MyScreenProvider()),
+      ChangeNotifierProvider(create: (context) => BusinessDirectoryProvider()..loadCategories()..loadBusinesses()),
       ChangeNotifierProvider(create: (_) => AuthenticationProvider()..loadUser()), // Load user on start
     ],
     child: const MyApp(),

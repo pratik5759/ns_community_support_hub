@@ -135,17 +135,16 @@ import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
 import 'package:ns_community_support_hub/core/common_widgets/star_rating_bar.dart';
 import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
+import 'package:ns_community_support_hub/features/business_directory/models/business_model.dart';
 
 
 class BusinessCard extends StatelessWidget {
   const BusinessCard({
     super.key,
-    required this.businessName,
-    required this.index,
+    required this.business,
   });
 
-  final String businessName;
-  final int index;
+  final Business business;
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +164,7 @@ class BusinessCard extends StatelessWidget {
 
     double containerHeight = isSmallScreen ? 380 : 450;
 
-    double imageWidth = isSmallScreen ? containerWidth * 0.9 : 350;
+    double imageWidth = isSmallScreen ? containerWidth * 0.9 : 416;
     double imageHeight = isSmallScreen ? 180 : 200;
 
     return Container(
@@ -186,32 +185,62 @@ class BusinessCard extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           mainAxisSize: MainAxisSize.min, // Adjust height based on content
           children: [
-            Center(
-              child: Container(
-                width: imageWidth,
-                height: imageHeight,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                    image: AssetImage(AppConstants.itemLists[index].imagePath),
-                    fit: BoxFit.cover,
+              Center(
+                child: Container(
+                  width: imageWidth,
+                  height: imageHeight,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      business.image,
+                      fit: BoxFit.cover,
+                      width: imageWidth,
+                      height: imageHeight,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          width: imageWidth,
+                          height: imageHeight,
+                          'assets/images/image_not_availible_img.png', // Replace with your asset image path
+                          fit: BoxFit.fitWidth,
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
-            ),
+
             const SizedBox(height: 8), // Spacing between image and text
-            Text(
-              businessName,
-              style: AppConstants.nunitoMediumW500.copyWith(
-                fontSize: isSmallScreen ? 14 : 16,
+            Expanded(
+              child: Row(spacing: 8,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    business.name,
+                    style: AppConstants.nunitoMediumW500.copyWith(
+                      fontSize: isSmallScreen ? 14 : 16,
+                    ),
+                  ),
+
+                  Visibility(
+                    visible: business.isVerified,
+                    child: Image.asset('assets/icons/verified_business_ic.png', width: 20, // Adjust as needed
+                      height: 20, ),
+                  )// Adjust as needed)
+                ],
               ),
             ),
-            const StarRatingBar(rating: 5.5),
+            StarRatingBar(rating: business.averageRating),
             const SizedBox(height: 6), // Small spacing before description
             Text(
-              'Capture the essence of life\'s moments with stunning visuals! We specialize in professional video and photography services for events, corporate projects.',
+              business.description,
+              maxLines: 2,
+              overflow: TextOverflow.fade,
               style: AppConstants.nunitoMediumW500.copyWith(
                 fontSize: isSmallScreen ? 14 : 16,
               ),

@@ -6,12 +6,14 @@ import 'package:ns_community_support_hub/core/common_widgets/footer_bar.dart';
 import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_asstes/local_assets.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
+import 'package:ns_community_support_hub/features/business_directory/business_directory_provider.dart';
 import 'package:ns_community_support_hub/features/home_screen/presentation/widgets/home_business_list.dart';
 import 'package:ns_community_support_hub/features/home_screen/presentation/widgets/home_events_list.dart';
 import 'package:ns_community_support_hub/features/home_screen/presentation/widgets/responsive_list.dart';
 import 'package:ns_community_support_hub/features/home_screen/presentation/widgets/search_bar.dart';
 import 'package:ns_community_support_hub/features/home_screen/presentation/widgets/text_section.dart';
 import 'package:ns_community_support_hub/features/home_screen/presentation/widgets/vision_mission_section.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -198,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  HomeBusinessList(),
+                  HomeBusinessList(displayList: context.read<BusinessDirectoryProvider>().displayedBusinesses,),
 
                   const SizedBox(height: 12),
                   Padding(

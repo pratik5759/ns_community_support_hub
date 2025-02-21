@@ -1,79 +1,306 @@
 [
-"Agriculture",
-"Alternative Medicine",
-"Arts & Crafts",
-"Entertainment",
-"Automotive Services",
-"Banking Finance",
-"Beauty & Wellness",
-"Bike Shops",
-"Bicycle Shop",
-"Bookstores",
-"Business Services",
-"Car Rentals",
-"Catering",
-"Clothing Alterations",
-"Cleaning Services",
-"Community Services",
-"Construction",
-"Consulting",
-"Day Care",
-"Dental Clinics",
-"Driving Schools",
-"Decoration Service",
-"Education Classes",
-"Event Services",
-"Fitness & Gyms",
-"Florists",
-"Food Trucks",
-"Graphic Design",
-"Health & Medical",
-"Home Services",
-"Hospitality",
-"Insurance Agents",
-"Interior Design",
-"IT & Technology",
-"Jewelry Stores",
-"Lawn Care",
-"Legal & Immigration",
-"Marketing & Advertising",
-"Music & Dance",
-"Nail Salons",
-"Photography",
-"Plumbing Services",
-"Real Estate",
-"Restaurant",
-"Retail",
-"Roofing Services",
-"Sports & Recreation",
-"Structural Health Monitoring Services",
-"Transportation",
-"Tutoring & Coaching",
-"Veterinary & Pet Services",
-"Wedding Services",
-"Yoga Studios",
-"Pet Grooming Services",
-"Appliance Repair Services",
-"Barber Shops",
-"Catering Services",
-"Courier & Delivery Services",
-"Craft Beer Breweries",
-"Custom Furniture Makers",
-"Electrical Services",
-"Farmers Markets",
-"Home Renovation Services",
-"Landscaping Services",
-"Locksmith Services",
-"Mobile Car Wash",
-"Pest Control Services",
-"Printing & Copy Services",
-"Roof Repair Services",
-"Senior Care Services",
-"Tailor Shops",
-"Tattoo Parlors",
-"Tree Cutting Services",
-"Window Cleaning Services",
-"Bakery Shops",
-"Dry Cleaning Services"
+  {
+    "id": 1,
+    "name": "Agriculture"
+  },
+  {
+    "id": 2,
+    "name": "Alternative Medicine"
+  },
+  {
+    "id": 3,
+    "name": "Arts & Crafts"
+  },
+  {
+    "id": 4,
+    "name": "Entertainment"
+  },
+  {
+    "id": 5,
+    "name": "Automotive Services"
+  },
+  {
+    "id": 6,
+    "name": "Banking Finance"
+  },
+  {
+    "id": 7,
+    "name": "Beauty & Wellness"
+  },
+  {
+    "id": 8,
+    "name": "Bike Shops"
+  },
+  {
+    "id": 9,
+    "name": "Bicycle Shop"
+  },
+  {
+    "id": 10,
+    "name": "Bookstores"
+  },
+  {
+    "id": 11,
+    "name": "Business Services"
+  },
+  {
+    "id": 12,
+    "name": "Car Rentals"
+  },
+  {
+    "id": 13,
+    "name": "Catering"
+  },
+  {
+    "id": 14,
+    "name": "Clothing Alterations"
+  },
+  {
+    "id": 15,
+    "name": "Cleaning Services"
+  },
+  {
+    "id": 16,
+    "name": "Community Services"
+  },
+  {
+    "id": 17,
+    "name": "Construction"
+  },
+  {
+    "id": 18,
+    "name": "Consulting"
+  },
+  {
+    "id": 19,
+    "name": "Day Care"
+  },
+  {
+    "id": 20,
+    "name": "Dental Clinics"
+  },
+  {
+    "id": 21,
+    "name": "Driving Schools"
+  },
+  {
+    "id": 22,
+    "name": "Decoration Service"
+  },
+  {
+    "id": 23,
+    "name": "Education Classes"
+  },
+  {
+    "id": 24,
+    "name": "Event Services"
+  },
+  {
+    "id": 25,
+    "name": "Fitness & Gyms"
+  },
+  {
+    "id": 26,
+    "name": "Florists"
+  },
+  {
+    "id": 27,
+    "name": "Food Trucks"
+  },
+  {
+    "id": 28,
+    "name": "Graphic Design"
+  },
+  {
+    "id": 29,
+    "name": "Health & Medical"
+  },
+  {
+    "id": 30,
+    "name": "Home Services"
+  },
+  {
+    "id": 31,
+    "name": "Hospitality"
+  },
+  {
+    "id": 32,
+    "name": "Insurance Agents"
+  },
+  {
+    "id": 33,
+    "name": "Interior Design"
+  },
+  {
+    "id": 34,
+    "name": "IT & Technology"
+  },
+  {
+    "id": 35,
+    "name": "Jewelry Stores"
+  },
+  {
+    "id": 36,
+    "name": "Lawn Care"
+  },
+  {
+    "id": 37,
+    "name": "Legal & Immigration"
+  },
+  {
+    "id": 38,
+    "name": "Marketing & Advertising"
+  },
+  {
+    "id": 39,
+    "name": "Music & Dance"
+  },
+  {
+    "id": 40,
+    "name": "Nail Salons"
+  },
+  {
+    "id": 41,
+    "name": "Photography"
+  },
+  {
+    "id": 42,
+    "name": "Plumbing Services"
+  },
+  {
+    "id": 43,
+    "name": "Real Estate"
+  },
+  {
+    "id": 44,
+    "name": "Restaurant"
+  },
+  {
+    "id": 45,
+    "name": "Retail"
+  },
+  {
+    "id": 46,
+    "name": "Roofing Services"
+  },
+  {
+    "id": 47,
+    "name": "Sports & Recreation"
+  },
+  {
+    "id": 48,
+    "name": "Structural Health Monitoring Services"
+  },
+  {
+    "id": 49,
+    "name": "Transportation"
+  },
+  {
+    "id": 50,
+    "name": "Tutoring & Coaching"
+  },
+  {
+    "id": 51,
+    "name": "Veterinary & Pet Services"
+  },
+  {
+    "id": 52,
+    "name": "Wedding Services"
+  },
+  {
+    "id": 53,
+    "name": "Yoga Studios"
+  },
+  {
+    "id": 54,
+    "name": "Pet Grooming Services"
+  },
+  {
+    "id": 55,
+    "name": "Appliance Repair Services"
+  },
+  {
+    "id": 56,
+    "name": "Barber Shops"
+  },
+  {
+    "id": 57,
+    "name": "Catering Services"
+  },
+  {
+    "id": 58,
+    "name": "Courier & Delivery Services"
+  },
+  {
+    "id": 59,
+    "name": "Craft Beer Breweries"
+  },
+  {
+    "id": 60,
+    "name": "Custom Furniture Makers"
+  },
+  {
+    "id": 61,
+    "name": "Electrical Services"
+  },
+  {
+    "id": 62,
+    "name": "Farmers Markets"
+  },
+  {
+    "id": 63,
+    "name": "Home Renovation Services"
+  },
+  {
+    "id": 64,
+    "name": "Landscaping Services"
+  },
+  {
+    "id": 65,
+    "name": "Locksmith Services"
+  },
+  {
+    "id": 66,
+    "name": "Mobile Car Wash"
+  },
+  {
+    "id": 67,
+    "name": "Pest Control Services"
+  },
+  {
+    "id": 68,
+    "name": "Printing & Copy Services"
+  },
+  {
+    "id": 69,
+    "name": "Roof Repair Services"
+  },
+  {
+    "id": 70,
+    "name": "Senior Care Services"
+  },
+  {
+    "id": 71,
+    "name": "Tailor Shops"
+  },
+  {
+    "id": 72,
+    "name": "Tattoo Parlors"
+  },
+  {
+    "id": 73,
+    "name": "Tree Cutting Services"
+  },
+  {
+    "id": 74,
+    "name": "Window Cleaning Services"
+  },
+  {
+    "id": 75,
+    "name": "Bakery Shops"
+  },
+  {
+    "id": 76,
+    "name": "Dry Cleaning Services"
+  }
 ]
-

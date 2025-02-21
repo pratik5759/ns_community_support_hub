@@ -210,26 +210,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                           ),
                         ),
 
-                        // Container(
-                        //   width: 650,
-                        //   decoration: BoxDecoration(
-                        //     color:Color(0xFFF2F2F2)
-                        //     ,
-                        //     border: Border.all(color: Colors.grey),
-                        //     borderRadius: BorderRadius.circular(8),
-                        //   ),
-                        //   child: TextField(
-                        //     controller: _reviewController,
-                        //     maxLines: 4,
-                        //     decoration: InputDecoration(
-                        //       hintText: 'Write your review here ...',
-                        //       hintStyle: TextStyle(color:  AppTheme.primaryColor, ), // Set hint text color
-                        //
-                        //       border: InputBorder.none,
-                        //       contentPadding: EdgeInsets.all(12),
-                        //     ),
-                        //   ),
-                        // ),
+
                         const SizedBox(height: 20),
                         SizedBox(
                           width: 700,
