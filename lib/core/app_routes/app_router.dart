@@ -16,6 +16,8 @@ import 'package:ns_community_support_hub/features/pageNotFound404/presentation/p
 import 'package:ns_community_support_hub/features/privacy_policy/presentation/screens/privacy_policy.dart';
 import 'package:ns_community_support_hub/features/terms/presentation/screens/terms_screen.dart';
 
+import '../../features/contact_us/presentation/widgets/conatct.dart';
+
 final GoRouter appRouter = GoRouter(
   initialLocation: WebRouteNames.home,
   // routes: [

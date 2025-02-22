@@ -1,5 +1,3 @@
-
-
 /*import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
@@ -311,7 +309,7 @@ class HomeBusinessList extends StatelessWidget {
     double containerHeight = containerWidth * 1.18;
 
     // Dynamic image dimensions based on container size
-    double imageWidth = containerWidth * 0.9;  // 90% of the container width
+    double imageWidth = containerWidth * 0.9; // 90% of the container width
     double imageHeight = containerHeight * 0.6; // 60% of the container height
 
     // Determine if the screen is small and adjust layout accordingly
@@ -319,19 +317,22 @@ class HomeBusinessList extends StatelessWidget {
     if (isSmallScreen) {
       containerWidth = screenWidth * 0.45; // Wider containers on small screens
       imageHeight = 150; // Smaller images for small screens
-      containerHeight = containerWidth * 1.2; // Adjust container height for smaller screens
+      containerHeight =
+          containerWidth * 1.2; // Adjust container height for smaller screens
     }
 
     return Container(
       height: containerHeight,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: AppConstants.fullPagePaddingHorizontal),
+        padding: EdgeInsets.symmetric(
+            horizontal: AppConstants.fullPagePaddingHorizontal),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: List.generate(
             3, // Show only 3 items in a row
-                (index) => BusinessListCard(
-              businessName: 'Demo Business', index: index,
+            (index) => BusinessListCard(
+              businessName: 'Demo Business',
+              index: index,
               /*containerWidth: containerWidth,
               imageHeight: imageHeight,
               index: index,
@@ -344,7 +345,6 @@ class HomeBusinessList extends StatelessWidget {
     );
   }
 }
-
 
 class BusinessListCard extends StatelessWidget {
   const BusinessListCard({
@@ -365,7 +365,7 @@ class BusinessListCard extends StatelessWidget {
     double containerHeight = containerWidth * 1.2;
 
     // Dynamic image dimensions based on container size
-    double imageWidth = containerWidth * 0.9;  // 90% of the container width
+    double imageWidth = containerWidth * 0.9; // 90% of the container width
     double imageHeight = containerHeight * 0.6; // 60% of the container height
 
     // Adjust for smaller screens
@@ -449,7 +449,6 @@ class BusinessListCard extends StatelessWidget {
     );
   }
 }
-
 
 /*class BusinessListCard extends StatelessWidget {
   BusinessListCard({
@@ -598,9 +597,14 @@ class SkeletonBusinessCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   color: skeletonColor,
                 ),
-                child: Center(child: Text("Coming Soon", style: AppConstants.nunitoBigWhiteW700,)),
+                child: Center(
+                    child: Text(
+                  "Coming Soon",
+                  style: AppConstants.nunitoBigWhiteW700,
+                )),
               ),
             ),
+
             /// business name
             Container(
               width: containerWidth * 0.4,
@@ -610,15 +614,17 @@ class SkeletonBusinessCard extends StatelessWidget {
                 color: skeletonColor,
               ),
             ),
+
             /// rating
             Container(
-              width: containerWidth* 0.3,
+              width: containerWidth * 0.3,
               height: containerWidth * 0.04,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: skeletonColor,
               ),
             ),
+
             /// paragraph section
             Container(
               width: containerWidth * 0.9,
@@ -667,4 +673,3 @@ class SkeletonBusinessCard extends StatelessWidget {
     );
   }
 }
-
