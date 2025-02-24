@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:ns_community_support_hub/core/common_widgets/custom_dialouge.dart';
 import 'package:ns_community_support_hub/features/business_directory/business_directory_provider.dart';
 import 'package:ns_community_support_hub/features/business_directory/models/category_model.dart';
 import 'package:provider/provider.dart';
@@ -250,7 +251,10 @@ class AddBusinessForm extends StatelessWidget {
   Widget _buildAddButton(BusinessDirectoryProvider provider,BuildContext ctx) {
     return GestureDetector(
       onTap: () async {
-        await provider.onAddBusiness(ctx);
+        //await provider.onAddBusiness(ctx);
+        showAppDialog(ctx, 'Business Added Successfully', DialogType.success, 'Okay', () {
+
+        },);
       },
       child: Container(
         width: double.infinity,
