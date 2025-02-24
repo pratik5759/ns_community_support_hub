@@ -6,6 +6,7 @@ import 'package:ns_community_support_hub/features/business_directory/presentatio
 import 'package:ns_community_support_hub/features/business_directory/presentation/business_details_screen.dart';
 import 'package:ns_community_support_hub/features/business_directory/presentation/business_directory_main_screen.dart';
 import 'package:ns_community_support_hub/features/contact_us/presentation/screens/contact_us.dart';
+import 'package:ns_community_support_hub/features/events/models/event_model.dart';
 import 'package:ns_community_support_hub/features/events/presentation/add_event_screen.dart';
 import 'package:ns_community_support_hub/features/events/presentation/event_details_screen.dart';
 import 'package:ns_community_support_hub/features/events/presentation/events_screen.dart';
@@ -15,9 +16,7 @@ import 'package:ns_community_support_hub/features/my_profile/presentation/my_pro
 import 'package:ns_community_support_hub/features/pageNotFound404/presentation/page_not_found_screen.dart';
 import 'package:ns_community_support_hub/features/privacy_policy/presentation/screens/privacy_policy.dart';
 import 'package:ns_community_support_hub/features/terms/presentation/screens/terms_screen.dart';
-import 'package:universal_html/html.dart';
 
-import '../../features/events/models/event_model.dart';
 
 
 final GoRouter appRouter = GoRouter(
@@ -102,7 +101,7 @@ final GoRouter appRouter = GoRouter(
           if (state.extra == null || state.extra is! EventsModel) {
             return PageNotFoundScreen();
           }
-          final _eventData = state.extra as EventsModel;
+          EventsModel _eventData = state.extra as EventsModel;
           return EventDetailsScreen(event: _eventData);
         }
         //builder: (context, state) => EventDetailsScreen(),
