@@ -1,7 +1,7 @@
 /*import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
-import 'package:ns_community_support_hub/core/common_widgets/star_rating_bar.dart';
+import 'package:ns_community_support_hub/core/common_widgets/star_rating_bar_display.dart';
 import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
 
@@ -150,7 +150,7 @@ class EventsListCard extends StatelessWidget {
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
-import 'package:ns_community_support_hub/core/common_widgets/star_rating_bar.dart';
+import 'package:ns_community_support_hub/core/common_widgets/star_rating_bar_diasplay.dart';
 import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
 
@@ -175,123 +175,231 @@ class HomeEventsList extends StatelessWidget {
       containerHeight = containerWidth * 1.2; // Adjust container height for smaller screens
     }
 
-    return Container(
+     return Container(
       height: containerHeight,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: AppConstants.fullPagePaddingHorizontal),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: List.generate(
-            3, // Show only 3 items in a row
-                (index) => EventsListCard(
-              businessName: 'Demo Event',
-              containerWidth: containerWidth,
-              imageHeight: imageHeight,
-              index: index,
-              containerHeight: containerHeight,
-              imageWidth: imageWidth,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal, // Enables horizontal scrolling
+          child: Row(
+            children: List.generate(
+              3, // Increase this if you have more events to scroll through
+                  (index) => Padding(
+                padding: EdgeInsets.only(right: 10), // Adjust spacing
+                child: EventsListCard(
+                  businessName: 'Demo Event $index',
+                ),
+              ),
             ),
           ),
         ),
       ),
     );
+
+
+    // return Container(
+    //   height: containerHeight,
+    //   child: Padding(
+    //     padding: EdgeInsets.symmetric(horizontal: AppConstants.fullPagePaddingHorizontal),
+    //     child: Row(
+    //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+    //       children: List.generate(
+    //         3, // Show only 3 items in a row
+    //             (index) => EventsListCard(
+    //           businessName: 'Demo Event',
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }
 
+
 class EventsListCard extends StatelessWidget {
-  EventsListCard({
+  const EventsListCard({
     super.key,
-    required this.containerWidth,
-    required this.imageHeight,
-    required this.index,
-    required this.containerHeight,
-    required this.imageWidth,
     required this.businessName,
   });
 
   final String businessName;
-  final double containerWidth;
-  final double imageHeight;
-  final double imageWidth;
-  final double containerHeight;
-  int index;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(8.0),
-      width: containerWidth,
-      height: containerHeight,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black54,
-            offset: Offset(8, 12),
-            blurRadius: 24,
-            spreadRadius: -8,
+    return Center(
+      child: FittedBox(
+        child: Container(
+          margin: const EdgeInsets.all(8.0),
+          width: 448, // Fixed width
+          height: 448, // Fixed height
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: Colors.white,
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black54,
+                offset: Offset(8, 12),
+                blurRadius: 24,
+                spreadRadius: -8,
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 10,
-          children: [
-            Center(
-              child: Container(
-                width: containerWidth,
-                height: imageHeight,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/demo_event_img.png'),
-                    fit: BoxFit.fill,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-            Text(
-              businessName,
-              style: AppConstants.nunitoMediumW500.copyWith(
-                fontSize: 16, // Fixed font size for web
-              ),
-            ),
-            Text(
-              'Capture the essence of life\'s moments with stunning visuals! We specialize in professional video and photography services for events, corporate projects.',
-              style: AppConstants.nunitoMediumW500.copyWith(
-                fontSize: 16, // Fixed font size for web
-              ),
-            ),
-            const SizedBox(
-              height: 6,
-            ),
-            Container(
-              width: containerWidth * 0.28,
-              decoration: BoxDecoration(
-                color: AppTheme.primaryColor,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Text(
-                    LocalStrings.viewMore,
-                    style: GoogleFonts.nunito(
-                      color: Colors.white,
-                      fontSize: AppConstants.mediumFontSize,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.asset(
+                      'assets/images/demo_event_img.png',
+                      width: 370,
+                      height: 180,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
-              ),
+                const SizedBox(height: 10),
+                Text(
+                  businessName,
+                  style: AppConstants.nunitoMediumW500.copyWith(
+                    fontSize: 16,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 6),
+                Expanded(
+                  child: Text(
+                    'Capture the essence of life\'s moments with stunning visuals! We specialize in professional video and photography services for events, corporate projects.',
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppConstants.nunitoMediumW500.copyWith(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  decoration: BoxDecoration(
+                    color: AppTheme.primaryColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Center(
+                    child: Text(
+                      LocalStrings.viewMore,
+                      style: GoogleFonts.nunito(
+                        color: Colors.white,
+                        fontSize: AppConstants.mediumFontSize,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
+
+// class EventsListCard extends StatelessWidget {
+//   EventsListCard({
+//     super.key,
+//     required this.containerWidth,
+//     required this.imageHeight,
+//     required this.index,
+//     required this.containerHeight,
+//     required this.imageWidth,
+//     required this.businessName,
+//   });
+//
+//   final String businessName;
+//   final double containerWidth;
+//   final double imageHeight;
+//   final double imageWidth;
+//   final double containerHeight;
+//   int index;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       margin: const EdgeInsets.all(8.0),
+//       width: containerWidth,
+//       height: containerHeight,
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(16),
+//         color: Colors.white,
+//         boxShadow: [
+//           BoxShadow(
+//             color: Colors.black54,
+//             offset: Offset(8, 12),
+//             blurRadius: 24,
+//             spreadRadius: -8,
+//           ),
+//         ],
+//       ),
+//       child: Padding(
+//         padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           spacing: 10,
+//           children: [
+//             Center(
+//               child: Container(
+//                 width: containerWidth,
+//                 height: imageHeight,
+//                 decoration: BoxDecoration(
+//                   image: DecorationImage(
+//                     image: AssetImage('assets/images/demo_event_img.png'),
+//                     fit: BoxFit.fill,
+//                   ),
+//                   borderRadius: BorderRadius.circular(10),
+//                 ),
+//               ),
+//             ),
+//             Text(
+//               businessName,
+//               style: AppConstants.nunitoMediumW500.copyWith(
+//                 fontSize: 16, // Fixed font size for web
+//               ),
+//             ),
+//             Text(
+//               'Capture the essence of life\'s moments with stunning visuals! We specialize in professional video and photography services for events, corporate projects.',
+//               style: AppConstants.nunitoMediumW500.copyWith(
+//                 fontSize: 16, // Fixed font size for web
+//               ),
+//             ),
+//             const SizedBox(
+//               height: 6,
+//             ),
+//             Container(
+//               width: containerWidth * 0.28,
+//               decoration: BoxDecoration(
+//                 color: AppTheme.primaryColor,
+//                 borderRadius: BorderRadius.circular(8),
+//               ),
+//               child: Center(
+//                 child: Padding(
+//                   padding: const EdgeInsets.all(4.0),
+//                   child: Text(
+//                     LocalStrings.viewMore,
+//                     style: GoogleFonts.nunito(
+//                       color: Colors.white,
+//                       fontSize: AppConstants.mediumFontSize,
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 

@@ -1,10 +1,10 @@
 import 'package:go_router/go_router.dart';
-import 'package:ns_community_support_hub/core/app_routes/app_scaffold.dart';
 import 'package:ns_community_support_hub/core/app_routes/route_names.dart';
 import 'package:ns_community_support_hub/features/about_us/presentation/screens/about_us.dart';
-import 'package:ns_community_support_hub/features/business_details/presentation/screens/business_detail.dart';
-import 'package:ns_community_support_hub/features/business_directory/presentation/add_business_screen.dart';
-import 'package:ns_community_support_hub/features/business_directory/presentation/business_directory.dart';
+import 'package:ns_community_support_hub/features/business_directory/models/business_model.dart';
+import 'package:ns_community_support_hub/features/business_directory/presentation/business_add_screen.dart';
+import 'package:ns_community_support_hub/features/business_directory/presentation/business_details_screen.dart';
+import 'package:ns_community_support_hub/features/business_directory/presentation/business_directory_main_screen.dart';
 import 'package:ns_community_support_hub/features/contact_us/presentation/screens/contact_us.dart';
 import 'package:ns_community_support_hub/features/events/presentation/add_event_screen.dart';
 import 'package:ns_community_support_hub/features/events/presentation/event_details_screen.dart';
@@ -120,7 +120,13 @@ final GoRouter appRouter = GoRouter(
     ),
     GoRoute(
       path: WebRouteNames.businessDetails,
-      builder: (context, state) => BusinessDetailScreen(),
+      builder: (context, state) {
+        if (state.extra == null || state.extra is! Business) {
+          return PageNotFoundScreen();
+          }
+        final businessData = state.extra as Business;
+        return BusinessDetailScreen(business: businessData,);
+      } ,
     ),
     GoRoute(
       path: WebRouteNames.faqScreen,

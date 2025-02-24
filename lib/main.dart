@@ -18,7 +18,7 @@ Future<void> main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => MyScreenProvider()),
-      ChangeNotifierProvider(create: (context) => BusinessDirectoryProvider()..loadCategories()..loadBusinesses()),
+      ChangeNotifierProvider(create: (context) => BusinessDirectoryProvider()..loadCategories()),
       ChangeNotifierProvider(create: (_) => AuthenticationProvider()..loadUser()), // Load user on start
     ],
     child: const MyApp(),

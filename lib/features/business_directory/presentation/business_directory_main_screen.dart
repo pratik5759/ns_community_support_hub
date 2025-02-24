@@ -128,8 +128,8 @@ class _BusinessDirectoryScreenState extends State<BusinessDirectoryScreen> {
       var val = context.read<BusinessDirectoryProvider>();
       debugPrint("BusinessDirectoryProvider read");
 
-      await val.loadBusinesses();
-      debugPrint("loadBusinesses() completed");
+      // await val.loadBusinesses();
+      // debugPrint("loadBusinesses() completed");
 
       if (val.isHomeSearch) {
         debugPrint("isHomeSearch is true, calling filterSearchBusiness()");
@@ -177,6 +177,7 @@ class _BusinessDirectoryScreenState extends State<BusinessDirectoryScreen> {
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: AppConstants.fullPagePaddingHorizontal,
+                      vertical: 16
                     ),
                     child: LayoutBuilder(
                       builder: (context, constraints) {
@@ -211,27 +212,31 @@ class _BusinessDirectoryScreenState extends State<BusinessDirectoryScreen> {
                             return BusinessCardSkeleton();
                           },
                         ) :
-                         GridView.builder(
-                          shrinkWrap: true, // Ensures GridView only takes required space
-                          physics: const NeverScrollableScrollPhysics(), // Disables GridView scrolling
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: crossAxisCount,
-                            crossAxisSpacing: 20.0, // Reduced for better fit on smaller screens
-                            mainAxisSpacing: 20.0,
-                            childAspectRatio: childAspectRatio,
-                          ),
-                          itemCount: value.displayedBusinesses.length,
-                          itemBuilder: (context, index) {
-                            Business currentBusiness = value.displayedBusinesses[index];
-                            return BusinessCard(business: currentBusiness);
-                          },
-                        );
+                         MediaQuery.removePadding(
+                           context: context,
+                           removeTop: true,
+                           child: GridView.builder(
+                            shrinkWrap: true, // Ensures GridView only takes required space
+                            physics: const NeverScrollableScrollPhysics(), // Disables GridView scrolling
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: crossAxisCount,
+                              crossAxisSpacing: 20.0, // Reduced for better fit on smaller screens
+                              mainAxisSpacing: 20.0,
+                              childAspectRatio: childAspectRatio,
+                            ),
+                            itemCount: value.displayedBusinesses.length,
+                            itemBuilder: (context, index) {
+                              Business currentBusiness = value.displayedBusinesses[index];
+                              return BusinessCard(business: currentBusiness);
+                            },
+                                                   ),
+                         );
                       },
                     ),
                   ),
                 ),
                 Visibility(visible: value.displayedBusinesses.isEmpty,child: SizedBox(height: MediaQuery.of(context).size.height * 0.25,child: Center(child: Text("No Businesses to show !",style: GoogleFonts.nunito(fontSize: 24),)))),
-                const SizedBox(height: 16,),
+
 
 
                 /// Footer Bar (Appears after all tiles)

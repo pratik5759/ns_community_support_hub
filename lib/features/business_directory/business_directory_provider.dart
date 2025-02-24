@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ns_community_support_hub/core/common_widgets/custom_dialouge.dart';
 import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/services/auth_service.dart';
 import 'package:ns_community_support_hub/core/services/firestore_service.dart';
@@ -52,6 +53,16 @@ class BusinessDirectoryProvider extends ChangeNotifier {
   Timer? _debounceTimer;
 
 
+  double _rating = 0; // Stores the selected rating
+
+  double get rating => _rating;
+
+  void setRating(double value) {
+    _rating = value;
+    notifyListeners(); // Notify widgets using this provider
+  }
+
+
   final nameController = TextEditingController();
   final addressController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -63,6 +74,7 @@ class BusinessDirectoryProvider extends ChangeNotifier {
   //final originStateController = TextEditingController();
   final categoryController = TextEditingController();
   final searchBarController = TextEditingController();
+  final reviewController = TextEditingController();
 
   String? selectedCategory;
   List<CategoryModel> categories = [];
@@ -434,7 +446,7 @@ class BusinessDirectoryProvider extends ChangeNotifier {
           _location = LatLng(latLng.latitude, latLng.longitude);
         }).catchError((e) {
           // Handle error
-          print(e.toString());
+          debugPrint(e.toString());
         });
       }
     });
@@ -568,15 +580,39 @@ class BusinessDirectoryProvider extends ChangeNotifier {
 
     await _fireStoreService.addBusiness(business).then((value) {
 
-      ScaffoldMessenger.of(ctx).showSnackBar(
-        const SnackBar(
-            content: Text('Business added successfully!')),
-      );
-      ctx.pop();
+     showAppDialog(ctx, 'Business Added Successfully', DialogType.success, 'Okay', () {
+       ctx.pop();
+     },);
+
+      // ScaffoldMessenger.of(ctx).showSnackBar(
+      //   const SnackBar(
+      //       content: Text('Business added successfully!')),
+      // );
+      // ctx.pop();
 
     },);
 
 
+  }
+
+
+  void submitReview(BuildContext ctx) {
+    String reviewText = reviewController.text;
+    if (_rating == 0 || reviewText.isEmpty) {
+      ScaffoldMessenger.of(ctx).showSnackBar(
+        const SnackBar(content: Text('Please provide a rating and review')),
+      );
+      return;
+    }
+
+    ScaffoldMessenger.of(ctx).showSnackBar(
+      SnackBar(content: Text('Review Submitted: $_rating stars\n"$reviewText"')),
+    );
+
+
+      _rating = 0;
+      reviewController.clear();
+      notifyListeners();
   }
 
   void initialLoad(){

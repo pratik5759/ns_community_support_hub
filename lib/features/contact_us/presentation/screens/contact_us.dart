@@ -8,7 +8,7 @@
 // import '../../../../core/local/local_asstes/local_assets.dart';
 // import '../../../about_us/presentation/widgets/about_mission.dart';
 // import '../widgets/conatct.dart';
-// import '../widgets/conta_review.dart';
+// import '../widgets/contacts_review.dart';
 // import '../widgets/why_choose.dart';
 //
 // class ContactScreen extends StatefulWidget {
@@ -148,7 +148,7 @@ import '../../../../core/common_widgets/footer_bar.dart';
 import '../../../../core/local/app_constants.dart';
 import '../../../../core/local/local_asstes/local_assets.dart';
 import '../widgets/conatct.dart';
-import '../widgets/conta_review.dart';
+import '../widgets/contacts_review.dart';
 import '../widgets/why_choose.dart';
 
 class ContactScreen extends StatefulWidget {

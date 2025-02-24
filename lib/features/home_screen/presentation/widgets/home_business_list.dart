@@ -1,7 +1,9 @@
+
+
 /*import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
-import 'package:ns_community_support_hub/core/common_widgets/star_rating_bar.dart';
+import 'package:ns_community_support_hub/core/common_widgets/star_rating_bar_display.dart';
 import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
 
@@ -296,10 +298,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
-import 'package:ns_community_support_hub/core/common_widgets/star_rating_bar.dart';
 import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
 import 'package:ns_community_support_hub/features/business_directory/models/business_model.dart';
+
+import 'package:ns_community_support_hub/core/common_widgets/star_rating_bar_diasplay.dart';
 
 class HomeBusinessList extends StatelessWidget {
   List<Business> displayList;
@@ -320,7 +323,7 @@ class HomeBusinessList extends StatelessWidget {
     double containerHeight = containerWidth * 1.18;
 
     // Dynamic image dimensions based on container size
-    double imageWidth = containerWidth * 0.9; // 90% of the container width
+    double imageWidth = containerWidth * 0.9;  // 90% of the container width
     double imageHeight = containerHeight * 0.6; // 60% of the container height
 
     // Determine if the screen is small and adjust layout accordingly
@@ -328,25 +331,23 @@ class HomeBusinessList extends StatelessWidget {
     if (isSmallScreen) {
       containerWidth = screenWidth * 0.45; // Wider containers on small screens
       imageHeight = 150; // Smaller images for small screens
-      containerHeight =
-          containerWidth * 1.2; // Adjust container height for smaller screens
+      containerHeight = containerWidth * 1.2; // Adjust container height for smaller screens
     }
 
     return Container(
       height: containerHeight,
       child: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: AppConstants.fullPagePaddingHorizontal),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: List.generate(
-            randomList.length, // Show only 3 items in a row
-                (index) => BusinessListCard(business: randomList[index],
-              /*containerWidth: containerWidth,
-              imageHeight: imageHeight,
-              index: index,
-              containerHeight: containerHeight,
-              imageWidth: imageWidth,*/
+        padding: EdgeInsets.symmetric(horizontal: AppConstants.fullPagePaddingHorizontal),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: List.generate(
+              randomList.length, // Show only 3 items in a row
+                  (index) => Padding(
+                    padding: const EdgeInsets.only(left: 12.0),
+                    child: BusinessListCard(business: randomList[index],),
+                  ),
             ),
           ),
         ),
@@ -355,135 +356,256 @@ class HomeBusinessList extends StatelessWidget {
   }
 }
 
+
+
 class BusinessListCard extends StatelessWidget {
-  const BusinessListCard({
-    super.key,
-    required this.business,
-  });
+  const BusinessListCard({super.key, required this.business});
 
   final Business business;
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-
-    // Calculate the container width for equal distribution of items
-    double containerWidth = screenWidth * 0.28;
-    double containerHeight = containerWidth * 1.2;
-
-    // Dynamic image dimensions based on container size
-    double imageWidth = containerWidth * 0.9; // 90% of the container width
-    double imageHeight = containerHeight * 0.6; // 60% of the container height
-
-    // Adjust for smaller screens
     bool isSmallScreen = screenWidth < 600;
-    if (isSmallScreen) {
-      containerWidth = screenWidth * 0.45;
-      imageHeight = 150;
-      containerHeight = containerWidth * 1.2;
-    }
 
-    return Container(
-      margin: const EdgeInsets.all(8.0),
-      width: containerWidth,
-      height: containerHeight,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: Colors.white,
-        boxShadow: [
-          const BoxShadow(
-            color: Colors.black54,
-            offset: Offset(8, 12),
-            blurRadius: 24,
-            spreadRadius: -8,
+    return Center(
+      child: FittedBox(
+        child: Container(
+          margin: const EdgeInsets.all(8.0),
+          width: 448, // Fixed width
+          height: 448, // Fixed height
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: Colors.white,
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black54,
+                offset: Offset(8, 12),
+                blurRadius: 24,
+                spreadRadius: -8,
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Container(
-                width: imageWidth,
-                height: imageHeight,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    business.image,
-                    fit: BoxFit.cover,
-                    width: imageWidth,
-                    height: imageHeight,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Image.asset(
-                        width: imageWidth,
-                        height: imageHeight,
-                        'assets/images/image_not_availible_img.png', // Replace with your asset image path
-                        fit: BoxFit.fitWidth,
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: Row(spacing: 8,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    business.name,
-                    style: AppConstants.nunitoMediumW500.copyWith(
-                      fontSize: isSmallScreen ? 14 : 16,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      business.image,
+                      width: 400,
+                      height: 180,
+                      fit: BoxFit.fitWidth,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          'assets/images/image_not_availible_img.png',
+                          width: 400,
+                          height: 180,
+                          fit: BoxFit.fitWidth,
+                        );
+                      },
                     ),
                   ),
-
-                  Visibility(
-                    visible: business.isVerified,
-                    child: Image.asset('assets/icons/verified_business_ic.png', width: 20, // Adjust as needed
-                      height: 20, ),
-                  )// Adjust as needed)
-                ],
-              ),
-            ),
-            StarRatingBar(rating: business.averageRating),
-            Text(
-              business.description,
-               maxLines: 3,
-               overflow: TextOverflow.fade,
-               style: AppConstants.nunitoMediumW500.copyWith(
-                fontSize: 16,
-              ),
-            ),
-            const SizedBox(height: 6),
-            Container(
-              width: containerWidth * 0.28,
-              decoration: BoxDecoration(
-                color: AppTheme.primaryColor,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        business.name,
+                        style: AppConstants.nunitoMediumW500.copyWith(
+                          fontSize: isSmallScreen ? 14 : 16,
+                          fontWeight: FontWeight.bold
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    if (business.isVerified)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 6),
+                        child: Image.asset(
+                          'assets/icons/verified_business_ic.png',
+                          width: 20,
+                          height: 20,
+                        ),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                StarRatingBar(rating: business.averageRating),
+                const SizedBox(height: 6),
+                Expanded(
                   child: Text(
-                    LocalStrings.viewMore,
-                    style: GoogleFonts.nunito(
-                      color: Colors.white,
-                      fontSize: AppConstants.mediumFontSize,
+                    business.description,
+                    maxLines: 5, // Set max lines limit
+                    overflow: TextOverflow.ellipsis,
+                    style: AppConstants.nunitoMediumW500.copyWith(
+                      fontSize: 16,
                     ),
                   ),
                 ),
-              ),
+                const SizedBox(height: 8),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  decoration: BoxDecoration(
+                    color: AppTheme.primaryColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Center(
+                    child: Text(
+                      LocalStrings.viewMore,
+                      style: GoogleFonts.nunito(
+                        color: Colors.white,
+                        fontSize: AppConstants.mediumFontSize,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
+
+
+
+// class BusinessListCard extends StatelessWidget {
+//   const BusinessListCard({
+//     super.key,
+//     required this.business,
+//   });
+//
+//   final Business business;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     double screenWidth = MediaQuery.of(context).size.width;
+//
+//     // Calculate the container width for equal distribution of items
+//     double containerWidth = screenWidth * 0.28;
+//     double containerHeight = containerWidth * 1.18;
+//
+//     // Dynamic image dimensions based on container size
+//     double imageWidth = containerWidth * 0.9;  // 90% of the container width
+//     double imageHeight = containerHeight * 0.6; // 60% of the container height
+//
+//     // Adjust for smaller screens
+//     bool isSmallScreen = screenWidth < 600;
+//     if (isSmallScreen) {
+//       containerWidth = screenWidth * 0.45;
+//       imageHeight = 150;
+//       containerHeight = containerWidth * 1.2;
+//     }
+//
+//     return Container(
+//       margin: const EdgeInsets.all(8.0),
+//       width: containerWidth,
+//       height: containerHeight,
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(16),
+//         color: Colors.white,
+//         boxShadow: [
+//           const BoxShadow(
+//             color: Colors.black54,
+//             offset: Offset(8, 12),
+//             blurRadius: 24,
+//             spreadRadius: -8,
+//           ),
+//         ],
+//       ),
+//       child: Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Center(
+//               child: Container(
+//                 width: imageWidth,
+//                 height: imageHeight,
+//                 decoration: BoxDecoration(
+//                   borderRadius: BorderRadius.circular(10),
+//                 ),
+//                 child: ClipRRect(
+//                   borderRadius: BorderRadius.circular(10),
+//                   child: Image.network(
+//                     business.image,
+//                     fit: BoxFit.cover,
+//                     width: imageWidth,
+//                     height: imageHeight,
+//                     errorBuilder: (context, error, stackTrace) {
+//                       return Image.asset(
+//                         width: imageWidth,
+//                         height: imageHeight,
+//                         'assets/images/image_not_availible_img.png', // Replace with your asset image path
+//                         fit: BoxFit.fitWidth,
+//                       );
+//                     },
+//                   ),
+//                 ),
+//               ),
+//             ),
+//             Expanded(
+//               child: Row(spacing: 8,
+//                 mainAxisAlignment: MainAxisAlignment.start,
+//                 children: [
+//                   Text(
+//                     business.name,
+//                     style: AppConstants.nunitoMediumW500.copyWith(
+//                       fontSize: isSmallScreen ? 14 : 16,
+//                     ),
+//                   ),
+//
+//                   Visibility(
+//                     visible: business.isVerified,
+//                     child: Image.asset('assets/icons/verified_business_ic.png', width: 20, // Adjust as needed
+//                       height: 20, ),
+//                   )// Adjust as needed)
+//                 ],
+//               ),
+//             ),
+//             StarRatingBar(rating: business.averageRating),
+//             Text(
+//               business.description,
+//                maxLines: 3,
+//                overflow: TextOverflow.fade,
+//                style: AppConstants.nunitoMediumW500.copyWith(
+//                 fontSize: 16,
+//               ),
+//             ),
+//             const SizedBox(height: 6),
+//             Container(
+//               width: containerWidth * 0.28,
+//               decoration: BoxDecoration(
+//                 color: AppTheme.primaryColor,
+//                 borderRadius: BorderRadius.circular(8),
+//               ),
+//               child: Center(
+//                 child: Padding(
+//                   padding: const EdgeInsets.all(4.0),
+//                   child: Text(
+//                     LocalStrings.viewMore,
+//                     style: GoogleFonts.nunito(
+//                       color: Colors.white,
+//                       fontSize: AppConstants.mediumFontSize,
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
 
 /*class BusinessListCard extends StatelessWidget {
   BusinessListCard({
@@ -632,14 +754,9 @@ class SkeletonBusinessCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   color: skeletonColor,
                 ),
-                child: Center(
-                    child: Text(
-                  "Coming Soon",
-                  style: AppConstants.nunitoBigWhiteW700,
-                )),
+                child: Center(child: Text("Coming Soon", style: AppConstants.nunitoBigWhiteW700,)),
               ),
             ),
-
             /// business name
             Container(
               width: containerWidth * 0.4,
@@ -649,17 +766,15 @@ class SkeletonBusinessCard extends StatelessWidget {
                 color: skeletonColor,
               ),
             ),
-
             /// rating
             Container(
-              width: containerWidth * 0.3,
+              width: containerWidth* 0.3,
               height: containerWidth * 0.04,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: skeletonColor,
               ),
             ),
-
             /// paragraph section
             Container(
               width: containerWidth * 0.9,
@@ -708,3 +823,4 @@ class SkeletonBusinessCard extends StatelessWidget {
     );
   }
 }
+

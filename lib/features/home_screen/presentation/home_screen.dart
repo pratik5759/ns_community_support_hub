@@ -23,6 +23,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var val = context.read<BusinessDirectoryProvider>();
+    Future.microtask(() => val.loadCategories());
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -200,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  HomeBusinessList(displayList: context.read<BusinessDirectoryProvider>().displayedBusinesses,),
+                  Consumer<BusinessDirectoryProvider>(builder: (context, value, child) => HomeBusinessList(displayList: context.watch<BusinessDirectoryProvider>().displayedBusinesses,),),
 
                   const SizedBox(height: 12),
                   Padding(
