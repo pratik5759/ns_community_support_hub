@@ -67,7 +67,7 @@ class BusinessDetailsSection extends StatelessWidget {
         children: [
           const SizedBox(height: 12),
           Text(
-            LocalStrings.businessdPara,
+            business.name,
             style: GoogleFonts.nunito(
               fontSize: AppConstants.bigFontSize,
               fontWeight: FontWeight.bold,
@@ -81,9 +81,9 @@ class BusinessDetailsSection extends StatelessWidget {
               ),
             ),
           ),
-           SizedBox(height: 5,),
-           Text.rich(
-            TextSpan(
+          SizedBox(height: 5,),
+          Text.rich(
+          TextSpan(
               children: getStyledParagraph(
                 LocalStrings.businessPara,
               ),
@@ -99,7 +99,7 @@ class BusinessDetailsSection extends StatelessWidget {
                       color: AppTheme.primaryColor, size: 16),
                 ),
                 TextSpan(
-                  text: " 6216 Seaforth St, Halifax, NS B3K 5C8, Canada\n",
+                  text: business.address,
                   style: GoogleFonts.nunito(
                     fontWeight: FontWeight.bold,
                     color: AppTheme.primaryColor,
@@ -119,7 +119,7 @@ class BusinessDetailsSection extends StatelessWidget {
                       color: AppTheme.primaryColor, size: 16),
                 ),
                 TextSpan(
-                  text: " Hours: Monday to Sunday 9 AM to 5 PM\n",
+                  text: business.businessHours,
                   style: GoogleFonts.nunito(
                     fontWeight: FontWeight.bold,
                     color: AppTheme.primaryColor,
@@ -144,38 +144,39 @@ class BusinessDetailsSection extends StatelessWidget {
                 children: [
                   Icon(Icons.phone_in_talk, color: Colors.white, size: 14),
                    Text(
-                    "5195021608",
+                    business.phoneNumber,
                     style: GoogleFonts.nunito(
                       fontWeight: FontWeight.bold,
                       color: AppTheme.whiteColor,
                       fontSize: AppConstants.smallFontSize,
-                    ),                  ),
+                    ),
+                   ),
                 ],
               ),
 
             ),
           ),
-    Text.rich(
-    TextSpan(
-
-    children: [
-
-    // WidgetSpan(
-    // child: Icon(Icons.access_time,
-    // color: AppTheme.primaryColor, size: 16),
-    // ),
-      TextSpan(
-        text: "Business Owner Origin State: Maharashtra",
-        style: GoogleFonts.nunito(
-          fontWeight: FontWeight.bold,
-          color: AppTheme.blackColor,
-          fontSize: AppConstants.smallFontSize,
-        ),
-      ),
-    ]
-    )
-
-    )
+    // Text.rich(
+    // TextSpan(
+    //
+    // children: [
+    //
+    // // WidgetSpan(
+    // // child: Icon(Icons.access_time,
+    // // color: AppTheme.primaryColor, size: 16),
+    // // ),
+    // //   TextSpan(
+    // //     text: "Business Owner Origin State: Maharashtra",
+    // //     style: GoogleFonts.nunito(
+    // //       fontWeight: FontWeight.bold,
+    // //       color: AppTheme.blackColor,
+    // //       fontSize: AppConstants.smallFontSize,
+    // //     ),
+    // //   ),
+    // ]
+    // )
+    //
+    // )
         ],
       ),
     );
