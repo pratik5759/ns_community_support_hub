@@ -162,7 +162,7 @@ class HomeEventsList extends StatelessWidget {
 
     // Calculate the container width for equal distribution of items
     double containerWidth = screenWidth * 0.28;
-    double containerHeight = containerWidth * 1.06;
+    double containerHeight = containerWidth * 1.2;
     double imageHeight = containerHeight * 0.5;
     double imageWidth = containerWidth;
     double textWidth = containerWidth * 0.8;

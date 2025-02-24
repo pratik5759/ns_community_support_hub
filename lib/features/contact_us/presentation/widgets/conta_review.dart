@@ -100,8 +100,99 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
 
-class ContactReview extends StatelessWidget {
+import '../../../../core/services/firestore_service.dart';
+
+class ContactReview extends StatefulWidget {
   const ContactReview({super.key});
+
+  @override
+  State<ContactReview> createState() => _ContactReviewState();
+}
+
+class _ContactReviewState extends State<ContactReview> {
+
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _messageController = TextEditingController();
+  final ContactFormService contactFormService = ContactFormService();
+
+  // void _submitForm() {
+  //   if (_formKey.currentState!.validate()) {
+  //     contactFormService.submitContactForm(
+  //       _nameController.text,
+  //       _emailController.text,
+  //       _messageController.text,
+  //     ).then((_) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text("Form submitted successfully!")),
+  //       );
+  //       _nameController.clear();
+  //       _emailController.clear();
+  //       _messageController.clear();
+  //     });
+  //   }
+  // }
+
+
+  void _submitForm() {
+    if (_formKey.currentState!.validate()) {
+      contactFormService
+          .submitContactForm(
+        _nameController.text,
+        _emailController.text,
+        _messageController.text,
+      )
+          .then((_) {
+        if (!mounted) return; // Ensure widget is still in the tree
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Form submitted successfully!")),
+        );
+
+        _nameController.clear();
+        _emailController.clear();
+        _messageController.clear();
+      }).catchError((error) {
+        if (!mounted) return;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Failed to submit form: $error")),
+        );
+      });
+    }
+  }
+
+  String? _validateName(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return "Enter your name";
+    }
+    if (value.trim().length < 3) {
+      return "Name must be at least 3 characters";
+    }
+    return null;
+  }
+
+  String? _validateEmail(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return "Enter your email";
+    }
+    final emailRegex = RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
+    if (!emailRegex.hasMatch(value)) {
+      return "Enter a valid email address";
+    }
+    return null;
+  }
+
+  String? _validateMessage(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return "Enter your message";
+    }
+    if (value.trim().length < 10) {
+      return "Message must be at least 10 characters";
+    }
+    return null;
+  }
 
   TextSpan getStyledText(String text, IconData icon) {
     return TextSpan(
@@ -139,83 +230,96 @@ class ContactReview extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min, // Keep form compact
-          children: [
-            TextField(
-              decoration: InputDecoration(
-                hintText: "Your Name",
-                hintStyle: GoogleFonts.nunito(fontSize: 14),
-                filled: true,
-                fillColor: Colors.grey[200],
-                contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.0), // Rounded corners
-                  borderSide: BorderSide.none, // No border
-                ),                label: RichText(
-                  text: getStyledText("Your Name", Icons.person),
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            TextField(
-              decoration: InputDecoration(
-                hintText: "Email",
-                hintStyle: GoogleFonts.nunito(fontSize: 14),
-                filled: true,
-                fillColor: Colors.grey[200],
-                contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.0), // Rounded corners
-                  borderSide: BorderSide.none, // No border
-                ),                  label: RichText(
-                  text: getStyledText("Email", Icons.email),
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            TextField(
-              maxLines: 3,
-              decoration: InputDecoration(
-                hintText: "Message",
-                hintStyle: GoogleFonts.nunito(fontSize: 14),
-                filled: true,
-                fillColor: Colors.grey[200],
-                contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.0), // Rounded corners
-                  borderSide: BorderSide.none, // No border
-                ),                  label: RichText(
-                  text: getStyledText("Message", Icons.message),
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor:AppTheme.primaryColor,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min, // Keep form compact
+            children: [
+              TextFormField(
+                controller: _nameController,
 
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
+                validator: _validateName,
+                decoration: InputDecoration(
+                  hintText: "Your Name",
+                  hintStyle: GoogleFonts.nunito(fontSize: 14),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+
+                  contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0), // Rounded corners
+                    borderSide: BorderSide.none, // No border
+                  ),                label: RichText(
+                    text: getStyledText("Your Name", Icons.person),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
-                onPressed: () {
-                  // Handle submit action
-                },
-                child: Text(
-                  "Submit Review",
-                  style: GoogleFonts.nunito(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+
+              ),
+              const SizedBox(height: 8),
+              TextFormField(
+                validator: _validateEmail,
+                 controller: _emailController,
+
+                decoration: InputDecoration(
+                  hintText: "Email",
+                  hintStyle: GoogleFonts.nunito(fontSize: 14),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0), // Rounded corners
+                    borderSide: BorderSide.none, // No border
+                  ),                  label: RichText(
+                    text: getStyledText("Email", Icons.email),
                   ),
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 8),
+              TextFormField(
+                maxLines: 3,
+                controller: _messageController,
+                validator: _validateMessage,
+                decoration: InputDecoration(
+                  hintText: "Message",
+                  hintStyle: GoogleFonts.nunito(fontSize: 14),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0), // Rounded corners
+                    borderSide: BorderSide.none, // No border
+                  ),                  label: RichText(
+                    text: getStyledText("Message", Icons.message),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:AppTheme.primaryColor,
+
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
+                  onPressed: () {
+                    _submitForm();
+                   },
+                  child: Text(
+                    "Submit Review",
+                    style: GoogleFonts.nunito(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -92,6 +92,7 @@ class FirestoreService {
   }
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 
   Future<List<String>> fetchImageUrls() async {
     try {
@@ -128,13 +129,23 @@ class FirestoreService {
         'name': name,
         'email': email,
         'message': message,
-        'timestamp': FieldValue.serverTimestamp(),
+         'timestamp': FieldValue.serverTimestamp(),
       });
+      print("Contact form submitted successfully!");
     } catch (e) {
-      if (kDebugMode) {
-        print('Error sending data to Firebase: $e');
+      print("Error submitting form: $e");
+    }
+  }
+
+  // Fetch Contact Messages
+  Future<List<Map<String, dynamic>>> getContactForms() async {
+    try {
+      QuerySnapshot querySnapshot = await contactCollection.orderBy('timestamp', descending: true).get();
+      return querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+    } catch (e) {
       }
     }
   }
 
 }
+
