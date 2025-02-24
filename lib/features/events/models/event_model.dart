@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Event {
+class EventsModel {
   final String id;
   final String name;
   final String description;
@@ -9,7 +9,7 @@ class Event {
   final String imageUrl; // For event image
   final String organizer; // Organizer's name or contact
 
-  Event({
+  EventsModel({
     required this.id,
     required this.name,
     required this.description,
@@ -19,9 +19,9 @@ class Event {
     required this.organizer,
   });
 
-  factory Event.fromFirestore(DocumentSnapshot doc) {
+  factory EventsModel.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
-    return Event(
+    return EventsModel(
       id: doc.id,
       name: data['name'],
       description: data['description'],

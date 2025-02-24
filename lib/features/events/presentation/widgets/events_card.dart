@@ -124,7 +124,7 @@ import 'package:ns_community_support_hub/features/events/models/event_model.dart
 
 
 class EventsCard extends StatelessWidget {
-  final Event event;
+  final EventsModel event;
   final double? containerWidth;
   final double? containerHeight;
   final double? imageHeight;

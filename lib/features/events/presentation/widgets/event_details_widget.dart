@@ -38,7 +38,7 @@ import 'package:ns_community_support_hub/features/events/models/event_model.dart
 
 
 class EventDetailsWidget extends StatelessWidget {
-  final Event event;
+  final EventsModel event;
 
   const EventDetailsWidget({super.key, required this.event});
 

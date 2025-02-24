@@ -1,15 +1,32 @@
-
+import 'dart:convert';
 import 'dart:io';
 import 'dart:html' as html;
-
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
+import 'dart:io' if (dart.library.html) 'dart:html' as platform;
+
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io' as io; // For File
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
+import 'dart:html'
+    as html; // TODO: removed this comment during android app build
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 class AddEventForm extends StatefulWidget {
   @override
@@ -20,9 +37,14 @@ class _AddEventFormState extends State<AddEventForm> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
-   final _locationController = TextEditingController();
+  final _locationController = TextEditingController();
   final _organizerController = TextEditingController();
   TextEditingController dateController = TextEditingController();
+
+  Timer? _debounceTimer; // Declare the debounce timer
+
+  double? latitude;
+  double? longitude;
 
   XFile? _imageFile;
   final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
@@ -85,6 +107,56 @@ class _AddEventFormState extends State<AddEventForm> {
           _imageFile = XFile.fromData(data, name: file.name);
         });
       });
+    });
+  }
+
+  Future<Map<String, double>?> getLatLongFromAddress(String address) async {
+    //  final String url = 'https://maps.googleapis.com/maps/api/geocode/json?address=${Uri.encodeComponent(address)}&key=$apiKey';
+    const String apiKey = 'AIzaSyD2wfPAi8BqN1_p9NB2ej5-gRxS-CY80PE';
+    final String url =
+        'https://maps.googleapis.com/maps/api/geocode/json?address=${_locationController.text}&key=$apiKey';
+
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['status'] == 'OK') {
+          final location = data['results'][0]['geometry']['location'];
+          final double lat = location['lat'];
+          final double lng = location['lng'];
+          return {'latitude': lat, 'longitude': lng};
+        } else {
+          print("Failed to get coordinates: ${data['status']}");
+          return null;
+        }
+      } else {
+        print("Failed to fetch data: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      print("Error: $e");
+      return null;
+    }
+  }
+
+  void _onAddressChanged(String address) {
+    if (_debounceTimer?.isActive ?? false) {
+      _debounceTimer?.cancel();
+    }
+
+    _debounceTimer = Timer(Duration(seconds: 2), () async {
+      if (address.isNotEmpty) {
+        final coords = await getLatLongFromAddress(address);
+        if (coords != null) {
+          setState(() {
+            latitude = coords['latitude'];
+            longitude = coords['longitude'];
+          });
+          print("Latitude: $latitude, Longitude: $longitude");
+        } else {
+          print("Failed to fetch coordinates");
+        }
+      }
     });
   }
 
@@ -157,26 +229,29 @@ class _AddEventFormState extends State<AddEventForm> {
       return;
     }
 
-    String eventName = _nameController.text;
-    String eventOrganizer = _organizerController.text;
-    String eventLocation = _locationController.text;
-    String eventDescription = _descriptionController.text;
+    String name = _nameController.text;
+    String organizer = _organizerController.text;
+    String location = _locationController.text;
+    String description = _descriptionController.text;
 
-    if (eventName.isEmpty ||
-        eventOrganizer.isEmpty ||
-        eventLocation.isEmpty ||
-        eventDescription.isEmpty) {
+    if (name.isEmpty ||
+        organizer.isEmpty ||
+        location.isEmpty ||
+        description.isEmpty) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('All fields are required')));
       return;
     }
 
+    String latLongString = "$latitude, $longitude";
     try {
       await FirebaseFirestore.instance.collection('events').add({
-        'name': eventName,
-        'organizer': eventOrganizer,
-        'location': eventLocation,
-        'description': eventDescription,
+        'name': name,
+        'organizer': organizer,
+
+        "location": "Latitude: $latitude, Longitude: $longitude",
+
+        'description': description,
         'date': _selectedDate!.toIso8601String(), // Safe null check
         'timestamp': Timestamp.now(),
       });
@@ -341,7 +416,7 @@ class _AddEventFormState extends State<AddEventForm> {
     );
   }
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -357,7 +432,6 @@ class _AddEventFormState extends State<AddEventForm> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   if (!isMobile) ...[
                     const SizedBox(width: 18),
                     Padding(
@@ -374,7 +448,6 @@ class _AddEventFormState extends State<AddEventForm> {
                       ),
                     ),
                   ],
-
                   Expanded(
                     child: Column(
                       children: [
@@ -389,9 +462,27 @@ class _AddEventFormState extends State<AddEventForm> {
                               controller: _descriptionController),
                           Column(
                             children: [
-                              _buildInputField('Location',
-                                  controller: _locationController),
+                              _buildInputField(
+                                'Location',
+                                controller: _locationController,
+                                onChanged: (value) {
+                                  _onAddressChanged(value);
+                                },
+                              ),
                               SizedBox(height: 16),
+                              //   Display Latitude and Longitude
+                              if (latitude != null && longitude != null) ...[
+                                Text("Latitude: $latitude",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
+                                Text("Longitude: $longitude",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
+                              ],
+                              SizedBox(height: 16),
+
                               _buildDatePickerField(context, 'Date'),
                             ],
                           ),
@@ -426,13 +517,14 @@ class _AddEventFormState extends State<AddEventForm> {
     );
   }
 
-   Widget _buildInputField(
+  Widget _buildInputField(
     String title, {
     bool isDropdown = false,
     bool isLink = false,
     bool isMultiline = false,
     List<String>? dropdownItems,
     TextEditingController? controller,
+    Function(String)? onChanged, // Add onChanged callback
     ValueNotifier<String?>? dropdownController,
   }) {
     // If it's a dropdown
@@ -447,6 +539,7 @@ class _AddEventFormState extends State<AddEventForm> {
           fillColor: Color(0xFFF2F2F2),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
+
             borderSide: BorderSide.none, // Removes the outline border
           ),
           contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -494,6 +587,7 @@ class _AddEventFormState extends State<AddEventForm> {
         labelStyle: GoogleFonts.nunito(color: AppTheme.textColor),
         suffixIcon: isLink ? Icon(Icons.link, color: Color(0xFF7A6FB5)) : null,
       ),
+      onChanged: onChanged, // Call onChanged when text changes
     );
   }
 
@@ -568,11 +662,8 @@ class _AddEventFormState extends State<AddEventForm> {
                     style: TextStyle(color: Colors.white),
                   ),
           )
-
-
         ],
       ),
     );
   }
 }
-
