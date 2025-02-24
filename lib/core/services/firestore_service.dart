@@ -13,8 +13,8 @@ class FirestoreService {
         snapshot.docs.map((doc) => Business.fromJson(doc.data())).toList());
   }
 
-  Stream<List<Event>> getEvents(){
-    return _db.collection(AppConstants.firebaseEvents).snapshots().map((snapshot) => snapshot.docs.map((doc) => Event.fromFirestore(doc),).toList(),);
+  Stream<List<EventsModel>> getEvents(){
+    return _db.collection(AppConstants.firebaseEvents).snapshots().map((snapshot) => snapshot.docs.map((doc) => EventsModel.fromFirestore(doc),).toList(),);
   }
 
   // Method to update a specific business

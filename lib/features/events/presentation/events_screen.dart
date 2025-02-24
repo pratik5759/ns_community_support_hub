@@ -73,7 +73,7 @@ class _EventsScreenState extends State<EventsScreen> {
                     itemCount: 1,
                     itemBuilder: (context, index) {
                       return EventsCard(
-                        event: Event(
+                        event: EventsModel(
                             id: 'id',
                             name: 'Navratri - Dandiya/Garba Nights 2024',
                             description: 'Please come and join us to celebrate Navratri Dandiya / Garba Nights 2024. Please bring your family & friends & Let\'s Play Dandiya and Garba. Navratri is b..',
