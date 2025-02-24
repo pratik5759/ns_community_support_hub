@@ -4,9 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
 import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
+import 'package:ns_community_support_hub/features/business_directory/models/business_model.dart';
 
-class BusinessPara extends StatelessWidget {
-  const BusinessPara({super.key});
+class BusinessDetailsSection extends StatelessWidget {
+  BusinessDetailsSection({super.key,required this.business});
+  Business business;
 
   List<TextSpan> getStyledParagraph(String paragraph) {
     List<String> boldPhrases = [

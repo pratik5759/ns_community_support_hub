@@ -12,6 +12,8 @@ import 'package:ns_community_support_hub/core/local/local_asstes/local_assets.da
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
 import 'package:ns_community_support_hub/features/business_directory/business_directory_provider.dart';
 import 'package:ns_community_support_hub/features/business_directory/models/business_model.dart';
+import 'package:ns_community_support_hub/features/business_directory/presentation/widgets/business_para.dart';
+import 'package:ns_community_support_hub/features/business_directory/presentation/widgets/business_related_section.dart';
 import 'package:provider/provider.dart';
 class BusinessDetailScreen extends StatefulWidget {
   Business business;
@@ -183,7 +185,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                       ),
                       SizedBox(height: 60),
 
-                      Center(child: RealtedBusinessSection()),
+                      Center(child: RelatedBusinessSection()),
 
                       SizedBox(height: 40),
 

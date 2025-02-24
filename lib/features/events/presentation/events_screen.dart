@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ns_community_support_hub/core/app_routes/route_names.dart';
@@ -11,12 +11,8 @@ import 'package:ns_community_support_hub/core/common_widgets/log_in_popup.dart';
 import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
 import 'package:ns_community_support_hub/core/services/auth_service.dart';
-import 'package:ns_community_support_hub/features/business_directory/presentation/widgets/business_card.dart';
-import 'package:ns_community_support_hub/features/business_directory/presentation/widgets/business_search_bar.dart';
 import 'package:ns_community_support_hub/features/events/models/event_model.dart';
-import 'package:ns_community_support_hub/features/events/presentation/add_event_screen.dart';
 import 'package:ns_community_support_hub/features/events/presentation/widgets/events_card.dart';
-import 'package:ns_community_support_hub/features/home_screen/presentation/widgets/home_events_list.dart';
 import 'package:provider/provider.dart';
 
 class EventsScreen extends StatefulWidget {

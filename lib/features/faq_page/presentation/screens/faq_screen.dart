@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
 import 'package:ns_community_support_hub/core/common_widgets/custom_app_bar.dart';
+import 'package:ns_community_support_hub/core/common_widgets/footer_bar.dart';
 import 'package:ns_community_support_hub/core/common_widgets/hero_section_with_page_name.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
+import 'package:ns_community_support_hub/features/faq_page/presentation/widgets/faq_p.dart';
 
-import '../../../../core/common_widgets/footer_bar.dart';
-import '../widgets/faq_p.dart';
 
 class FAQScreen extends StatefulWidget {
   const FAQScreen({super.key});

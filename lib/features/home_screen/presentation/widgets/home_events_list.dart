@@ -150,7 +150,6 @@ class EventsListCard extends StatelessWidget {
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
-import 'package:ns_community_support_hub/core/common_widgets/star_rating_bar_diasplay.dart';
 import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
 

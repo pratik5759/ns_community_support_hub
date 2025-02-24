@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ns_community_support_hub/core/common_widgets/custom_app_bar.dart';
 import 'package:ns_community_support_hub/core/common_widgets/footer_bar.dart';
 import 'package:ns_community_support_hub/core/common_widgets/hero_section_with_page_name.dart';
