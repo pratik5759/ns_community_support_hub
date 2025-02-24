@@ -99,12 +99,11 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
         path: WebRouteNames.eventsDetails,
         builder: (context, state) {
-          if (state.extra == null || state.extra is! Business) {
+          if (state.extra == null || state.extra is! EventsModel) {
             return PageNotFoundScreen();
           }
-          final eventData = state.extra as EventsModel;
-          return EventDetailsScreen(event: eventData,
-          );
+          final _eventData = state.extra as EventsModel;
+          return EventDetailsScreen(event: _eventData);
         }
         //builder: (context, state) => EventDetailsScreen(),
         ),
