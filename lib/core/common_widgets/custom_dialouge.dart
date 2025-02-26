@@ -31,65 +31,81 @@ class AppDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
-
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       backgroundColor: const Color(0xFFEDF0FF),
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: screenWidth * 0.06,
-          vertical: screenHeight * 0.03,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              message,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.nunito(
-                color: const Color(0xFF505050),
-                fontSize: screenWidth * 0.05,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            SizedBox(height: screenHeight * 0.04),
-            Opacity(
-              opacity: 0.68,
-              child: Image.asset(_getImage(), width: screenWidth * 0.4, height: screenWidth * 0.4),
-            ),
-            SizedBox(height: screenHeight * 0.04),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF7A6FB5),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding: EdgeInsets.symmetric(vertical: screenHeight * 0.015),
-                ),
-                onPressed: onTap,
-                child: Text(
-                  buttonTitle,
-                  style: GoogleFonts.nunito(
-                    color: Colors.white,
-                    fontSize: screenWidth * 0.045,
-                    fontWeight: FontWeight.w700,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          bool isMobile = constraints.maxWidth < 600;
+          double dialogWidth = isMobile ? constraints.maxWidth * 0.9 : constraints.maxWidth * 0.4;
+          double imageSize = isMobile ? dialogWidth * 0.35 : dialogWidth * 0.25;
+
+          return Container(
+            width: dialogWidth,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+
+                // Message
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.nunito(
+                      color: const Color(0xFF505050),
+                      fontSize: isMobile ? 16 : 18,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
-              ),
+                const SizedBox(height: 16),
+                // Image
+                SizedBox(
+                  width: imageSize,
+                  height: imageSize,
+                  child: Image.asset(
+                    _getImage(),
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                const SizedBox(height: 24),
+
+
+                // Button
+                SizedBox(
+                  width: isMobile ? dialogWidth * 0.6 : 160,
+                  height: 45,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF7A6FB5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: onTap,
+                    child: Text(
+                      buttonTitle,
+                      style: GoogleFonts.nunito(
+                        color: Colors.white,
+                        fontSize: isMobile ? 16 : 18,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
 }
 
-// Usage example
+// Usage function to show dialog
 void showAppDialog(BuildContext context, String message, DialogType type, String buttonTitle, VoidCallback onTap) {
   showDialog(
     context: context,

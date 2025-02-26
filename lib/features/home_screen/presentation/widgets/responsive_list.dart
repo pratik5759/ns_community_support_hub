@@ -94,9 +94,9 @@ class ResponsiveListView extends StatelessWidget {
           return Column(
             children: [
               // Ensure the items are aligned in a grid-like manner with flexibility
-              MediaQuery.removePadding( 
-                removeTop: true,
+              MediaQuery.removePadding(
                 context: context,
+                removeTop: true,
                 child: GridView.builder(
                   shrinkWrap: true, // Makes it scrollable when necessary
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -130,8 +130,9 @@ class ResponsiveListView extends StatelessWidget {
                             child: Text(
                               AppConstants.itemLists[index].text,
                               textAlign: TextAlign.center,
+                              overflow: TextOverflow.fade,
                               style: AppConstants.nunitoMediumW500.copyWith(
-                                fontSize: 16, // Fixed font size for web
+                                fontSize: !isSmallScreen? 16 : 14, // Fixed font size for web
                               ),
                             ),
                           ),

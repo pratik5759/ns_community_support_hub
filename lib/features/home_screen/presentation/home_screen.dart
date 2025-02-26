@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
 import 'package:ns_community_support_hub/core/common_widgets/custom_app_bar.dart';
+import 'package:ns_community_support_hub/core/common_widgets/custom_drawer.dart';
 import 'package:ns_community_support_hub/core/common_widgets/footer_bar.dart';
 import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_asstes/local_assets.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
 import 'package:ns_community_support_hub/features/business_directory/business_directory_provider.dart';
+import 'package:ns_community_support_hub/features/events/events_provider.dart';
 import 'package:ns_community_support_hub/features/home_screen/presentation/widgets/home_business_list.dart';
 import 'package:ns_community_support_hub/features/home_screen/presentation/widgets/home_events_list.dart';
 import 'package:ns_community_support_hub/features/home_screen/presentation/widgets/responsive_list.dart';
@@ -29,11 +31,14 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     var val = context.read<BusinessDirectoryProvider>();
-    Future.microtask(() => val.loadCategories());
+    //var events = context.read<EventsProvider>();
+    Future.microtask(() => val.loadBusinesses());
   }
 
   @override
   Widget build(BuildContext context) {
+
+    GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
 
 
@@ -42,7 +47,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
       extendBodyBehindAppBar: true,
 
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(scaffoldKey: scaffoldKey,),
+      drawer: CustomDrawer(),
 
       body: SingleChildScrollView(
         child: Column(

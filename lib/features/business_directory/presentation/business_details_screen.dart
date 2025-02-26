@@ -31,7 +31,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
         backgroundColor: Colors.white,
         extendBodyBehindAppBar: true,
         //backgroundColor: AppTheme.primaryColor,
-        appBar: CustomAppBar(),
+        appBar: CustomAppBar(scaffoldKey: AppConstants.scaffoldKey,),
         body: Consumer<BusinessDirectoryProvider>(
           builder: (BuildContext context, value, Widget? child) {
             return SingleChildScrollView(

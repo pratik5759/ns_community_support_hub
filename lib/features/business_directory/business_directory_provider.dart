@@ -80,6 +80,9 @@ class BusinessDirectoryProvider extends ChangeNotifier {
   List<CategoryModel> categories = [];
 
 
+  StreamSubscription<List<Business>>? _businessSubscription; // Stores Firestore listener subscription
+
+
   @override
   void dispose() {
     nameController.dispose();
@@ -89,7 +92,7 @@ class BusinessDirectoryProvider extends ChangeNotifier {
     phoneNumberController.dispose();
     locationController.dispose();
     websiteController.dispose();
-    searchBarController.dispose();
+    //searchBarController.dispose();
     isHomeSearch = false;
     super.dispose();
   }
@@ -122,31 +125,123 @@ class BusinessDirectoryProvider extends ChangeNotifier {
   //   notifyListeners();
   // }
 
+  // Future<void> loadBusinesses() async {
+  //   _isLoading = true;
+  //   notifyListeners();
+  //
+  //   _fireStoreService.getBusinesses().listen((businesses) async {
+  //     _allBusinesses = businesses;
+  //
+  //     // Only update _displayedBusinesses if a search filter is NOT active
+  //     if (searchBarController.text.isEmpty) {
+  //       // No search active, show all businesses
+  //       _displayedBusinesses = [..._allBusinesses];
+  //     } else {
+  //       // Search is active, reapply the filter
+  //       filterSearchBusiness();
+  //     }
+  //
+  //     notifyListeners(); // Notify UI to rebuild
+  //
+  //     // Fetch and update average ratings efficiently
+  //     await _updateBusinessRatings();
+  //   });
+  //
+  //   _isLoading = false;
+  //   notifyListeners();
+  // }
+  //
+  // Future<void> filterSearchBusiness() async {
+  //   _isLoading = true;
+  //   notifyListeners();
+  //   print('🔄 Loading started');
+  //
+  //   var filteredList = <Business>[];
+  //   try {
+  //     String searchString = searchBarController.text.toLowerCase();
+  //     print('🔍 Searching for: "$searchString"');
+  //
+  //     print('📊 Total businesses before filtering: ${allBusinesses.length}');
+  //
+  //     filteredList = allBusinesses.where((business) {
+  //       final nameMatch = business.name.toLowerCase().contains(searchString);
+  //       final categoryMatch = business.category.toLowerCase().contains(searchString);
+  //
+  //       return nameMatch || categoryMatch;
+  //     }).toList();
+  //
+  //     print('✅ Filtered businesses count: ${filteredList.length}');
+  //
+  //     _displayedBusinesses = filteredList;
+  //
+  //     if (filteredList.isEmpty) {
+  //       print('⚠️ No results found');
+  //       _displayedBusinesses = [];
+  //     }
+  //
+  //     _isLoading = false;
+  //     notifyListeners();
+  //     print('✅ Loading completed');
+  //
+  //   } catch (e) {
+  //     _isLoading = false;
+  //     notifyListeners();
+  //     print('❌ Error during search: ${e.toString()}');
+  //   }
+  // }
+
+
   Future<void> loadBusinesses() async {
     _isLoading = true;
     notifyListeners();
 
-    _fireStoreService.getBusinesses().listen((businesses) async {
-      _allBusinesses = businesses;
+    // Cancel any previous Firestore subscription to prevent memory leaks
+    _businessSubscription?.cancel();
 
-      // Only update _displayedBusinesses if a search filter is NOT active
-      if (searchBarController.text.isEmpty) {
-        // No search active, show all businesses
-        _displayedBusinesses = [..._allBusinesses];
-      } else {
-        // Search is active, reapply the filter
-        filterSearchBusiness();
+    _businessSubscription = _fireStoreService.getBusinesses().listen((businesses) async {
+      if (_allBusinesses != businesses) {  // Prevent unnecessary updates
+        _allBusinesses = businesses;
+
+        if (searchBarController.text.isEmpty) {
+          _displayedBusinesses = [..._allBusinesses];
+        } else {
+          await filterSearchBusiness();
+        }
+
+        notifyListeners();
+        await _updateBusinessRatings();  // Only update ratings when businesses change
       }
 
-      notifyListeners(); // Notify UI to rebuild
-
-      // Fetch and update average ratings efficiently
-      await _updateBusinessRatings();
+      _isLoading = false;
+      notifyListeners();
     });
-
-    _isLoading = false;
-    notifyListeners();
   }
+
+  Future<void> filterSearchBusiness() async {
+    _isLoading = true;
+    notifyListeners();
+
+    Future.delayed(Duration.zero, () {
+      try {
+        String searchString = searchBarController.text.toLowerCase();
+
+        _displayedBusinesses = _allBusinesses.where((business) {
+          final nameMatch = business.name.toLowerCase().contains(searchString);
+          final categoryMatch = business.category.toLowerCase().contains(searchString);
+          return nameMatch || categoryMatch;
+        }).toList();
+
+      } catch (e) {
+        print('❌ Error during search: ${e.toString()}');
+      } finally {
+        _isLoading = false;
+        notifyListeners();
+      }
+    });
+  }
+
+
+
 
 
   /// Fetch and update ratings for all businesses
@@ -452,79 +547,6 @@ class BusinessDirectoryProvider extends ChangeNotifier {
     });
   }
 
-  // Future<void> filterSearchBusiness() async {
-  //   _isLoading = true;
-  //   notifyListeners();
-  //   var filteredList = <Business>[];
-  //   try {
-  //     String searchString = searchBarController.text.toLowerCase();
-  //
-  //     filteredList = allBusinesses
-  //         .where((business) {
-  //       final nameMatch = business.name.toLowerCase().contains(searchString);
-  //       //final stateMatch = business.currentState.toLowerCase().contains(searchString);
-  //       //final originStateMatch = business.ownerOriginState.toLowerCase().contains(searchString);
-  //       final categoryMatch = business.category.toLowerCase().contains(searchString);
-  //
-  //       return nameMatch || categoryMatch /*|| stateMatch || originStateMatch*/;
-  //     }).toList();
-  //
-  //     _displayedBusinesses = filteredList;
-  //
-  //     // If no businesses match the search, show "No results found"
-  //     if (filteredList.isEmpty) {
-  //       _displayedBusinesses = [];
-  //     } else {
-  //       _displayedBusinesses = filteredList;
-  //     }
-  //
-  //     _isLoading = false;
-  //     notifyListeners();
-  //
-  //   } catch (e) {
-  //     if (kDebugMode) {
-  //       print('Error during search: ${e.toString()}');
-  //     }
-  //   }
-  // }
-  Future<void> filterSearchBusiness() async {
-    _isLoading = true;
-    notifyListeners();
-    print('🔄 Loading started');
-
-    var filteredList = <Business>[];
-    try {
-      String searchString = searchBarController.text.toLowerCase();
-      print('🔍 Searching for: "$searchString"');
-
-      print('📊 Total businesses before filtering: ${allBusinesses.length}');
-
-      filteredList = allBusinesses.where((business) {
-        final nameMatch = business.name.toLowerCase().contains(searchString);
-        final categoryMatch = business.category.toLowerCase().contains(searchString);
-
-        return nameMatch || categoryMatch;
-      }).toList();
-
-      print('✅ Filtered businesses count: ${filteredList.length}');
-
-      _displayedBusinesses = filteredList;
-
-      if (filteredList.isEmpty) {
-        print('⚠️ No results found');
-        _displayedBusinesses = [];
-      }
-
-      _isLoading = false;
-      notifyListeners();
-      print('✅ Loading completed');
-
-    } catch (e) {
-      _isLoading = false;
-      notifyListeners();
-      print('❌ Error during search: ${e.toString()}');
-    }
-  }
 
 
 
