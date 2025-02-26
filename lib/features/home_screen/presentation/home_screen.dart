@@ -39,9 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      //extendBodyBehindAppBar: true,
-      //backgroundColor: AppTheme.primaryColor,
-      //appBar: CustomAppBar(height: 88),
+
       extendBodyBehindAppBar: true,
 
       appBar: CustomAppBar(),
@@ -51,41 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /*/// hero section
-            Container(
-              color: AppTheme.primaryColor,
-              height: AppConstants.paddingFromTopForAppBar,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 28),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 120),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      /// text and search bar section
-                      Column(
-                        spacing: 36,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(LocalStrings.heroHeading,style: AppConstants.nunitoBigWhiteW700,),
-                          Text(LocalStrings.heroSubHeading,style: AppConstants.nunitoMediumWhiteW500,),
-                          // const SizedBox(
-                          //   height: 26,
-                          // ),
-                          CustomSearchBar(height: 48,width: 600,)
 
-                        ],
-                      ),
-
-                      /// hero image
-                      Image.asset(LocalAssets.heroSectionImage)
-                    ],
-                  ),
-                ),
-              ),
-            ),
-*/
 
 
             /// Hero Section
