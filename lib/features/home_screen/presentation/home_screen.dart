@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
 import 'package:ns_community_support_hub/core/common_widgets/custom_app_bar.dart';
+import 'package:ns_community_support_hub/core/common_widgets/custom_drawer.dart';
 import 'package:ns_community_support_hub/core/common_widgets/footer_bar.dart';
 import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_asstes/local_assets.dart';
@@ -37,6 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
 
+    GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
 
 
     return Scaffold(
@@ -46,7 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
       //appBar: CustomAppBar(height: 88),
       extendBodyBehindAppBar: true,
 
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(scaffoldKey: scaffoldKey,),
+      drawer: CustomDrawer(),
 
       body: SingleChildScrollView(
         child: Column(

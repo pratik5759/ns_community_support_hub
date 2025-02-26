@@ -170,6 +170,7 @@
 import 'package:flutter/material.dart';
  import 'package:ns_community_support_hub/core/common_widgets/custom_app_bar.dart';
 import 'package:ns_community_support_hub/core/common_widgets/hero_section_with_page_name.dart';
+import 'package:ns_community_support_hub/core/local/app_constants.dart';
 
 import '../../../../core/common_widgets/footer_bar.dart';
 import '../../../../core/local/local_asstes/local_assets.dart';
@@ -192,7 +193,7 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
-      appBar: const CustomAppBar(height: 88),
+      appBar: CustomAppBar(scaffoldKey: AppConstants.scaffoldKey,),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

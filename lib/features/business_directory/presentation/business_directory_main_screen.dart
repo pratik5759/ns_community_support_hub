@@ -119,7 +119,7 @@ class _BusinessDirectoryScreenState extends State<BusinessDirectoryScreen> {
   @override
   void initState() {
     super.initState();
-    debugPrint("initState called");
+    debugPrint("initState called of business details called");
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       debugPrint("addPostFrameCallback triggered");
@@ -141,6 +141,23 @@ class _BusinessDirectoryScreenState extends State<BusinessDirectoryScreen> {
     });
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    debugPrint('Dispose called');
+      Future.microtask(() {
+        debugPrint('Dispose called 1');
+        if(!mounted){
+          debugPrint('Dispose called2');
+          context.read<BusinessDirectoryProvider>().searchBarController.dispose();
+          context.read<BusinessDirectoryProvider>().searchBarController.clear();
+        }
+      },);
+  }
+
+
+
 
 
   @override
@@ -148,7 +165,7 @@ class _BusinessDirectoryScreenState extends State<BusinessDirectoryScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(scaffoldKey: AppConstants.scaffoldKey,),
       body: Consumer<BusinessDirectoryProvider>(
         builder: (context, value, child) {
           return SingleChildScrollView(
@@ -234,7 +251,7 @@ class _BusinessDirectoryScreenState extends State<BusinessDirectoryScreen> {
                     ),
                   ),
                 ),
-                Visibility(visible: value.displayedBusinesses.isEmpty,child: SizedBox(height: MediaQuery.of(context).size.height * 0.25,child: Center(child: Text("No Businesses to show !",style: GoogleFonts.nunito(fontSize: 24),)))),
+                Visibility(visible: value.displayedBusinesses.isEmpty,child: SizedBox(height: MediaQuery.of(context).size.height * 0.28,child: Center(child: Text("No Businesses to show !",style: GoogleFonts.nunito(fontSize: 24),)))),
 
 
 

@@ -73,6 +73,9 @@ import 'package:ns_community_support_hub/core/local/models/items_model.dart';
 
 class AppConstants {
 
+  static final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+
 
   static String mapApiKey = 'AIzaSyD2wfPAi8BqN1_p9NB2ej5-gRxS-CY80PE';
 

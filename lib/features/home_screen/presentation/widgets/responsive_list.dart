@@ -130,8 +130,9 @@ class ResponsiveListView extends StatelessWidget {
                             child: Text(
                               AppConstants.itemLists[index].text,
                               textAlign: TextAlign.center,
+                              overflow: TextOverflow.fade,
                               style: AppConstants.nunitoMediumW500.copyWith(
-                                fontSize: 16, // Fixed font size for web
+                                fontSize: !isSmallScreen? 16 : 14, // Fixed font size for web
                               ),
                             ),
                           ),

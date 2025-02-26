@@ -112,6 +112,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ns_community_support_hub/core/common_widgets/custom_app_bar.dart';
+import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/features/my_profile/my_screen_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:ns_community_support_hub/core/services/models/user_model.dart';
@@ -144,7 +145,7 @@ class _MyProfileDetailsScreenState extends State<MyProfileDetailsScreen> {
 
         return Scaffold(
           extendBodyBehindAppBar: true,
-          appBar: CustomAppBar(),
+          appBar: CustomAppBar(scaffoldKey: AppConstants.scaffoldKey,),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(

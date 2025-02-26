@@ -318,7 +318,7 @@ class _AboutScreenState extends State<AboutScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
-      appBar: CustomAppBar(height: 88),
+      appBar: CustomAppBar(height: 88,scaffoldKey: AppConstants.scaffoldKey,),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

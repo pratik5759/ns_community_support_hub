@@ -165,7 +165,7 @@ class _ContactScreenState extends State<ContactScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
-      appBar: CustomAppBar(height: 88),
+      appBar: CustomAppBar(height: 88,scaffoldKey: AppConstants.scaffoldKey,),
       body: LayoutBuilder(
         builder: (context, constraints) {
           double maxWidth = constraints.maxWidth;

@@ -4,6 +4,7 @@ import 'package:ns_community_support_hub/core/app_routes/route_names.dart';
 import 'package:ns_community_support_hub/core/common_widgets/custom_app_bar.dart';
 import 'package:ns_community_support_hub/core/common_widgets/footer_bar.dart';
 import 'package:ns_community_support_hub/core/common_widgets/hero_section_with_page_name.dart';
+import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
 import 'package:ns_community_support_hub/features/business_directory/business_directory_provider.dart';
 import 'package:ns_community_support_hub/features/business_directory/presentation/widgets/add_business_form.dart';
@@ -43,7 +44,7 @@ class _AddBusinessScreenState extends State<AddBusinessScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(scaffoldKey: AppConstants.scaffoldKey,),
       extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
         child: Column(

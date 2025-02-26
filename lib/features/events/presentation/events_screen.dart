@@ -27,7 +27,7 @@ class _EventsScreenState extends State<EventsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(scaffoldKey: AppConstants.scaffoldKey,),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(

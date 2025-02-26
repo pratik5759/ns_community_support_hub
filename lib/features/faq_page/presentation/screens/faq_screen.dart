@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ns_community_support_hub/core/common_widgets/custom_app_bar.dart';
 import 'package:ns_community_support_hub/core/common_widgets/footer_bar.dart';
 import 'package:ns_community_support_hub/core/common_widgets/hero_section_with_page_name.dart';
+import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
 import 'package:ns_community_support_hub/features/faq_page/presentation/widgets/faq_p.dart';
 
@@ -20,7 +21,7 @@ class _FAQScreenState extends State<FAQScreen> {
         backgroundColor: Colors.white,
         extendBodyBehindAppBar: true,
         //backgroundColor: AppTheme.primaryColor,
-        appBar: CustomAppBar(height: 88),
+        appBar: CustomAppBar(scaffoldKey: AppConstants.scaffoldKey,),
         body: SingleChildScrollView(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,

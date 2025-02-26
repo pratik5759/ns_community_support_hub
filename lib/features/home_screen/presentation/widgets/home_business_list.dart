@@ -323,21 +323,21 @@ class HomeBusinessList extends StatelessWidget {
     double containerHeight = containerWidth * 1.18;
 
     // Dynamic image dimensions based on container size
-    double imageWidth = containerWidth * 0.9;  // 90% of the container width
-    double imageHeight = containerHeight * 0.6; // 60% of the container height
+    // double imageWidth = containerWidth * 0.9;  // 90% of the container width
+    // double imageHeight = containerHeight * 0.6; // 60% of the container height
 
     // Determine if the screen is small and adjust layout accordingly
     bool isSmallScreen = screenWidth < 600; // Small screen threshold
     if (isSmallScreen) {
-      containerWidth = screenWidth * 0.45; // Wider containers on small screens
-      imageHeight = 150; // Smaller images for small screens
+      containerWidth = screenWidth * 0.64; // Wider containers on small screens
+      //imageHeight = 150; // Smaller images for small screens
       containerHeight = containerWidth * 1.2; // Adjust container height for smaller screens
     }
 
     return Container(
       height: containerHeight,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: AppConstants.fullPagePaddingHorizontal),
+        padding: EdgeInsets.symmetric(horizontal: AppConstants.fullPagePaddingHorizontal,vertical: 4),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -372,8 +372,8 @@ class BusinessListCard extends StatelessWidget {
       child: FittedBox(
         child: Container(
           margin: const EdgeInsets.all(8.0),
-          width: 448, // Fixed width
-          height: 448, // Fixed height
+          width: /*!isSmallScreen ? 448 : 500*/448, // Fixed width
+          height: /*!isSmallScreen ? 448 : 550*/448, // Fixed height
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             color: Colors.white,
@@ -402,7 +402,7 @@ class BusinessListCard extends StatelessWidget {
                       errorBuilder: (context, error, stackTrace) {
                         return Image.asset(
                           'assets/images/image_not_availible_img.png',
-                          width: 400,
+                          width: 412,
                           height: 180,
                           fit: BoxFit.fitWidth,
                         );
