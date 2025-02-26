@@ -26,6 +26,13 @@ class BusinessDetailScreen extends StatefulWidget {
 class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
@@ -185,7 +192,8 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                       ),
                       SizedBox(height: 60),
 
-                      Center(child: RelatedBusinessSection()),
+
+                      RelatedBusinessSection(/*displayList: value.filteredBusinesses,*/),
 
                       SizedBox(height: 40),
 

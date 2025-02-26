@@ -148,7 +148,7 @@ class _BusinessDirectoryScreenState extends State<BusinessDirectoryScreen> {
     debugPrint('Dispose called');
       Future.microtask(() {
         debugPrint('Dispose called 1');
-        if(!mounted){
+        if(mounted){
           debugPrint('Dispose called2');
           context.read<BusinessDirectoryProvider>().searchBarController.dispose();
           context.read<BusinessDirectoryProvider>().searchBarController.clear();

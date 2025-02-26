@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -103,10 +104,12 @@ class BusinessDirectoryProvider extends ChangeNotifier {
   List<Business> _allBusinesses = [];
   List<Business> _displayedBusinesses = [];
   List<Business> _filteredBusinesses = [];
+  List<Business> _relatedBusinesses = [];
 
   List<Business> get allBusinesses => _allBusinesses;
   List<Business> get displayedBusinesses => _displayedBusinesses;
   List<Business> get filteredBusinesses => _filteredBusinesses;
+  List<Business> get relatedBusinesses => _relatedBusinesses;
 
   /// Load businesses from Firestore
   // Future<void> loadBusinesses() async {
@@ -636,6 +639,97 @@ class BusinessDirectoryProvider extends ChangeNotifier {
       reviewController.clear();
       notifyListeners();
   }
+
+
+
+
+  // void fetchRelatedBusinesses(Business selectedBusiness) {
+  //   _isLoading = true; // Start loading
+  //   notifyListeners();
+  //
+  //   relatedBusinesses.clear();
+  //
+  //   // Filter businesses based on category, location, or rating criteria
+  //   List<Business> filteredBusinesses = allBusinesses.where((business) {
+  //     if (business.id == selectedBusiness.id) return false; // Skip selected business
+  //
+  //     bool sameCategory = business.category == selectedBusiness.category;
+  //     bool sameLocation = business.location == selectedBusiness.location;
+  //     bool similarRating = (business.averageRating - selectedBusiness.averageRating).abs() <= 1.0;
+  //
+  //     return sameCategory && (sameLocation || similarRating);
+  //   }).toList();
+  //
+  //   // Sort by rating (highest first), considering both average rating and review count
+  //   filteredBusinesses.sort((a, b) {
+  //     if (b.averageRating == a.averageRating) {
+  //       return b.reviewCount.compareTo(a.reviewCount); // Prioritize businesses with more reviews
+  //     }
+  //     return b.averageRating.compareTo(a.averageRating);
+  //   });
+  //
+  //   // Get random top 3 businesses
+  //   final random = Random();
+  //   if (filteredBusinesses.length > 3) {
+  //     filteredBusinesses = filteredBusinesses.sublist(0, min(5, filteredBusinesses.length)); // Pick top 5
+  //     filteredBusinesses.shuffle(random); // Shuffle the top-rated ones
+  //     relatedBusinesses.addAll(filteredBusinesses.take(3)); // Take 3 randomly
+  //   } else {
+  //     relatedBusinesses.addAll(filteredBusinesses); // If less than 3, add all
+  //   }
+  //
+  //   _isLoading = false; // Stop loading
+  //   notifyListeners();
+  // }
+
+  void fetchRelatedBusinesses(Business selectedBusiness) {
+    _isLoading = true;
+    notifyListeners();
+
+    relatedBusinesses.clear();
+
+    String selectedCategory = selectedBusiness.category.trim().toLowerCase();
+
+    if (_allBusinesses.isEmpty) {
+      _isLoading = false;
+      notifyListeners();
+      return;
+    }
+
+    List<Business> filteredBusinesses = _allBusinesses.where((business) {
+      if (business.id == selectedBusiness.id) return false;
+      return business.category.trim().toLowerCase() == selectedCategory;
+    }).toList();
+
+    if (filteredBusinesses.isEmpty) {
+      _isLoading = false;
+      notifyListeners();
+      return;
+    }
+
+    // Sort by rating (highest first), considering review count for tie-breaking
+    filteredBusinesses.sort((a, b) {
+      if (b.averageRating == a.averageRating) {
+        return b.reviewCount.compareTo(a.reviewCount);
+      }
+      return b.averageRating.compareTo(a.averageRating);
+    });
+
+    if (filteredBusinesses.length > 3) {
+      // Take the top 5 businesses
+      List<Business> topBusinesses = filteredBusinesses.sublist(0, min(5, filteredBusinesses.length));
+
+      // Shuffle and pick 3 randomly from top 5
+      topBusinesses.shuffle();
+      relatedBusinesses.addAll(topBusinesses.take(3));
+    } else {
+      relatedBusinesses.addAll(filteredBusinesses);
+    }
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
 
   void initialLoad(){
     loadBusinesses();
