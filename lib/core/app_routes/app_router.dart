@@ -18,7 +18,6 @@ import 'package:ns_community_support_hub/features/privacy_policy/presentation/sc
 import 'package:ns_community_support_hub/features/terms/presentation/screens/terms_screen.dart';
 import 'package:universal_html/html.dart';
 
-import '../../features/events/models/event_model.dart';
 
 
 final GoRouter appRouter = GoRouter(

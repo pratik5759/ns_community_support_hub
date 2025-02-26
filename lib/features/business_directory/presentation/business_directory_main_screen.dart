@@ -245,7 +245,7 @@ class _BusinessDirectoryScreenState extends State<BusinessDirectoryScreen> {
                               Business currentBusiness = value.displayedBusinesses[index];
                               return BusinessCard(business: currentBusiness);
                             },
-                                                   ),
+                           ),
                          );
                       },
                     ),

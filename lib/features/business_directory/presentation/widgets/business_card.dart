@@ -130,7 +130,9 @@ class BusinessCard extends StatelessWidget {
 */
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ns_community_support_hub/core/app_routes/route_names.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
 import 'package:ns_community_support_hub/core/common_widgets/star_rating_bar_diasplay.dart';
 import 'package:ns_community_support_hub/core/local/app_constants.dart';
@@ -248,17 +250,20 @@ class BusinessCard extends StatelessWidget {
             const SizedBox(height: 28), // Adjust spacing before button
             Align(
               alignment: Alignment.centerLeft,
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-                decoration: BoxDecoration(
-                  color: AppTheme.primaryColor,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  LocalStrings.viewMore,
-                  style: GoogleFonts.nunito(
-                    color: Colors.white,
-                    fontSize: isSmallScreen ? 14 : AppConstants.mediumFontSize,
+              child: GestureDetector(
+                onTap: () => context.go(WebRouteNames.businessDetails,extra:business),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+                  decoration: BoxDecoration(
+                    color: AppTheme.primaryColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    LocalStrings.viewMore,
+                    style: GoogleFonts.nunito(
+                      color: Colors.white,
+                      fontSize: isSmallScreen ? 14 : AppConstants.mediumFontSize,
+                    ),
                   ),
                 ),
               ),
