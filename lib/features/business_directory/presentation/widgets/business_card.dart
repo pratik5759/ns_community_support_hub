@@ -206,7 +206,7 @@ class BusinessCard extends StatelessWidget {
                         return Image.asset(
                           width: imageWidth,
                           height: imageHeight,
-                          'assets/images/image_not_availible_img.png', // Replace with your asset image path
+                          'assets/images/image_not_available_img.png', // Replace with your asset image path
                           fit: BoxFit.fitWidth,
                         );
                       },

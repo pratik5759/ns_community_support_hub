@@ -16,7 +16,9 @@ import 'package:ns_community_support_hub/features/my_profile/presentation/my_pro
 import 'package:ns_community_support_hub/features/pageNotFound404/presentation/page_not_found_screen.dart';
 import 'package:ns_community_support_hub/features/privacy_policy/presentation/screens/privacy_policy.dart';
 import 'package:ns_community_support_hub/features/terms/presentation/screens/terms_screen.dart';
+import 'package:universal_html/html.dart';
 
+import '../../features/events/models/event_model.dart';
 
 
 final GoRouter appRouter = GoRouter(
@@ -94,6 +96,7 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: WebRouteNames.events,
       builder: (context, state) => EventsScreen(),
+
     ),
     GoRoute(
         path: WebRouteNames.eventsDetails,

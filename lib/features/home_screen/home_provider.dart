@@ -18,7 +18,7 @@ import 'package:ns_community_support_hub/core/services/models/user_model.dart';
 import 'package:ns_community_support_hub/features/business_directory/models/category_model.dart';
 import 'package:ns_community_support_hub/features/events/models/event_model.dart';
 
-class EventProvider extends ChangeNotifier {
+class HomeProvider extends ChangeNotifier {
   final FirestoreService _fireStoreService = FirestoreService();
 
   // String? apiKey = AppConstants.mapApiKey; // Replace with your actual API key
@@ -68,6 +68,7 @@ class EventProvider extends ChangeNotifier {
   List<EventsModel> get filteredevent => _filteredevent;
 
   Future<void> loadEvents() async {
+
     debugPrint('Load Events called');
     _isLoading = true;
     notifyListeners();
@@ -82,5 +83,13 @@ class EventProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // void deleteEvent(String eventId) {
+  //   allEvents.removeWhere((event) => event.id == eventId);
+  //   notifyListeners(); // Notify UI of changes
+  // }
 
+
+  void initialLoad() {
+    loadEvents();
+  }
 }

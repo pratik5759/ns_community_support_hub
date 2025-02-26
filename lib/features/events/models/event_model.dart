@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class EventsModel {
+  class EventsModel {
   final String id;
   final String name;
   final String description;

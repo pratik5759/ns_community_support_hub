@@ -64,17 +64,32 @@ class EventDetailsWidget extends StatelessWidget {
           // Event image at the top for mobile view
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.network(
+            child:
+            Image.network(
               event.imageUrl,
-              width: imageWidth,
-              height: imageHeight,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => Icon(
-                Icons.broken_image,
-                size: imageWidth * 0.6,
-                color: Colors.grey,
-              ),
+              width: 400,
+              height: 180,
+              fit: BoxFit.fitWidth,
+              errorBuilder: (context, error, stackTrace) {
+                return Image.asset(
+                  'assets/images/image_not_available_img.png',
+                  width: 412,
+                  height: 180,
+                  fit: BoxFit.fitWidth,
+                );
+              },
             ),
+            // Image.network(
+            //   event.imageUrl,
+            //   width: imageWidth,
+            //   height: imageHeight,
+            //   fit: BoxFit.cover,
+            //   errorBuilder: (context, error, stackTrace) => Icon(
+            //     Icons.broken_image,
+            //     size: imageWidth * 0.6,
+            //     color: Colors.grey,
+            //   ),
+            // ),
           ),
           const SizedBox(height: 16),
           // Event details below image for mobile view
@@ -90,17 +105,32 @@ class EventDetailsWidget extends StatelessWidget {
           // Event image on the right for larger screens
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.network(
+            child:
+            Image.network(
               event.imageUrl,
-              width: imageWidth,
-              height: imageHeight,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => Icon(
-                Icons.broken_image,
-                size: imageWidth * 0.6,
-                color: Colors.grey,
-              ),
+              width: 400,
+              height: 180,
+              fit: BoxFit.fitWidth,
+              errorBuilder: (context, error, stackTrace) {
+                return Image.asset(
+                  'assets/images/image_not_available_img.png',
+                  width: 412,
+                  height: 180,
+                  fit: BoxFit.fitWidth,
+                );
+              },
             ),
+            // Image.network(
+            //   event.imageUrl,
+            //   width: imageWidth,
+            //   height: imageHeight,
+            //   fit: BoxFit.cover,
+            //   errorBuilder: (context, error, stackTrace) => Icon(
+            //     Icons.broken_image,
+            //     size: imageWidth * 0.6,
+            //     color: Colors.grey,
+            //   ),
+            // ),
           ),
         ],
       ),

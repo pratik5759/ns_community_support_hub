@@ -94,48 +94,52 @@ class ResponsiveListView extends StatelessWidget {
           return Column(
             children: [
               // Ensure the items are aligned in a grid-like manner with flexibility
-              GridView.builder(
-                shrinkWrap: true, // Makes it scrollable when necessary
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: isSmallScreen ? 2 : 4, // Adjust column count for small screens
-                  crossAxisSpacing: 16, // Spacing between items horizontally
-                  mainAxisSpacing: 16, // Spacing between items vertically
-                  childAspectRatio: (containerWidth / (imageHeight + 80)), // Aspect ratio for responsiveness
+              MediaQuery.removePadding( 
+                removeTop: true,
+                context: context,
+                child: GridView.builder(
+                  shrinkWrap: true, // Makes it scrollable when necessary
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: isSmallScreen ? 2 : 4, // Adjust column count for small screens
+                    crossAxisSpacing: 16, // Spacing between items horizontally
+                    mainAxisSpacing: 16, // Spacing between items vertically
+                    childAspectRatio: (containerWidth / (imageHeight + 80)), // Aspect ratio for responsiveness
+                  ),
+                  itemCount: 4, // Number of items
+                  itemBuilder: (context, index) {
+                    return Container(
+                      width: containerWidth,
+                      height: imageHeight + 60, // Dynamic height adjustment
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: containerWidth * 0.8,
+                            height: imageHeight,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(AppConstants.itemLists[index].imagePath),
+                                fit: BoxFit.contain,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          SizedBox(
+                            width: textWidth,
+                            child: Text(
+                              AppConstants.itemLists[index].text,
+                              textAlign: TextAlign.center,
+                              style: AppConstants.nunitoMediumW500.copyWith(
+                                fontSize: 16, // Fixed font size for web
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
-                itemCount: 4, // Number of items
-                itemBuilder: (context, index) {
-                  return Container(
-                    width: containerWidth,
-                    height: imageHeight + 60, // Dynamic height adjustment
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: containerWidth * 0.8,
-                          height: imageHeight,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(AppConstants.itemLists[index].imagePath),
-                              fit: BoxFit.contain,
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        SizedBox(
-                          width: textWidth,
-                          child: Text(
-                            AppConstants.itemLists[index].text,
-                            textAlign: TextAlign.center,
-                            style: AppConstants.nunitoMediumW500.copyWith(
-                              fontSize: 16, // Fixed font size for web
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
               ),
             ],
           );

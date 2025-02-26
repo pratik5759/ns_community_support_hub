@@ -87,7 +87,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                     },
                                     errorBuilder: (context, error, stackTrace) {
                                       return Image.asset(
-                                        'assets/images/image_not_availible_img.png',
+                                        'assets/images/image_not_available_img.png',
                                         width: 600,
                                         height: 300,
                                         fit: BoxFit.fitHeight,

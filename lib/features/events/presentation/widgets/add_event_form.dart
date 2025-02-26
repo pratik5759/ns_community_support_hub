@@ -27,6 +27,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:ns_community_support_hub/core/local/app_constants.dart';
+import 'package:ns_community_support_hub/features/events/models/event_model.dart';
+import 'package:uuid/uuid.dart';
 
 class AddEventForm extends StatefulWidget {
   @override
@@ -62,6 +65,11 @@ class _AddEventFormState extends State<AddEventForm> {
     _organizerController.clear();
     _locationController.clear();
     _descriptionController.clear();
+    // setState(() {
+    //   latitude = null;
+    //   longitude = null;
+    // });
+
 
     setState(() {
       _selectedDate = null; // Reset the date
@@ -110,55 +118,55 @@ class _AddEventFormState extends State<AddEventForm> {
     });
   }
 
-  Future<Map<String, double>?> getLatLongFromAddress(String address) async {
-    //  final String url = 'https://maps.googleapis.com/maps/api/geocode/json?address=${Uri.encodeComponent(address)}&key=$apiKey';
-    const String apiKey = 'AIzaSyD2wfPAi8BqN1_p9NB2ej5-gRxS-CY80PE';
-    final String url =
-        'https://maps.googleapis.com/maps/api/geocode/json?address=${_locationController.text}&key=$apiKey';
+  // Future<Map<String, double>?> getLatLongFromAddress(String address) async {
+  //   //  final String url = 'https://maps.googleapis.com/maps/api/geocode/json?address=${Uri.encodeComponent(address)}&key=$apiKey';
+  //   const String apiKey = 'AIzaSyD2wfPAi8BqN1_p9NB2ej5-gRxS-CY80PE';
+  //   final String url =
+  //       'https://maps.googleapis.com/maps/api/geocode/json?address=${_locationController.text}&key=$apiKey';
+  //
+  //   try {
+  //     final response = await http.get(Uri.parse(url));
+  //     if (response.statusCode == 200) {
+  //       final data = json.decode(response.body);
+  //       if (data['status'] == 'OK') {
+  //         final location = data['results'][0]['geometry']['location'];
+  //         final double lat = location['lat'];
+  //         final double lng = location['lng'];
+  //         return {'latitude': lat, 'longitude': lng};
+  //       } else {
+  //         print("Failed to get coordinates: ${data['status']}");
+  //         return null;
+  //       }
+  //     } else {
+  //       print("Failed to fetch data: ${response.statusCode}");
+  //       return null;
+  //     }
+  //   } catch (e) {
+  //     print("Error: $e");
+  //     return null;
+  //   }
+  // }
 
-    try {
-      final response = await http.get(Uri.parse(url));
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        if (data['status'] == 'OK') {
-          final location = data['results'][0]['geometry']['location'];
-          final double lat = location['lat'];
-          final double lng = location['lng'];
-          return {'latitude': lat, 'longitude': lng};
-        } else {
-          print("Failed to get coordinates: ${data['status']}");
-          return null;
-        }
-      } else {
-        print("Failed to fetch data: ${response.statusCode}");
-        return null;
-      }
-    } catch (e) {
-      print("Error: $e");
-      return null;
-    }
-  }
-
-  void _onAddressChanged(String address) {
-    if (_debounceTimer?.isActive ?? false) {
-      _debounceTimer?.cancel();
-    }
-
-    _debounceTimer = Timer(Duration(seconds: 2), () async {
-      if (address.isNotEmpty) {
-        final coords = await getLatLongFromAddress(address);
-        if (coords != null) {
-          setState(() {
-            latitude = coords['latitude'];
-            longitude = coords['longitude'];
-          });
-          print("Latitude: $latitude, Longitude: $longitude");
-        } else {
-          print("Failed to fetch coordinates");
-        }
-      }
-    });
-  }
+  // void _onAddressChanged(String address) {
+  //   if (_debounceTimer?.isActive ?? false) {
+  //     _debounceTimer?.cancel();
+  //   }
+  //
+  //   _debounceTimer = Timer(Duration(seconds: 2), () async {
+  //     if (address.isNotEmpty) {
+  //       //final coords = await getLatLongFromAddress(address);
+  //       if (coords != null) {
+  //         setState(() {
+  //           latitude = coords['latitude'];
+  //           longitude = coords['longitude'];
+  //         });
+  //         print("Latitude: $latitude, Longitude: $longitude");
+  //       } else {
+  //         print("Failed to fetch coordinates");
+  //       }
+  //     }
+  //   });
+  // }
 
   Future<String> _uploadImage() async {
     if (_imageFile == null) return '';
@@ -199,32 +207,9 @@ class _AddEventFormState extends State<AddEventForm> {
     }
   }
 
-  //
-  //
-  // Future<String> _uploadImage() async {
-  //   if (_imageFile == null) return '';
-  //
-  //   try {
-  //     final storageRef = FirebaseStorage.instance.ref().child('${Constant.firebaseCommunityEvent}/${DateTime.now().toIso8601String()}');
-  //     final uploadTask = kIsWeb
-  //         ? storageRef.putData((await _imageFile!.readAsBytes()), SettableMetadata(contentType: 'image/${_imageFile!.path.split('.').last}'))
-  //         : storageRef.putFile(File(_imageFile!.path), SettableMetadata(contentType: 'image/${_imageFile!.path.split('.').last}'));
-  //
-  //     final snapshot = await uploadTask.whenComplete(() {});
-  //     final imageUrl = await snapshot.ref.getDownloadURL();
-  //     return imageUrl;
-  //   } catch (e) {
-  //     if (kDebugMode) {
-  //       print('Error uploading image: $e');
-  //     }
-  //     return '';
-  //   }
-  // }
-  //
-
-  Future<void> _uploadEvent() async {
+  Future<void> _uploadEvent(BuildContext ctx) async {
     if (_selectedDate == null) {
-      ScaffoldMessenger.of(context)
+      ScaffoldMessenger.of(ctx)
           .showSnackBar(SnackBar(content: Text('Please select a date')));
       return;
     }
@@ -238,143 +223,53 @@ class _AddEventFormState extends State<AddEventForm> {
         organizer.isEmpty ||
         location.isEmpty ||
         description.isEmpty) {
-      ScaffoldMessenger.of(context)
+      ScaffoldMessenger.of(ctx)
           .showSnackBar(SnackBar(content: Text('All fields are required')));
       return;
     }
 
     String latLongString = "$latitude, $longitude";
     try {
-      await FirebaseFirestore.instance.collection('events').add({
-        'name': name,
-        'organizer': organizer,
 
-        "location": "Latitude: $latitude, Longitude: $longitude",
+      var uid = Uuid().v4();
+      var eventId = uid + _nameController.text;
+      final data = EventsModel(
+        id: eventId,
+        date: _selectedDate!.toIso8601String(),
+        description: description,
+        imageUrl: 'Image Not Selected',
+        location: location,
+        name: name,
+        organizer: organizer
+      );
 
-        'description': description,
-        'date': _selectedDate!.toIso8601String(), // Safe null check
-        'timestamp': Timestamp.now(),
-      });
+      await FirebaseFirestore.instance.collection(AppConstants.firebaseEvents).add(data.toMap());
+      // await FirebaseFirestore.instance.collection(AppConstants.firebaseEvents).add({
+      //   'name': name,
+      //   'organizer': organizer,
+      //
+      //   "location": "Latitude: $latitude, Longitude: $longitude",
+      //
+      //   'description': description,
+      //   'date': _selectedDate!.toIso8601String(), // Safe null check
+      //   'timestamp': Timestamp.now(),
+      // });
 
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Event added successfully')));
+      if(ctx.mounted){
+        ScaffoldMessenger.of(ctx)
+            .showSnackBar(SnackBar(content: Text('Event added successfully')));
+      }
+
 
       _resetForm(); // Reset form after success
     } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Error: $e')));
+      if(ctx.mounted){
+        ScaffoldMessenger.of(ctx)
+            .showSnackBar(SnackBar(content: Text('Error: $e')));
+      }
+
     }
   }
-
-  // Future<void> uploadEvent() async {
-  //   if (_formKey.currentState == null || !_formKey.currentState!.validate()) return;
-  //
-  //   if (_nameController.text.isEmpty ||
-  //       _descriptionController.text.isEmpty ||
-  //       _dateController.text.isEmpty ||
-  //       _locationController.text.isEmpty ||
-  //       _organizerController.text.isEmpty) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text("Please fill all required fields")),
-  //     );
-  //     return;
-  //   }
-  //
-  //   setState(() {
-  //     _isLoading = true;
-  //   });
-  //
-  //   try {
-  //     String imageUrl = '';
-  //     if (_imageFile != null) {
-  //       imageUrl = await _uploadImage();
-  //     }
-  //
-  //     await FirebaseFirestore.instance.collection('events').add({
-  //       'name': _nameController.text,
-  //       'description': _descriptionController.text,
-  //       'date': _dateController.text,
-  //       'location': _locationController.text,
-  //       'organizer': _organizerController.text,
-  //       //'imageUrl': imageUrl,
-  //       'createdAt': Timestamp.now(),
-  //     });
-  //
-  //     // if (mounted) {
-  //     //   ScaffoldMessenger.of(context).showSnackBar(
-  //     //     SnackBar(content: Text("Event added successfully!")),
-  //     //   );
-  //     // }
-  //
-  //     if (mounted) {
-  //       showDialog(
-  //         context: context,
-  //         builder: (context) {
-  //           return AlertDialog(
-  //             title: Text("Success"),
-  //             content: Text("Event added successfully!"),
-  //             actions: [
-  //               TextButton(
-  //                 onPressed: () => Navigator.pop(context),
-  //                 child: Text("OK"),
-  //               ),
-  //             ],
-  //           );
-  //         },
-  //       );
-  //     }
-  //
-  //
-  //     _formKey.currentState!.reset();
-  //     setState(() {
-  //       _imageFile = null;
-  //       _isLoading = false;
-  //     });
-  //   } catch (e) {
-  //     setState(() {
-  //       _isLoading = false;
-  //     });
-  //     if (mounted) {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(content: Text("Failed to add event: $e")),
-  //       );
-  //     }
-  //   }
-  // }
-
-  // Future<void> _uploadEvent() async {
-  //   if (_formKey.currentState!.validate()) {
-  //     // Collect event details
-  //     final name = _nameController.text;
-  //     final description = _descriptionController.text;
-  //     final date = _dateController.text;
-  //     final location = _locationController.text;
-  //     final organizer = _organizerController.text;
-  //
-  //     // Upload image to Firebase Storage if present
-  //     String imageUrl = '';
-  //     imageUrl = await _uploadImage();
-  //
-  //
-  //
-  //     // Create event data
-  //     final event = {
-  //       'name': name,
-  //       'description': description,
-  //       'date': date,
-  //       'location': location,
-  //       'imageUrl': imageUrl,
-  //       'organizer': organizer,
-  //     };
-  //
-  //     // Save event data to Firestore
-  //    // await FirebaseFirestore.instance.collection(Constant.firebaseEventDatabase).add(event);
-  //
-  //     await FirebaseFirestore.instance.collection('events').add(event);
-  //     // Navigate back to the previous screen
-  //     Navigator.pop(context);
-  //   }
-  // }
 
   DateTime? _selectedDate; // Declare globally in your StatefulWidget
 
@@ -465,9 +360,9 @@ class _AddEventFormState extends State<AddEventForm> {
                               _buildInputField(
                                 'Location',
                                 controller: _locationController,
-                                onChanged: (value) {
-                                  _onAddressChanged(value);
-                                },
+                                // onChanged: (value) {
+                                //   _onAddressChanged(value);
+                                // },
                               ),
                               SizedBox(height: 16),
                               //   Display Latitude and Longitude
@@ -654,7 +549,10 @@ class _AddEventFormState extends State<AddEventForm> {
         children: [
           Icon(Icons.add, color: Colors.white),
           TextButton(
-            onPressed: _isLoading ? null : _uploadEvent,
+            onPressed: _isLoading ? null : (){
+              _uploadEvent(context);
+            },
+
             child: _isLoading
                 ? CircularProgressIndicator()
                 : Text(

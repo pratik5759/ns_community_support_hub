@@ -401,7 +401,7 @@ class BusinessListCard extends StatelessWidget {
                       fit: BoxFit.fitWidth,
                       errorBuilder: (context, error, stackTrace) {
                         return Image.asset(
-                          'assets/images/image_not_availible_img.png',
+                          'assets/images/image_not_available_img.png',
                           width: 400,
                           height: 180,
                           fit: BoxFit.fitWidth,
@@ -543,7 +543,7 @@ class BusinessListCard extends StatelessWidget {
 //                       return Image.asset(
 //                         width: imageWidth,
 //                         height: imageHeight,
-//                         'assets/images/image_not_availible_img.png', // Replace with your asset image path
+//                         'assets/images/image_not_available_img.png', // Replace with your asset image path
 //                         fit: BoxFit.fitWidth,
 //                       );
 //                     },
