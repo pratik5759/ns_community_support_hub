@@ -128,7 +128,7 @@ final GoRouter appRouter = GoRouter(
       path: WebRouteNames.contactUs,
       builder: (context, state) => ContactScreen(),
     ),
-    GoRoute(
+    /*GoRoute(
       path: WebRouteNames.businessDetails,
       builder: (context, state) {
         if (state.extra == null || state.extra is! Business) {
@@ -136,6 +136,16 @@ final GoRouter appRouter = GoRouter(
           }
         final businessData = state.extra as Business;
         return BusinessDetailScreen(business: businessData,);
+      } ,
+    ),*/
+    GoRoute(
+      path: WebRouteNames.businessDetails,
+      builder: (context, state) {
+        // if (state.extra == null || state.extra is! Business) {
+        //   return PageNotFoundScreen();
+        //   }
+        // final businessData = state.extra as Business;
+        return BusinessDetailScreen();
       } ,
     ),
     GoRoute(

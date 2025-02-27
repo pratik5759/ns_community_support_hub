@@ -68,6 +68,16 @@ import 'package:ns_community_support_hub/core/app_routes/route_names.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
 
 class PageNotFoundScreen extends StatelessWidget {
+  String title;
+  String errorCode;
+  String errorMessage;
+
+  PageNotFoundScreen(
+      {super.key,
+      this.title = 'Page Not Found',
+      this.errorCode = '404',
+      this.errorMessage =
+          'Oops! The page you are looking for doesn\'t exist or has been moved.'});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,7 +120,7 @@ class PageNotFoundScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        '404',
+                        errorCode,
                         style: GoogleFonts.nunito(
                           fontSize: isMobile ? 60 : 80,
                           color: AppTheme.primaryColor,
@@ -118,7 +128,7 @@ class PageNotFoundScreen extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'Page Not Found',
+                        title,
                         style: GoogleFonts.nunito(
                           fontSize: isMobile ? 22 : 28,
                           color: AppTheme.textColor,
@@ -128,7 +138,7 @@ class PageNotFoundScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: Text(
-                          'Oops! The page you are looking for doesn\'t exist or has been moved.',
+                          errorMessage,
                           textAlign: TextAlign.center,
                           style: GoogleFonts.nunito(
                             fontSize: isMobile ? 14 : 16,

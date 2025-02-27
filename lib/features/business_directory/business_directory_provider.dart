@@ -63,6 +63,8 @@ class BusinessDirectoryProvider extends ChangeNotifier {
     notifyListeners(); // Notify widgets using this provider
   }
 
+  Business? _businessDetails;
+
 
   final nameController = TextEditingController();
   final addressController = TextEditingController();
@@ -581,7 +583,7 @@ class BusinessDirectoryProvider extends ChangeNotifier {
 
   Future<void> onAddBusiness(BuildContext ctx) async {
     var businessId = const Uuid().v4();
-    businessId = businessId + nameController.text;
+    businessId = businessId + nameController.text.trim();
 
     var business = Business(
       id: businessId,
@@ -729,6 +731,44 @@ class BusinessDirectoryProvider extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
   }
+
+
+  Business? get businessDetails => _businessDetails;
+
+  /*Future<void> getBusinessById(String businessId) async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      _businessDetails = _allBusinesses.firstWhere((business) => business.id == businessId);
+    } catch (e) {
+      _businessDetails = null; // Set to null if no match is found
+    }
+    _isLoading = false;
+    notifyListeners(); // Notify listeners after updating the value
+  }
+*/
+
+  void getBusinessById(String businessId) {
+    _isLoading = true;
+    notifyListeners();
+
+    print('Fetching business for ID: $businessId'); // Log to browser console
+    print('Current business list: ${_allBusinesses.map((b) => b.id).toList()}');
+    print('Current business length: ${_allBusinesses.length}');
+
+    try{
+      _businessDetails = _allBusinesses.firstWhere(
+            (b) => b.id == businessId,);
+    }catch(e){
+      print('Business ID $businessId not found in the list');
+      _businessDetails = null; // Explicitly set null
+    }
+
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
 
 
   void initialLoad(){

@@ -5,7 +5,8 @@ class WebRouteNames{
   static const String contactUs = '/contactUs';
   static const String profileDetails = '/profileDetails';
   static const String businessDirectory = '/businessDirectory';
-  static const String businessDetails = '/businessDetails';
+  //static const String businessDetails = '/businessDetails';
+  static const String businessDetails = '/businessDetails/:id';
   static const String addBusiness = '/addBusiness';
   static const String addEvent = '/addEvent';
   static const String events = '/events';

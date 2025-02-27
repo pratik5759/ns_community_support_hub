@@ -251,7 +251,7 @@ class AddBusinessForm extends StatelessWidget {
   Widget _buildAddButton(BusinessDirectoryProvider provider,BuildContext ctx) {
     return GestureDetector(
       onTap: () async {
-        //await provider.onAddBusiness(ctx);
+        await provider.onAddBusiness(ctx);
         showAppDialog(ctx, 'Business Added Successfully', DialogType.success, 'Okay', () {
 
         },);

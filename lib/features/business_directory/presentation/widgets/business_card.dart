@@ -255,7 +255,9 @@ class BusinessCard extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   context.read<BusinessDirectoryProvider>().fetchRelatedBusinesses(business);
-                  context.go(WebRouteNames.businessDetails,extra:business);
+                  //context.go(WebRouteNames.businessDetails,extra:business);
+                  String businessId = business.id; // Example dynamic ID
+                  context.go(WebRouteNames.businessDetails.replaceFirst(':id', businessId));
                 } ,
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
