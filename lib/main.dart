@@ -23,13 +23,14 @@ Future<void> main() async {
 
   runApp(MultiProvider(
     providers: [
+      ChangeNotifierProvider(create: (context) => BusinessDirectoryProvider()..loadCategories()),
+
       ChangeNotifierProvider(create: (context) => MyScreenProvider()),
       ChangeNotifierProvider(create: (context) => ContactUsProvider()),
       ChangeNotifierProvider(create: (context) => HomeProvider()..loadEvents()),
 
       ChangeNotifierProvider(create: (context) => EventProvider()..loadEvents()),
 
-      ChangeNotifierProvider(create: (context) => BusinessDirectoryProvider()..loadCategories()),
       ChangeNotifierProvider(create: (_) => AuthenticationProvider()..loadUser()), // Load user on start
 
     ],

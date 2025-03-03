@@ -8,7 +8,7 @@ import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
 import 'package:ns_community_support_hub/features/events/events_provider.dart';
 import 'package:ns_community_support_hub/features/events/models/event_model.dart';
- import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
 
 class HomeEventsList extends StatelessWidget {
   @override

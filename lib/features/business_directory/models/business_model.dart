@@ -99,6 +99,7 @@ class Business {
 }
 
 class Review {
+
   final String profilePic;
   final String userName;
   final String comment;

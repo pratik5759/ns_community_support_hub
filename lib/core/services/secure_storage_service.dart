@@ -31,6 +31,20 @@ class SecureStorageService {
     return UserModel.fromMap(userData);
   }
 
+  Future<String?> getUserName() async {
+    return await _storage.read(key: "name");
+  }
+
+
+
+  Future<String?> getUserId() async {
+    return await _storage.read(key: "uid");
+  }
+  Future<String?> getUserProfilePic() async {
+    return await _storage.read(key: "photoUrl");
+  }
+
+
   /// 🔹 Check if user is logged in (based on auth token)
   Future<bool> isUserLoggedIn() async {
     String? token = await _storage.read(key: "authToken");

@@ -75,7 +75,7 @@ class StarClipper extends CustomClipper<Rect> {
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class StarRatingBar extends StatelessWidget {
+class StarRatingBar extends StatefulWidget {
   final double rating; // Rating out of 5
   final double starSize;
   final Color filledColor;
@@ -92,6 +92,11 @@ class StarRatingBar extends StatelessWidget {
   });
 
   @override
+  State<StarRatingBar> createState() => _StarRatingBarState();
+}
+
+class _StarRatingBarState extends State<StarRatingBar> {
+  @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -100,25 +105,25 @@ class StarRatingBar extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: List.generate(5, (index) {
-            double starValue = rating - index;
+            double starValue = widget.rating - index;
 
             if (starValue >= 1) {
               // Fully filled star
-              return Icon(Icons.star, size: starSize, color: filledColor);
+              return Icon(Icons.star, size: widget.starSize, color: widget.filledColor);
             } else if (starValue > 0) {
               // Partially filled star using Stack & ClipRect
               return Stack(
                 children: [
-                  Icon(Icons.star_border, size: starSize, color: emptyColor), // Empty star with border
+                  Icon(Icons.star_border, size: widget.starSize, color: widget.emptyColor), // Empty star with border
                   ClipRect(
-                    clipper: StarHalfClipper(starValue, starSize),
-                    child: Icon(Icons.star, size: starSize, color: filledColor), // Filled part
+                    clipper: StarHalfClipper(starValue, widget.starSize),
+                    child: Icon(Icons.star, size: widget.starSize, color: widget.filledColor), // Filled part
                   ),
                 ],
               );
             } else {
               // Empty star (with border)
-              return Icon(Icons.star_border, size: starSize, color: emptyColor);
+              return Icon(Icons.star_border, size: widget.starSize, color: widget.emptyColor);
             }
           }),
         ),
@@ -127,11 +132,11 @@ class StarRatingBar extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 2.0),
           child: Text(
-            rating.toStringAsFixed(1), // Show rating with 1 decimal (e.g., 3.5)
+            widget.rating.toStringAsFixed(1), // Show rating with 1 decimal (e.g., 3.5)
             style: GoogleFonts.nunito(
-              fontSize: starSize * 0.8, // Slightly smaller than star size
+              fontSize: widget.starSize * 0.8, // Slightly smaller than star size
               fontWeight: FontWeight.bold,
-              color: filledColor,
+              color: widget.filledColor,
             ),
           ),
         ),
@@ -158,6 +163,9 @@ class StarHalfClipper extends CustomClipper<Rect> {
     return oldClipper.fillAmount != fillAmount;
   }
 }
+
+
+
 
 
 
