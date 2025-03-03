@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -163,7 +164,7 @@ class AddBusinessForm extends StatelessWidget {
           //provider.updateSelectedCategory(suggestion);
 
           /// Also update the text field's controller
-          controller?.text = suggestion.name;
+          controller.text = suggestion.name;
         },
         emptyBuilder: (context) => const Padding(
           padding: EdgeInsets.all(8.0),
@@ -251,10 +252,13 @@ class AddBusinessForm extends StatelessWidget {
   Widget _buildAddButton(BusinessDirectoryProvider provider,BuildContext ctx) {
     return GestureDetector(
       onTap: () async {
-        await provider.onAddBusiness(ctx);
-        showAppDialog(ctx, 'Business Added Successfully', DialogType.success, 'Okay', () {
 
+        await provider.onAddBusiness(ctx).then((value) {
+          showAppDialog(ctx, 'Business Added Successfully', DialogType.success, 'Okay', () async {
+           ctx.pop();
+          },);
         },);
+
       },
       child: Container(
         width: double.infinity,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ns_community_support_hub/core/app_routes/route_names.dart';
+import 'package:ns_community_support_hub/core/common_widgets/animated_pop_up_menu.dart';
 import 'package:ns_community_support_hub/core/common_widgets/auth_provider.dart';
 import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
@@ -35,6 +36,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
     super.initState();
 
   }
+
+
+  OverlayEntry? _overlayEntry;
+  bool _isMenuOpen = false;
+
 
 
 
@@ -91,6 +97,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         icon: const Icon(Icons.menu),
                         onPressed: () {
                           // Scaffold.of(context).openDrawer();
+                          _toggleMenu(context);
                         },
                       ),
                     ],
@@ -185,6 +192,35 @@ class _CustomAppBarState extends State<CustomAppBar> {
     );
   }
 
- // Size get preferredSize => Size.fromHeight(widget.height);
+
+  void _toggleMenu(BuildContext context) {
+    if (_isMenuOpen) {
+      _removeOverlay();
+    } else {
+      _showOverlay(context);
+    }
+  }
+
+  void _showOverlay(BuildContext context) {
+    final overlay = Overlay.of(context);
+    _overlayEntry = OverlayEntry(
+      builder: (context) {
+        return AnimatedPopupMenu(
+          onDismiss: _removeOverlay,
+        );
+      },
+    );
+    overlay.insert(_overlayEntry!);
+    _isMenuOpen = true;
+  }
+
+  void _removeOverlay() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+    _isMenuOpen = false;
+  }
+
+
+// Size get preferredSize => Size.fromHeight(widget.height);
 }
 
