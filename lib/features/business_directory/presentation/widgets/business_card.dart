@@ -137,7 +137,9 @@ import 'package:ns_community_support_hub/core/app_theme/app_theme.dart';
 import 'package:ns_community_support_hub/core/common_widgets/star_rating_bar_diasplay.dart';
 import 'package:ns_community_support_hub/core/local/app_constants.dart';
 import 'package:ns_community_support_hub/core/local/local_strings.dart';
+import 'package:ns_community_support_hub/features/business_directory/business_directory_provider.dart';
 import 'package:ns_community_support_hub/features/business_directory/models/business_model.dart';
+import 'package:provider/provider.dart';
 
 
 class BusinessCard extends StatelessWidget {
@@ -251,7 +253,12 @@ class BusinessCard extends StatelessWidget {
             Align(
               alignment: Alignment.centerLeft,
               child: GestureDetector(
-                onTap: () => context.go(WebRouteNames.businessDetails,extra:business),
+                onTap: () {
+                  context.read<BusinessDirectoryProvider>().fetchRelatedBusinesses(business);
+                  //context.go(WebRouteNames.businessDetails,extra:business);
+                  String businessId = business.id; // Example dynamic ID
+                  context.go(WebRouteNames.businessDetails.replaceFirst(':id', businessId));
+                } ,
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
                   decoration: BoxDecoration(
