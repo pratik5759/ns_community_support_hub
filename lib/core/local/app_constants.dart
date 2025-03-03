@@ -96,6 +96,7 @@ class AppConstants {
   //static String get firebaseCommunityEvents => '${_currentEnvironment.name}_community_event';
   static String get firebaseReviewImages => '${_currentEnvironment.name}_review_images';
   static String get firebaseContactForms => '${_currentEnvironment.name}_contact_form';
+  static String get firebaseReviews => '${_currentEnvironment.name}_reviews';
 
 
 

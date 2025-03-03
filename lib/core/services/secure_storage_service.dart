@@ -41,4 +41,17 @@ class SecureStorageService {
   Future<void> deleteUser() async {
     await _storage.deleteAll();
   }
+
+  Future<String?> getUserName() async {
+    return await _storage.read(key: "name");
+  }
+
+
+
+  Future<String?> getUserId() async {
+    return await _storage.read(key: "uid");
+  }
+  Future<String?> getUserProfilePic() async {
+    return await _storage.read(key: "photoUrl");
+  }
 }

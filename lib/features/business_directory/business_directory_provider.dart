@@ -16,6 +16,7 @@ import 'package:ns_community_support_hub/core/services/firestore_service.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:ns_community_support_hub/core/services/models/user_model.dart';
+import 'package:ns_community_support_hub/core/services/secure_storage_service.dart';
 import 'package:ns_community_support_hub/features/business_directory/models/business_model.dart';
 import 'package:ns_community_support_hub/features/business_directory/models/category_model.dart';
 import 'dart:io' as io; // For File
@@ -622,24 +623,96 @@ class BusinessDirectoryProvider extends ChangeNotifier {
 
   }
 
-
-  void submitReview(BuildContext ctx) {
-    String reviewText = reviewController.text;
-    if (_rating == 0 || reviewText.isEmpty) {
-      ScaffoldMessenger.of(ctx).showSnackBar(
-        const SnackBar(content: Text('Please provide a rating and review')),
+  Future<void> submitReview(BuildContext context, String businessId) async {
+    if (_rating == 0.0 || reviewController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please provide a rating and review.")),
       );
       return;
     }
 
-    ScaffoldMessenger.of(ctx).showSnackBar(
-      SnackBar(content: Text('Review Submitted: $_rating stars\n"$reviewText"')),
-    );
+    try {
+      SecureStorageService storageService = SecureStorageService();
+      String? userName = await storageService.getUserName() ?? 'Anonymous';
+      String? profilePic = await storageService.getUserProfilePic() ?? '';
+      String userId = await storageService.getUserId() ?? 'unknownUser';
 
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      DocumentReference businessRef =
+      firestore.collection(AppConstants.firebaseBusinesses).doc(businessId);
 
-      _rating = 0;
+      // 🔹 Check if the user has already submitted a review
+      QuerySnapshot existingReviews = await businessRef
+          .collection(AppConstants.firebaseReviews)
+          .where("userId", isEqualTo: userId)
+          .get();
+
+      bool isUpdating = existingReviews.docs.isNotEmpty;
+      String reviewId = isUpdating
+          ? existingReviews.docs.first.id // Use existing review ID
+          : Uuid().v4(); // Create new ID if it's a new review
+
+      Review newReview = Review(
+        profilePic: profilePic,
+        userName: userName,
+        comment: reviewController.text,
+        rating: _rating,
+      );
+
+      // 🔹 Add or update the review
+      await businessRef
+          .collection(AppConstants.firebaseReviews)
+          .doc(reviewId)
+          .set(newReview.toJson(), SetOptions(merge: true));
+
+      // 🔹 Fetch the business document
+      DocumentSnapshot businessDoc = await businessRef.get();
+
+      if (businessDoc.exists) {
+        Business business = Business.fromJson(businessDoc.data() as Map<String, dynamic>);
+
+        int newReviewCount = business.reviewCount;
+        double newAverageRating;
+
+        if (isUpdating) {
+          // 🔹 If updating, recalculate rating without changing review count
+          double totalRating =
+              (business.averageRating * business.reviewCount) -
+                  existingReviews.docs.first["rating"] +
+                  _rating;
+          newAverageRating = totalRating / business.reviewCount;
+        } else {
+          // 🔹 If new review, increase review count
+          newReviewCount += 1;
+          newAverageRating =
+              ((business.averageRating * business.reviewCount) + _rating) /
+                  newReviewCount;
+        }
+
+        // 🔹 Update the business rating & count
+        await businessRef.update({
+          'averageRating': newAverageRating,
+          'reviewCount': newReviewCount,
+        });
+      }
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Review submitted successfully!")),
+        );
+      }
+
+      // Reset fields
+      _rating = 0.0;
       reviewController.clear();
       notifyListeners();
+    } catch (error) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error submitting review: $error")),
+        );
+      }
+    }
   }
 
 
